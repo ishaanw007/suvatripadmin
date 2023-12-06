@@ -1,6 +1,6 @@
 import React from 'react'
-import Logo from './logo.png'
-import RectangleImg from './Img/Rectangle.png'
+import Logo from '../../Assets/img/logo.png'
+import RectangleImg from '../../Assets/img/Rectangle.png'
 
 function SignUp() {
     return (

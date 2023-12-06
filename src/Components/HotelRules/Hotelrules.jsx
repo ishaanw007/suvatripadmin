@@ -1,10 +1,9 @@
 import React from 'react'
-import Logo from './logo.png'
-import Sidebar from './Sidebar'
-import Facility from './Facility'
+import Logo from '../../Assets/img/logo.png'
+import Sidebar from '../Sidebar'
+import Hotel from './Hotel'
 
-
-function Facil() {
+function Hotelrules() {
     return (
         <div>
             <div className='px-5 py-1'>
@@ -14,13 +13,14 @@ function Facil() {
                 <div>
                     <Sidebar />
                 </div>
-                <div className='w-full md:w-auto'>
-                    <Facility />
+                <div>
+                    <Hotel />
                 </div>
+
             </div>
 
         </div>
     )
 }
 
-export default Facil
+export default Hotelrules

@@ -1,6 +1,6 @@
 import React from 'react'
-import Logo from './logo.png'
-import Sidebar from './Sidebar'
+import Logo from '../../Assets/img/logo.png'
+import Sidebar from '../Sidebar.jsx'
 import Basic from './Basic'
 
 function BasicDetails() {

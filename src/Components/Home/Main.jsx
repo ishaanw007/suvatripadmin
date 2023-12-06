@@ -9,7 +9,7 @@ import Footer from './Footer'
 
 function Main() {
     return (
-        <div className='rounded-[35px]'>
+        <div>
             <Navbar />
             <Header />
             <SmallCompo />

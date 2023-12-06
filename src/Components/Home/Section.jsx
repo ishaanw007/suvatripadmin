@@ -1,10 +1,10 @@
 import React from 'react'
-import laugh from './laugh.png'
-import world from './world.png'
-import building from './building.png'
-import creditCard from './creditcard.png'
-import mapMarker from './mapMarker.png'
-import Wifi from './wifi.png'
+import laugh from '../../Assets/img/laugh.png'
+import world from '../../Assets/img/world.png'
+import building from '../../Assets/img/building.png'
+import creditCard from '../../Assets/img/creditcard.png'
+import mapMarker from '../../Assets/img/mapMarker.png'
+import Wifi from '../../Assets/img/wifi.png'
 function Section() {
     const arrayOfitem = [
         {

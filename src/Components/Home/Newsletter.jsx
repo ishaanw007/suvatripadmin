@@ -1,7 +1,7 @@
 import React from 'react'
-import plane from './plane.png'
-import AppStore from './App Store.png'
-import GooglePlay from './Google Play.png'
+import plane from '../../Assets/img/plane.png'
+import AppStore from '../../Assets/img/App Store.png'
+import GooglePlay from '../../Assets/img/Google Play.png'
 
 
 function Newsletter() {

@@ -1,8 +1,8 @@
 import React from 'react'
-import fotterLogo from './footerLogo.png'
-import twitter from './twitter.png'
-import instagram from './instagram.png'
-import facebook from './facebook.png'
+import fotterLogo from '../../Assets/img/footerLogo.png'
+import twitter from '../../Assets/img/twitter.png'
+import instagram from '../../Assets/img/instagram.png'
+import facebook from '../../Assets/img/facebook.png'
 
 function Footer() {
     return (

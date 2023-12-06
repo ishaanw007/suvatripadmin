@@ -1,6 +1,6 @@
 import React from 'react'
-import Logo from './logo.png'
-import LoginImg from './Img/login.png'
+import Logo from '../../Assets/img/logo.png'
+import LoginImg from '../../Assets/img/loginImg.png'
 
 function Login() {
     return (

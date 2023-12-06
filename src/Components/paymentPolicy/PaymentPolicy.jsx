@@ -1,9 +1,9 @@
 import React from 'react'
-import Logo from './logo.png'
-import Sidebar from './Sidebar'
-import Park from './Park'
+import Logo from '../../Assets/img/logo.png'
+import Sidebar from '../Sidebar'
+import Payment from './Payment'
 
-function Parking() {
+function PaymentPolicy() {
     return (
         <div>
             <div className='px-5 py-1'>
@@ -14,7 +14,7 @@ function Parking() {
                     <Sidebar />
                 </div>
                 <div>
-                    <Park />
+                    <Payment />
                 </div>
             </div>
 
@@ -22,4 +22,4 @@ function Parking() {
     )
 }
 
-export default Parking
+export default PaymentPolicy

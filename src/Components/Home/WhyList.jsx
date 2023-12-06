@@ -1,5 +1,5 @@
 import React from 'react'
-import Arrow from './arrow.png'
+import Arrow from '../../Assets/img/arrow.png'
 
 
 function WhyList() {
