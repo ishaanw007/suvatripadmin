@@ -4,7 +4,7 @@ import Button from '../Button'
 function Basic() {
     return (
         <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className='py-3 md:py-5'>
-            <div className='w-full  md:w-[1000px] mt-4 tracking-wider'>
+            <div className='w-full  md:w-[1000px] mt-4 tracking-wider  h-screen md:h-[550px] overflow-x-hidden overflow-y-auto'>
                 <div className='px-2 md:px-5 py-2 border-b-[1px] border-slate-300'>
                     <h2 className='text-[30px] font-[600]'>Basic details</h2>
                     <p className='text-[18px] font-[4000] my-1 text-slate-500'>The basic add your property name, adresss, Facilities and more </p>

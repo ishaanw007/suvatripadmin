@@ -1,6 +1,7 @@
 import React from 'react'
 import Logo from '../../Assets/img/logo.png'
 import RectangleImg from '../../Assets/img/Rectangle.png'
+import { Link } from 'react-router-dom'
 
 function SignUp() {
     return (
@@ -11,7 +12,9 @@ function SignUp() {
                     {/* Uppermost part */}
                     <div className='flex flex-row justify-between items-center px-3 md:px-10 py-3 md:py-8'>
                         <img src={Logo} alt="logo_here" />
-                        <p className='text-capitalize underline cursor-pointer'>login</p>
+                        <Link to={"/login"}>
+                            <p className='text-capitalize underline cursor-pointer'>login</p>
+                        </Link>
                     </div>
                     {/* For Sign-up Part */}
                     <div className='mx-[0] my-5 md:mx-auto w-full md:w-[500px] px-3 md:px-0'>

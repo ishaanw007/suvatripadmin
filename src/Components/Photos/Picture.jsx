@@ -1,0 +1,91 @@
+import React, { useState } from 'react'
+import DocumnetImg from '../../Assets/img/Document.png'
+import Button from '../Button'
+import Crosssmall from '../../Assets/img/Cross-small.png'
+
+
+
+function Picture() {
+    const [clickedIndex, setClickedIndex] = useState(-1);
+    const [img, setImg] = useState('');
+    const [images, setImages] = useState([]);
+
+    const handleImages = (e) => {
+        setImg(e.target.files[0]);
+        setImages((prevImages) => [...prevImages, URL.createObjectURL(e.target.files[0])]);
+    };
+
+    const handleDelete = (index) => {
+        const updatedImages = [...images];
+        updatedImages.splice(index, 1);
+        setImages(updatedImages);
+
+        // If the deleted image was the one clicked, reset the clickedIndex
+        if (index === clickedIndex) {
+            setClickedIndex(-1);
+        }
+    };
+
+    return (
+        <div>
+            <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className='w-full md:w-[1000px] h-screen md:h-[600px] pt-5 overflow-x-hidden overflow-y-auto'>
+                <div className='border-b-[1px] border-slate-300'>
+                    <h3 className='text-[35px] tracking-wider font-[600] text-slate-800'>Photos</h3>
+                    <p className='text-[18px] tracking-wider font-[400] text-slate-600 py-2'>Upload atleast 5 photos of your property</p>
+                </div>
+                {/* Upload Your photo */}
+                <div className='pt-4'>
+                    <div className='w-full border-[1px] border-dashed py-5 rounded-lg bg-[#fff7f7] border-[#ff5f63]'>
+                        <div className='w-[200px] md:w-[300px] mx-auto cursor-pointer text-center'>
+                            <label htmlFor="document" className='cursor-pointer'>
+                                <img src={DocumnetImg} alt="doc_img" className='w-[40px] mx-auto' />
+                                <p className='text-sm mt-2 font-[600]'><span className='text-[#ff5f63] underline'>Click to upload</span> or Drag and drop document</p>
+                                <p className='text-center text-sm text-slate-600'>maximum size 30 MB</p>
+                                <input type="file" name="document" id="document" className='w-[0px]' onChange={(e) => { handleImages(e) }} />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div className='border-y-[1px] border-slate-300  my-2' >
+                    <p className='text-[17px] text-slate-600 font-[400] py-2'>Choose a photo that will make a good impression, Drag and move photo in order of your choice</p>
+                </div>
+                <div>
+
+                    <div className='grid grid-rows-1 md:grid-cols-3 gap-x-1 gap-y-2'>
+                        {images.map((img, index) => (
+                            <div
+                                key={index}
+                                onClick={() => {
+                                    setClickedIndex(index);
+                                }}
+                                className={`w-full md:w-[320px] h-[250px] cursor-pointer relative rounded-lg ${index === clickedIndex ? 'border-[3px] border-[#ff6a6e]' : 'border-none'
+                                    }`}
+                            >
+                                <img src={img} alt="random_pic" className='w-full h-full rounded-md' />
+                                <div
+                                    onClick={() => handleDelete(index)}
+                                    className='absolute top-2 right-2 bg-[#d1b9ba] cursor-pointer rounded-full p-1'
+                                >
+                                    <img src={Crosssmall} alt="cross-sign" className='text-slate-100' />
+                                </div>
+                                <div className='absolute top-2 left-2 w-[30px] h-[30px] cursor-pointer bg-[#fff] rounded-full  border-[2px] border-[#ff6a6e]'>
+                                    {
+                                        index === clickedIndex ? <div className='bg-[#ff6a6e] mx-auto my-1  rounded-full w-[20px] h-[20px]'></div> : ""
+                                    }
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div className='mt-2'>
+                <Button />
+            </div>
+        </div>
+    )
+}
+
+export default Picture

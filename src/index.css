@@ -3,3 +3,21 @@ url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+/* width */
+::-webkit-scrollbar {
+width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #ff6d75;
+border-radius: 5px;
+}
