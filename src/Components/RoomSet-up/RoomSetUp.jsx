@@ -1,32 +1,66 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import downIcon from '../../Assets/img/down-icon.png'
 import EditableImg from '../../Assets/img/edit.png'
 import Trash from '../../Assets/img/trash.png'
 import Button from '../Button'
+import BedIcon from '../../Assets/img/double-bed-icon.png'
+import SinglebedIcon from '../../Assets/img/single-bed-icon.png'
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { Link } from 'react-router-dom'
 
 
 function RoomSetUp() {
     const [roomType, setRoomtype] = useState("")
     const [guNumber, setGuNumber] = useState("")
-    const [bdNumber, setBdNumber] = useState("")
+    const [bdNumber, setBdNumber] = useState(0)
     const [bathNum, setBathNum] = useState("")
     const [price, setPrice] = useState("")
-    const [sameRoomNum, setSameRoomNum] = useState("")
     const [roomData, setRoomData] = useState([])
+    const [singleBedValue, setSingleBedValue] = useState(0)
+    const [doubleBedValue, setDoubleBedValue] = useState(0)
+    const [largeBedValue, setLargeBedValue] = useState(0)
+    const [kingSizeBedValue, setKingSizeBedValue] = useState(0)
+    const [units, sameUnitsNumber] = useState(0);
+    const [whichType, setWhichType] = useState(0);
+    const [UnitData, setUnitData] = useState({})
+    const [unitObject, setUnitObject] = useState({})
+    const totalBed = singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue
+
+
+
 
 
     const handleSaveChanges = () => {
         const setUpRoomObject = {
             roomType,
             guNumber,
-            bdNumber,
+            bdNumber: totalBed,
             bathNum,
             price,
-            sameRoomNum
+            singleBedValue,
+            doubleBedValue,
+            largeBedValue,
+            kingSizeBedValue,
         }
         setRoomData((prevData) => [...prevData, setUpRoomObject])
     }
-    console.log(roomData)
+    const handleSubmit = () => {
+        const newUnitObject = {
+            ...unitObject,  // Spread the existing state
+            modalData: roomData,
+            UnitData: units,  // Assuming UnitData is a variable you want to add to the state
+            whichType: whichType  // Assuming whichType is another variable you want to add to the state
+        };
+
+        setUnitObject(newUnitObject);
+
+    }
+
+
+    useEffect(() => {
+        console.log('This data from the Room-setUp components', unitObject);
+        // alert(unitObject)
+    }, [unitObject]);
     return (
         <div style={{ fontFamily: `'Josefin Sans', sans-serif` }}>
             {/* Code for modal */}
@@ -39,19 +73,16 @@ function RoomSetUp() {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <div>
-
-                                </div>
                                 <form>
                                     <div className="mb-3">
                                         <label htmlFor="roomType" className="form-label">Room type</label>
-                                        <input type="text" className="form-control" id="roomType" placeholder="Enter the room type" onChange={(e) => {
+                                        <input type="text" className="form-control" value={roomType} id="roomType" placeholder="Enter the room type" onChange={(e) => {
                                             setRoomtype(e.target.value)
                                         }} />
                                     </div>
                                     <div className="mb-3">
                                         <label htmlFor="Guests" className="form-label">Guests</label>
-                                        <input type="text" className="form-control" id="Guests" placeholder='Enter the Number of guests'
+                                        <input type="text" className="form-control" value={guNumber} id="Guests" placeholder='Enter the Number of guests'
                                             onChange={(e) => {
                                                 setGuNumber(e.target.value)
                                             }} />
@@ -59,15 +90,147 @@ function RoomSetUp() {
 
                                     <div className="mb-3">
                                         <label htmlFor="Beds" className="form-label">Beds</label>
-                                        <input type="text" className="form-control" id="Beds" placeholder="Enter Cancellation Policy"
+                                        <input type="number" className="form-control" value={totalBed} id="Beds" placeholder="Enter the number of bed"
                                             onChange={(e) => {
                                                 setBdNumber(e.target.value)
                                             }} />
                                     </div>
+                                    {/* Single Bed Type */}
+                                    <div className='mb-3  border-t-2 pt-2'>
+                                        <div className='flex flex-row justify-between items-center  p-1'>
+                                            <div className='flex flex-row justify-start items-center'>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <img src={SinglebedIcon} alt="bedIcon" className='w-full h-full' />
+                                                </div>
+                                                <div className='ml-4'>
+                                                    <h3 className='font-bold leading-4 text-[14px]'>Single bed</h3>
+                                                    <p className='font-[400] text-slate-600'>90 - 130 cm wide</p>
+                                                </div>
+                                            </div>
+                                            <div className='flex flex-row justify-center items-center border-1 shadow-sm cursor-pointer'>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlineMinus className='text-[30px] font-[300]' onClick={() => {
+                                                        if (singleBedValue === 0) {
+                                                            setSingleBedValue(0)
+                                                        } else {
+                                                            setSingleBedValue(singleBedValue - 1)
+                                                        }
+                                                    }} />
+                                                </div>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <input type="text" value={singleBedValue} className='text-[20px] w-full h-full outline-none py-1 text-center font-[400]' />
+                                                </div>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlinePlus className='text-[30px] font-[300]' onClick={() => {
+                                                        setSingleBedValue(singleBedValue + 1)
+                                                    }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Double bed Type */}
+                                    <div className='mb-3'>
+                                        <div className='flex flex-row justify-between items-center  p-1'>
+                                            <div className='flex flex-row justify-start items-center'>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <img src={BedIcon} alt="bedIcon" className='w-full h-full' />
+                                                </div>
+                                                <div className='ml-4'>
+                                                    <h3 className='font-bold leading-4 text-[14px]'>Double Bed</h3>
+                                                    <p className='font-[400] text-slate-600'>131 - 150 cm wide</p>
+                                                </div>
+                                            </div>
+                                            <div className='flex flex-row justify-center items-center border-1 shadow-sm cursor-pointer'>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlineMinus className='text-[30px] font-[300]' onClick={() => {
+                                                        if (doubleBedValue === 0) {
+                                                            setDoubleBedValue(0)
+                                                        } else {
+                                                            setDoubleBedValue(doubleBedValue - 1)
+                                                        }
+                                                    }} />
+                                                </div>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <input type="text" value={doubleBedValue} className='text-[20px] w-full h-full outline-none py-1 text-center font-[400]' />
+                                                </div>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlinePlus className='text-[30px] font-[300]' onClick={() => {
+                                                        setDoubleBedValue(doubleBedValue + 1)
+                                                    }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Large bed */}
+                                    <div className='mb-3'>
+                                        <div className='flex flex-row justify-between items-center  p-1'>
+                                            <div className='flex flex-row justify-start items-center'>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <img src={BedIcon} alt="bedIcon" className='w-full h-full' />
+                                                </div>
+                                                <div className='ml-4'>
+                                                    <h3 className='font-bold leading-4 text-[14px]'>Large bed (King Size)</h3>
+                                                    <p className='font-[400] text-slate-600'>151 - 180 cm wide</p>
+                                                </div>
+                                            </div>
+                                            <div className='flex flex-row justify-center items-center border-1 shadow-sm cursor-pointer'>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlineMinus className='text-[30px] font-[300]' onClick={() => {
+                                                        if (largeBedValue === 0) {
+                                                            setLargeBedValue(0)
+                                                        } else {
+                                                            setLargeBedValue(largeBedValue - 1)
+                                                        }
+                                                    }} />
+                                                </div>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <input type="text" value={largeBedValue} className='text-[20px] w-full h-full outline-none py-1 text-center font-[400]' />
+                                                </div>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlinePlus className='text-[30px] font-[300]' onClick={() => {
+                                                        setLargeBedValue(largeBedValue + 1)
+                                                    }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* Extra-Large bed */}
+                                    <div className='mb-3 border-b-2 pb-2'>
+                                        <div className='flex flex-row justify-between items-center  p-1'>
+                                            <div className='flex flex-row justify-start items-center'>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <img src={BedIcon} alt="bedIcon" className='w-full h-full' />
+                                                </div>
+                                                <div className='ml-4'>
+                                                    <h3 className='font-bold leading-4 text-[14px]'>Extra-large double bed(Super-king size)</h3>
+                                                    <p className='font-[400] text-slate-600'>181 - 210 cm wide</p>
+                                                </div>
+                                            </div>
+                                            <div className='flex flex-row justify-center items-center border-1 shadow-sm cursor-pointer'>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlineMinus className='text-[30px] font-[300]' onClick={() => {
+                                                        if (kingSizeBedValue === 0) {
+                                                            setKingSizeBedValue(0)
+                                                        } else {
+                                                            setKingSizeBedValue(kingSizeBedValue - 1)
+                                                        }
+                                                    }} />
+                                                </div>
+                                                <div className='w-[40px] h-[40px]'>
+                                                    <input type="text" value={kingSizeBedValue} className='text-[20px] w-full h-full outline-none py-1 text-center font-[400]' />
+                                                </div>
+                                                <div className='w-[40px] h-[40px] p-1'>
+                                                    <AiOutlinePlus className='text-[30px] font-[300]' onClick={() => {
+                                                        setKingSizeBedValue(kingSizeBedValue + 1)
+                                                    }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div className="mb-3">
                                         <label htmlFor="Bathroom" className="form-label">Bathroom</label>
-                                        <input type="number" className="form-control" id="Bathroom" placeholder="Enter number of Bathroom"
+                                        <input type="number" className="form-control" value={bathNum} id="Bathroom" placeholder="Enter number of Bathroom"
                                             onChange={(e) => {
                                                 setBathNum(e.target.value)
                                             }} />
@@ -75,17 +238,9 @@ function RoomSetUp() {
 
                                     <div className="mb-3">
                                         <label htmlFor="Price" className="form-label">Price</label>
-                                        <input type="number" className="form-control" id="Price" placeholder="Enter The price"
+                                        <input type="number" className="form-control" value={price} id="Price" placeholder="Enter the price"
                                             onChange={(e) => {
                                                 setPrice(e.target.value)
-                                            }} />
-                                    </div>
-
-                                    <div className="mb-3">
-                                        <label htmlFor="Room of this type" className="form-label">Room of this type</label>
-                                        <input type="number" className="form-control" id="Room of this type" placeholder="Enter the room of this type"
-                                            onChange={(e) => {
-                                                setSameRoomNum(e.target.value)
                                             }} />
                                     </div>
                                 </form>
@@ -135,7 +290,7 @@ function RoomSetUp() {
                             </p>
                         </div>
 
-
+                        {/* Table */}
                         <div className='my-3'>
                             <table className='table-auto w-full border-[1px]'>
                                 <thead className='border-2'>
@@ -146,23 +301,21 @@ function RoomSetUp() {
                                         <th className='px-2 py-2'>Beds</th>
                                         <th className='px-2 py-2'>Bathroom</th>
                                         <th className='px-2 py-2'>Price</th>
-                                        <th className='px-2 py-2'>Room of <br />this type</th>
                                         <th className='px-2 py-2'></th>
                                         <th className='px-2 py-2'></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        roomData.map((data, key) => {
+                                        roomData.map((data, index) => {
                                             return (
-                                                <tr className='p-5 border-2'>
+                                                <tr key={index} className='p-5 border-2'>
                                                     <td className='px-2 py-2'><img src={downIcon} alt='icon' /></td>
                                                     <td className='px-2 py-2'>{data.roomType}</td>
                                                     <td className='px-2 py-2'>{data.guNumber}</td>
                                                     <td className='px-2 py-2'>{data.bdNumber}</td>
                                                     <td className='px-2 py-2'>{data.bathNum}</td>
                                                     <td className='px-2 py-2'>Rs {data.price}</td>
-                                                    <td className='px-2 py-2'>{data.sameRoomNum}</td>
                                                     <td className='px-2 py-2 cursor-pointer' data-bs-toggle="modal" data-bs-target="#staticBackdrop" >
                                                         <img src={EditableImg} alt='editable'></img>
                                                     </td>
@@ -182,23 +335,36 @@ function RoomSetUp() {
                         <div className='my-1  border-slate-300 pt-2 px-1'>
                             <form>
                                 <div className="mb-3">
-                                    <label htmlFor="ratePlanName" className="form-label text-[18px] font-[400] text-slate-500">What type of unit of this</label>
-                                    <input type="text" className="form-control  w-[300px]" id="UnitsName" placeholder="Enter the Units" />
+                                    <label htmlFor="unitsInput" className="form-label text-[18px] font-[400] text-slate-500">What type of unit is this?</label>
+                                    <input
+                                        type="number"
+                                        className="form-control w-[300px]"
+                                        id="unitsInput"
+                                        placeholder="Enter the Units"
+                                        onChange={(e) => { sameUnitsNumber(e.target.value) }}
+                                    />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="ratePlanName" className="form-label text-[18px] font-[400] text-slate-500">How many rooms this type Do you have ?</label>
-                                    <input type="text" className="form-control w-[300px]" id="UnitsName" placeholder="Enter the room units" />
+                                    <label htmlFor="roomsInput" className="form-label text-[18px] font-[400] text-slate-500">How many rooms of this type do you have?</label>
+                                    <input
+                                        type="number"
+                                        className="form-control w-[300px]"
+                                        id="roomsInput"
+                                        placeholder="Enter the room units"
+                                        onChange={(e) => { setWhichType(e.target.value) }}
+                                    />
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
             </div >
-            <div>
-                <Button />
-            </div>
-        </div>
+            <Link to="rate">
+                <div onClick={handleSubmit}>
+                    <Button />
+                </div>
+            </Link>
+        </div >
     )
 }
 

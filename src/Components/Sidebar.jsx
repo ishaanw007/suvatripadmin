@@ -35,32 +35,32 @@ function Sidebar() {
                             Room Setup
                         </div>
                     </Link>
-                    <Link to="basic/photos/facility/rate">
+                    <Link to="basic/photos/facility/room-setup/rate">
                         <div class="col  my-2 py-2 rounded-md hover:bg-[#ff5f63] cursor-pointer ease-in-out duration-200">
                             Rate Plan
                         </div>
                     </Link>
-                    <Link to="basic/photos/facility/rate/hotel-rules">
+                    <Link to="basic/photos/facility/room-setup/rate/hotel-rules">
                         <div class="col  my-2 py-2 rounded-md hover:bg-[#ff5f63] cursor-pointer ease-in-out duration-200">
                             Hotel Rules
                         </div>
                     </Link>
-                    <Link to="basic/photos/facility/rate/hotel-rules/paymnet">
+                    <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment">
                         <div class="col my-2 py-2 rounded-md hover:bg-[#ff5f63] cursor-pointer ease-in-out duration-200">
-                            Paymemt Policy
+                            Payment Policy
                         </div>
                     </Link>
-                    <Link to="basic/photos/facility/rate/hotel-rules/paymnet/park">
+                    <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment/park">
                         <div class="col my-2 py-2 rounded-md hover:bg-[#ff5f63] cursor-pointer ease-in-out duration-200">
                             Parking
                         </div>
                     </Link>
-                    <Link to="basic/photos/facility/rate/hotel-rules/paymnet/park/transportation">
+                    <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment/park/transportation">
                         <div class="col  my-2 py-2 rounded-md hover:bg-[#ff5f63] cursor-pointer ease-in-out duration-200">
                             Transporation
                         </div>
                     </Link>
-                    <Link to="basic/photos/facility/rate/hotel-rules/paymnet/park/transportation/document">
+                    <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment/park/transportation/document">
                         <div class="col  my-2 py-2 rounded-md hover:bg-[#ff5f63] cursor-pointer ease-in-out duration-200">
                             Documentaion
                         </div>

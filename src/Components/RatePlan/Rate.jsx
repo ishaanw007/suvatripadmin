@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import downIcon from '../../Assets/img/down-icon.png'
 import Button from '../Button'
+import { Link } from 'react-router-dom'
 // import Ratemodal from './Ratemodal'
 
 function Rate() {
@@ -11,40 +12,41 @@ function Rate() {
     const [cancellationRate, setCancellationRate] = useState('');
     const [netRevenue, setNetRevenue] = useState('');
     const [data, setData] = useState([]);
-    const [isFilled, setIsfilled] = useState(false)
+
+
 
 
     const handleSaveChanges = () => {
-        if (ratePlanName === "" || rateId === "" || cancellationPolicy === "" || price === "" || cancellationRate === "" || netRevenue === "") {
-            setIsfilled(true);
-        } else {
-            setIsfilled(false);
 
-            const newData = {
-                ratePlanName,
-                rateId,
-                cancellationPolicy,
-                price,
-                cancellationRate,
-                netRevenue,
-            };
+        const newData = {
+            ratePlanName,
+            rateId,
+            cancellationPolicy,
+            price,
+            cancellationRate,
+            netRevenue,
+        };
 
-            // Update the array of objects
-            setData((prevData) => [...prevData, newData]);
+        // Update the array of objects
+        setData((prevData) => [...prevData, newData]);
 
-            // Clear input values after submission
-            setRatePlanName('');
-            setRateId('');
-            setCancellationPolicy('');
-            setPrice('');
-            setCancellationRate('');
-            setNetRevenue('');
+        // Clear input values after submission
+        setRatePlanName('');
+        setRateId('');
+        setCancellationPolicy('');
+        setPrice('');
+        setCancellationRate('');
+        setNetRevenue('');
 
 
 
-        }
 
     };
+
+
+    const handleSubmit = () => {
+        console.log("This is data from the Rate Compoents", data)
+    }
 
     return (
         <div>
@@ -59,11 +61,6 @@ function Rate() {
                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div className="modal-body">
-                                    <div>
-                                        {
-                                            isFilled ? <p className='text-xl text-red-500'>Please fill the all data</p> : ""
-                                        }
-                                    </div>
                                     <form>
                                         <div className="mb-3">
                                             <label htmlFor="ratePlanName" className="form-label">Rate Plan Name</label>
@@ -189,9 +186,11 @@ function Rate() {
                     <p className='text-[14px] font-[600] text-slate-700 py-1 uppercase'>Is Parking which cancelation would You like to use for the rate plan available to the guest ?</p>
                 </div>
             </div>
-            <div className='mt-1'>
-                <Button />
-            </div>
+            <Link to="hotel-rules">
+                <div className='mt-1' onClick={handleSubmit}>
+                    <Button />
+                </div>
+            </Link>
         </div>
 
 

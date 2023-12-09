@@ -16,7 +16,7 @@ import RoomSetUp from './RoomSet-up/RoomSetUp'
 
 
 function NestedRoutes() {
-    console.log("its rendered")
+
     return (
 
         <Routes>
@@ -25,15 +25,12 @@ function NestedRoutes() {
             <Route path='basic/photos' element={< Picture />} />
             <Route path='basic/photos/facility' element={< Facility />} />
             <Route path='basic/photos/facility/room-setup' element={< RoomSetUp />} />
-            <Route path='basic/photos/facility/rate' element={< Rate />} />
-            <Route path='basic/photos/facility/rate/hotel-rules' element={< Hotel />} />
-            <Route path='basic/photos/facility/rate/hotel-rules/paymnet' element={< Payment />} />
-            <Route path='basic/photos/facility/rate/hotel-rules/paymnet/park' element={< Park />} />
-            <Route path='basic/photos/facility/rate/hotel-rules/paymnet/park/transportation' element={< Transportation />} />
-            <Route path='basic/photos/facility/rate/hotel-rules/paymnet/park/transportation/document' element={< Document />} />
-
-
-
+            <Route path='basic/photos/facility/room-setup/rate' element={< Rate />} />
+            <Route path='basic/photos/facility/room-setup/rate/hotel-rules' element={< Hotel />} />
+            <Route path='basic/photos/facility/room-setup/rate/hotel-rules/payment' element={< Payment />} />
+            <Route path='basic/photos/facility/room-setup/rate/hotel-rules/payment/park' element={< Park />} />
+            <Route path='basic/photos/facility/room-setup/rate/hotel-rules/payment/park/transportation' element={< Transportation />} />
+            <Route path='basic/photos/facility/room-setup/rate/hotel-rules/payment/park/transportation/document' element={< Document />} />
         </Routes>
 
     )

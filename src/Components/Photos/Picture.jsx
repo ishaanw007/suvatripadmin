@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import DocumnetImg from '../../Assets/img/Document.png'
 import Button from '../Button'
 import Crosssmall from '../../Assets/img/Cross-small.png'
+import { Link } from 'react-router-dom';
 
 
 
@@ -25,6 +26,11 @@ function Picture() {
             setClickedIndex(-1);
         }
     };
+
+
+    const handleSubmit = () => {
+        console.log("This is the data from the Photos componets", images)
+    }
 
     return (
         <div>
@@ -81,9 +87,11 @@ function Picture() {
                 </div>
 
             </div>
-            <div className='mt-2'>
-                <Button />
-            </div>
+            <Link to="facility">
+                <div className='mt-2' onClick={handleSubmit}>
+                    <Button />
+                </div>
+            </Link>
         </div>
     )
 }
