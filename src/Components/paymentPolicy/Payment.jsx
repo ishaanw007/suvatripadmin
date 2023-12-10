@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Button from '../Button'
 import { Link } from 'react-router-dom';
-
+import { useFormContext } from '../../context/contextStore';
 function Payment() {
+    const { state, dispatch } = useFormContext();
     const [paymentOption, setPaymentOption] = useState('');
     const [cancleOption, setCancleOption] = useState('Yes');
     const [canclePeriod, setCanclePeriod] = useState('Until two days before arrival');
@@ -27,11 +28,12 @@ function Payment() {
             canclePeriod: canclePeriod,
         };
 
+        dispatch({ type: "SET_PAYMENT_POLICY", payload: formData });
         // Log the form data or perform other actions with it
         console.log('This is data from payment coponents:', formData);
     };
     return (
-        <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className='w-full md:w-[1000px] pt-5'>
+        <div style={{ fontFamily: `'Poppins', sans-serif` }} className='w-full md:w-[1000px] pt-5'>
             <div className='border-b-[1px] border-slate-300 pt-1 pb-2 cursor-pointer'>
                 <h3 className='text-[30px] font-[600] text-slate-800 tracking-wider leading-10'>Payment policy</h3>
                 <p className='text-[18px] font-[400] text-slate-500 tracking-wider pb-1'>Add your contact information</p>

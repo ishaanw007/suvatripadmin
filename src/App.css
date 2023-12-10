@@ -1,0 +1,39 @@
+.gloabl-font {
+  font-family: 'Poppins', sans-serif !important;
+}
+/* 
+/* Hide default checkboxes and radio buttons */
+/* input[type="checkbox"],
+input[type="radio"] {
+  display: none;
+} */
+
+/* Style the custom checkboxes and radio buttons */
+/* input[type="checkbox"] + label,
+input[type="radio"] + label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 20px;
+} */
+
+/* input[type="checkbox"] + label:before,
+input[type="radio"] + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+} */
+
+/* Set background color for checked checkboxes and radio buttons */
+/* input[type="checkbox"]:checked + label:before,
+input[type="radio"]:checked + label:before {
+  background-color: #FF5F63;
+  border: 1px solid #FF5F63;
+}
+  */
