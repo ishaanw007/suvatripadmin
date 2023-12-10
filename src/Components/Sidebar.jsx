@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   const [selectedLink, setSelectedLink] = useState(null);
-  
+
   const handleLinkClick = (index) => {
-     setSelectedLink(index);
-   };
+    setSelectedLink(index);
+  };
 
   return (
     <div className="hidden md:block h-[550px]  mt-5">
