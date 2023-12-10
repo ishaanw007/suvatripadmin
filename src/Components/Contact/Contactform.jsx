@@ -39,7 +39,7 @@ function Contactform() {
             <div style={{ fontFamily: `'Poppins', sans-serif` }} className=' w-full md:w-[1000px]  h-screen md:h-[550px] mt-5 overflow-x-hidden overflow-y-auto'>
                 <div className='w-full h-auto  md:h-[500px] rounded-lg tracking-wider'>
                     <div className='px-2 md:px-5 py-2 mb-1 border-b-[1px] border-slate-300'>
-                        <h3 className='text-[30px] font-[500] my-2'>Contact</h3>
+                        <h3 className='text-[30px] font-[500] my-2'>Contact Details</h3>
                         <p className='text-[20px] font-[400]'>Add Your contact information</p>
                     </div>
 
