@@ -34,7 +34,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(2)}
             >
               Basic
             </div>
@@ -47,7 +47,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(3)}
             >
               Photos
             </div>
@@ -59,7 +59,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(4)}
             >
               Facilities
             </div>
@@ -71,7 +71,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(5)}
             >
               Room Setup
             </div>
@@ -83,7 +83,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(6)}
             >
               Rate Plan
             </div>
@@ -95,7 +95,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(7)}
             >
               Hotel Rules
             </div>
@@ -107,7 +107,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(8)}
             >
               Payment Policy
             </div>
@@ -119,7 +119,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(9)}
             >
               Parking
             </div>
@@ -131,7 +131,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(10)}
             >
               Transporation
             </div>
@@ -143,7 +143,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(1)}
+              onClick={() => handleLinkClick(11)}
             >
               Documentaion
             </div>
