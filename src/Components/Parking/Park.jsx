@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Button from '../Button'
 import { Link } from 'react-router-dom'
-
+import { useFormContext } from '../../context/contextStore';
 function Park() {
+     const { state, dispatch } = useFormContext();
     const [isParkingAvailable, setIsParkingAvailable] = useState('');
     const [parkingCost, setParkingCost] = useState('');
     const [costType, setCostType] = useState('Per day');
@@ -30,6 +31,7 @@ function Park() {
     };
     const handleSaveChanges = () => {
         // Create an object with the selected values
+
         const parkingData = {
             isParkingAvailable: isParkingAvailable,
             parkingCost: parkingCost,
@@ -37,13 +39,15 @@ function Park() {
             isParkingReserved: isParkingReserved,
             parkingLocation: parkingLocation,
         };
+        
+        dispatch({ type: "SET_PARKING", payload: parkingData });
 
         // Log the parking data or perform other actions with it
         console.log('This is the data from the parking componets:', parkingData);
     };
 
     return (
-        <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className='w-full md:w-[1000px] pt-5'>
+        <div style={{ fontFamily: `'Poppins', sans-serif` }} className='w-full md:w-[1000px] pt-5'>
             {/* Start parking Heading */}
             <div className='border-b-[1px] border-slate-300 py-2'>
                 <h3 className='text-[30px] font-700 tracking-wider text-slate-800 pb-1'>Parking</h3>

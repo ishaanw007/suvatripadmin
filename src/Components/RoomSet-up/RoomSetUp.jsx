@@ -7,7 +7,7 @@ import BedIcon from '../../Assets/img/double-bed-icon.png'
 import SinglebedIcon from '../../Assets/img/single-bed-icon.png'
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { Link } from 'react-router-dom'
-
+import { useFormContext } from '../../context/contextStore'
 
 function RoomSetUp() {
     const [roomType, setRoomtype] = useState("")
@@ -25,12 +25,13 @@ function RoomSetUp() {
     const [UnitData, setUnitData] = useState({})
     const [unitObject, setUnitObject] = useState({})
     const totalBed = singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue
-
+        const { state, dispatch } = useFormContext();
 
 
 
 
     const handleSaveChanges = () => {
+
         const setUpRoomObject = {
             roomType,
             guNumber,
@@ -52,6 +53,10 @@ function RoomSetUp() {
             whichType: whichType  // Assuming whichType is another variable you want to add to the state
         };
 
+        // Update the state
+
+         dispatch({ type: "SET_ROOM_SETUP", payload: newUnitObject });
+         
         setUnitObject(newUnitObject);
 
     }
@@ -62,7 +67,7 @@ function RoomSetUp() {
         // alert(unitObject)
     }, [unitObject]);
     return (
-        <div style={{ fontFamily: `'Josefin Sans', sans-serif` }}>
+        <div style={{ fontFamily: `'Poppins', sans-serif` }}>
             {/* Code for modal */}
             <div className='container'>
                 <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

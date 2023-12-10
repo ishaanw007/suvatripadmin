@@ -4,21 +4,22 @@ import Main from './Home/Main';
 import Login from './Login/Login';
 import SignUp from './Sign-up/SignUp';
 import Contact from './Contact/Contact';
-
+import '../App.css'; 
 
 
 
 const AppRouter = () => {
     return (
+      <div className='gloabl-font'> 
         <Router>
-            <Routes>
-                <Route path="/" element={<Main />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/contact/*" element={<Contact />} />
-
-            </Routes>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/contact/*" element={<Contact />} />
+          </Routes>
         </Router>
+      </div>
     );
 };
 

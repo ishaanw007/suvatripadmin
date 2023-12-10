@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import Button from '../Button'
 import { Link } from 'react-router-dom';
-
+import { useFormContext } from '../../context/contextStore';
 function Transport() {
     const [providePickUpService, setProvidePickUpService] = useState('');
     const [chargeType, setChargeType] = useState('');
     const [pickupCharge, setPickupCharge] = useState('');
-
+     const {state , dispatch} = useFormContext();
     const handleProvidePickUpServiceChange = (event) => {
         setProvidePickUpService(event.target.value);
     };
@@ -29,9 +29,10 @@ function Transport() {
 
         // Log the pickup service data or perform other actions with it
         console.log('Pickup Service Data:', pickupServiceData);
+        dispatch({ type: "SET_TRANSPORTATION", payload: pickupServiceData });
     };
     return (
-        <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className='w-full md:w-[1000px] pt-5'>
+        <div style={{ fontFamily: `'Poppins', sans-serif` }} className='w-full md:w-[1000px] pt-5'>
             <div className='border-b-[1px] border-slate-300 py-3'>
                 <h3 className='text-[35px] mb-1 font-[600] text-slate-800 tracking-wider'>Transportation</h3>
                 <p className='text-[18px] py-1 font-[500] text-slate-600 tracking-wider'>Add transport information wheather you provide pickup or not</p>

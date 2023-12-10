@@ -3,7 +3,7 @@ import downIcon from '../../Assets/img/down-icon.png'
 import Button from '../Button'
 import { Link } from 'react-router-dom'
 // import Ratemodal from './Ratemodal'
-
+import { useFormContext } from '../../context/contextStore'
 function Rate() {
     const [ratePlanName, setRatePlanName] = useState('');
     const [rateId, setRateId] = useState('')
@@ -12,12 +12,12 @@ function Rate() {
     const [cancellationRate, setCancellationRate] = useState('');
     const [netRevenue, setNetRevenue] = useState('');
     const [data, setData] = useState([]);
-
-
+   
+    const { state, dispatch } = useFormContext();
 
 
     const handleSaveChanges = () => {
-
+   
         const newData = {
             ratePlanName,
             rateId,
@@ -46,11 +46,12 @@ function Rate() {
 
     const handleSubmit = () => {
         console.log("This is data from the Rate Compoents", data)
+        dispatch({ type: "SET_RATE_PLAN", payload: data });
     }
 
     return (
         <div>
-            <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className='w-full md:w-[1000px] pt-5 mx-auto  h-screen md:h-[600px] overflow-x-hidden overflow-y-auto'>
+            <div style={{ fontFamily: `'Poppins', sans-serif` }} className='w-full md:w-[1000px] pt-5 mx-auto  h-screen md:h-[600px] overflow-x-hidden overflow-y-auto'>
                 {/* There is Code for modal */}
                 <div className='container'>
                     <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
