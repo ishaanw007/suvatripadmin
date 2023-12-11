@@ -40,7 +40,7 @@ function Sidebar() {
             </div>
           </Link>
 
-          <Link to="basic/photos">
+          <Link to="photos">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 3
@@ -52,7 +52,7 @@ function Sidebar() {
               Photos
             </div>
           </Link>
-          <Link to="basic/photos/facility">
+          <Link to="facility">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 4
@@ -64,7 +64,7 @@ function Sidebar() {
               Facilities
             </div>
           </Link>
-          <Link to="basic/photos/facility/room-setup">
+          <Link to="room-setup">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 5
@@ -76,7 +76,7 @@ function Sidebar() {
               Room Setup
             </div>
           </Link>
-          <Link to="basic/photos/facility/room-setup/rate">
+          <Link to="rate">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 6
@@ -88,7 +88,7 @@ function Sidebar() {
               Rate Plan
             </div>
           </Link>
-          <Link to="basic/photos/facility/room-setup/rate/hotel-rules">
+          <Link to="hotel-rules">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 7
@@ -100,7 +100,7 @@ function Sidebar() {
               Hotel Rules
             </div>
           </Link>
-          <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment">
+          <Link to="payment">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 8
@@ -112,7 +112,7 @@ function Sidebar() {
               Payment Policy
             </div>
           </Link>
-          <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment/park">
+          <Link to="park">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 9
@@ -124,7 +124,7 @@ function Sidebar() {
               Parking
             </div>
           </Link>
-          <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment/park/transportation">
+          <Link to="transportation">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 10
@@ -136,7 +136,7 @@ function Sidebar() {
               Transporation
             </div>
           </Link>
-          <Link to="basic/photos/facility/room-setup/rate/hotel-rules/payment/park/transportation/document">
+          <Link to="document">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 11
