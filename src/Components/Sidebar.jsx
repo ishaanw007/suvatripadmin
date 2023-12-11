@@ -76,7 +76,7 @@ function Sidebar() {
               Room Setup
             </div>
           </Link>
-          <Link to="rate">
+          {/* <Link to="rate">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
                 selectedLink === 6
@@ -87,7 +87,7 @@ function Sidebar() {
             >
               Rate Plan
             </div>
-          </Link>
+          </Link> */}
           <Link to="hotel-rules">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
