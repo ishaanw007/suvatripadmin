@@ -47,33 +47,40 @@ function Section() {
 
     ]
     return (
-        <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className='grid grid-cols-1 md:grid-cols-4 gap-10 w-full place-items-center p-20 bg-[#fff]'>
-            {
-                arrayOfitem.map((item, index) => {
-
-                    const ownStyle = {
-                        backgroundColor: item.color
-                    }
-                    return (
-                        <div key={index} className='w-[300px] h-[270px] border-[1px] border-slate-200 rounded-lg cursor-pointer shadow-inner hover:shadow-md'>
-                            <div className='p-3'>
-                                <div style={ownStyle} className='p-16 rounded-lg'>
-                                    <div className='w-[50px] h-[50px]  mx-auto'>
-                                        <img src={item.imgLink} alt="img" className='w-full h-full' />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='mb-0'>
-                                <p className='w-[200px] h-auto mx-auto text-center font-[700]'>{item.title}</p>
-                            </div>
-
-                        </div>
-                    )
-                })
-            }
-
-        </div>
-    )
+      <div
+        style={{ fontFamily: `'Poppins', sans-serif` }}
+        className="grid grid-cols-1 md:grid-cols-4 gap-10 w-full place-items-center p-20 bg-[#fff]"
+      >
+        {arrayOfitem.map((item, index) => {
+          const ownStyle = {
+            backgroundColor: item.color,
+          };
+          return (
+            <div
+              key={index}
+              className="w-[300px] h-[270px] border-[1px] border-slate-200 rounded-lg cursor-pointer shadow-inner hover:shadow-md"
+            >
+              <div className="p-3">
+                <div style={ownStyle} className="p-16 rounded-lg">
+                  <div className="w-[50px] h-[50px]  mx-auto">
+                    <img
+                      src={item.imgLink}
+                      alt="img"
+                      className="w-full h-full"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="mb-0">
+                <p className="w-[200px] h-auto mx-auto text-center font-[700]">
+                  {item.title}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
 }
 
 export default Section

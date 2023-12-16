@@ -1,46 +1,56 @@
 import React, { useState } from 'react'
 import Button from '../Button'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useFormContext } from '../../context/contextStore';
 function Hotel() {
    
-   const {state, dispatch} = useFormContext();
-    const [checkIn, setCheckIn] = useState({
-        from: '00:00',
-        until: '00:00',
-    });
 
-    const [checkOut, setCheckOut] = useState({
-        from: '06:00',
-        until: '06:00',
-    });
-    const [allowChildren, setAllowChildren] = useState(''); // Initialize state for AllowChildren
+   const { state, dispatch } = useFormContext();
+   const navigate = useNavigate();  
+   const [checkIn, setCheckIn] = useState({
+     from: '00:00',
+     until: '00:00',
+   });
+   const [checkOut, setCheckOut] = useState({
+     from: '06:00',
+     until: '06:00',
+   });
+   const [allowChildren, setAllowChildren] = useState('');
+   const [warning, setWarning] = useState(''); // State to track the warning message
+ 
+   const handleAllowChildrenChange = (event) => {
+     setAllowChildren(event.target.value);
+   };
+ 
+   const handleCheckInChange = (event) => {
+     const { id, value } = event.target;
+     setCheckIn((prevCheckIn) => ({ ...prevCheckIn, [id]: value }));
+   };
+ 
+   const handleCheckOutChange = (event) => {
+     const { id, value } = event.target;
+     setCheckOut((prevCheckOut) => ({ ...prevCheckOut, [id]: value }));
+   };
 
-    const handleAllowChildrenChange = (event) => {
-        setAllowChildren(event.target.value);
+
+   const handleSaveChanges = () => {
+    // Check if any required field is empty
+    if (!checkIn.from || !checkIn.until || !checkOut.from || !checkOut.until || !allowChildren) {
+      setWarning('Please fill in all fields before proceeding.');
+      return; // Do not proceed to the next page
+    }
+
+    const formData = {
+      allowChildren: allowChildren,
+      checkInData: checkIn,
+      checkOutData: checkOut,
+      // Add other form fields here
     };
 
-    const handleCheckInChange = (event) => {
-        const { id, value } = event.target;
-        setCheckIn((prevCheckIn) => ({ ...prevCheckIn, [id]: value }));
-    };
-
-    const handleCheckOutChange = (event) => {
-        const { id, value } = event.target;
-        setCheckOut((prevCheckOut) => ({ ...prevCheckOut, [id]: value }));
-    };
-
-    const handleSaveChanges = () => {
-        const formData = {
-            allowChildren: allowChildren,
-            checkInData: checkIn,
-            checkOutData: checkOut
-            // Add other form fields here
-        };
-        // You can now access checkIn and checkOut objects with the selected values
-
-        console.log("This is the  HotelRules data", formData)
-        dispatch({ type: "SET_HOTEL_RULES", payload: formData });
+    console.log('This is the HotelRules data', formData);
+    dispatch({ type: 'SET_HOTEL_RULES', payload: formData });
+    setWarning('');
+    navigate('/contact/payment');
         // Add any additional logic here
     };
     return (
@@ -247,12 +257,18 @@ function Hotel() {
             </label>
             <br />
           </div>
+          {warning && (
+        <div className="text-red-500 mt-2">
+          {warning}
         </div>
-        <Link to="payment">
+      )}
+        </div>
+        
+  
           <div className="mt-3" onClick={handleSaveChanges}>
             <Button />
           </div>
-        </Link>
+
       </div>
     );
 }

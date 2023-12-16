@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 function Login() {
     return (
         <div>
-            <div style={{ fontFamily: `'Josefin Sans', sans-serif` }} className="container flex flex-col md:flex-row justify-between m-0 p-0">
+            <div style={{ fontFamily: `'Poppins', sans-serif` }} className="container flex flex-col md:flex-row justify-between m-0 p-0">
                 {/* Sign-up form */}
                 <div className='w-full md:w-[750px] h-screen'>
                     <div>

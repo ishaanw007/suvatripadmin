@@ -1,63 +1,125 @@
 import React, { useState } from "react";
 import DocumnetImg from "../../Assets/img/Document.png";
+import PdfIcon from "../../Assets/icon/PDF_file_icon.svg";
+import DocIcon from "../../Assets/icon/PDF_file_icon.svg";
 import Button from "../Button";
 import { useFormContext } from "../../context/contextStore";
 
 function Doc() {
   const { state, dispatch } = useFormContext();
-  const [selectedDocument, setSelectedDocument] = useState("");
+  const [selectedDocument, setSelectedDocument] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedDoc, setUploadedDoc] = useState(null);
+  const [warning, setWarning] = useState('');
 
   const handleDocumentChange = (event) => {
     setSelectedDocument(event.target.value);
   };
 
   const handleFileChange = (event) => {
-    // Assuming you only want to handle a single file
     const file = event.target.files[0];
     setSelectedFile(file);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadedDoc(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setUploadedDoc(null);
+    }
   };
 
-  async function submitFormDatatoServer(formData) {
+  async function postData(formData) {
     try {
-      const config = { headers: { "Content-Type": "multipart/form-data" } };
-      const response = await fetch("http://localhost:5000/api/post", {
-        method: "POST",
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+      console.log(formData, 'this is form data');
+      const response = await fetch('http://localhost:8000/hotel/create-hotel', {
+        method: 'POST',
         body: formData,
-        config,
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const data = await response.json();
       console.log(data);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error('Error during network request:', error);
     }
   }
 
-  const handleUpload = () => {
-    const newdata = {
-      document: selectedDocument,
-      file: selectedFile,
-    };
-    console.log("This data from the document componets", newdata);
-    dispatch({ type: "SET_DOCUMENT", payload: newdata });
 
-    // post request to server post all form data
+
+
+
+  function handleUpload() {
+    // Check if any required field is empty
+    if (!selectedDocument || !selectedFile || !state.contactDetails || !state.basicDetails || !state.picture || !state.roomPicture || !state.areaPicture || !state.facility || !state.roomSetup || !state.ratePlan || !state.hotelRules || !state.paymentPolicy || !state.parking || !state.transportation) {
+      setWarning('Please fill in all required fields before submitting.');
+      return;
+    }
+  
     const formData = new FormData();
-    formData.append("contactDetails", JSON.stringify(state.contactDetails));
-    formData.append("basicDetails", JSON.stringify(state.basicDetails));
-    formData.append("picture", JSON.stringify(state.picture));
-    formData.append("facility", JSON.stringify(state.facility));
-    formData.append("roomSetup", JSON.stringify(state.roomSetup));
-    formData.append("ratePlan", JSON.stringify(state.ratePlan));
-    formData.append("hotelRules", JSON.stringify(state.hotelRules));
-    formData.append("paymentPolicy", JSON.stringify(state.paymentPolicy));
-    formData.append("parking", JSON.stringify(state.parking));
-    formData.append("transportation", JSON.stringify(state.transportation));
-    formData.append("document", JSON.stringify(state.document));
-    // function to post data to server
-    console.log("This is the data from the document componets", formData);
-    submitFormDatatoServer(formData);
-  };
+    formData.append('documentType', selectedDocument);
+    formData.append('file', selectedFile);
+  
+    // Append other form data
+    formData.append('contactDetails', JSON.stringify(state.contactDetails));
+    formData.append('basicDetails', JSON.stringify(state.basicDetails));
+    for (let i = 0; i < state.picture.length; i++) {
+      formData.append('picture', state.picture[i]);
+    }
+    for (let i = 0; i < state.roomPicture.length; i++) {
+      formData.append('roomPicture', state.roomPicture[i]);
+    }
+    for (let i = 0; i < state.areaPicture.length; i++) {
+      formData.append('areaPicture', state.areaPicture[i]);
+    }
+    formData.append('facility', JSON.stringify(state.facility));
+    formData.append('roomSetup', JSON.stringify(state.roomSetup));
+    formData.append('ratePlan', JSON.stringify(state.ratePlan));
+    formData.append('hotelRules', JSON.stringify(state.hotelRules));
+    formData.append('paymentPolicy', JSON.stringify(state.paymentPolicy));
+    formData.append('parking', JSON.stringify(state.parking));
+    formData.append('transportation', JSON.stringify(state.transportation));
+  
+    postData(formData);
+  }
+  
+
+const renderFileTypeIcon = () => {
+  if (selectedFile) {
+    switch (true) {
+      case selectedFile.type.startsWith("image/"):
+        return (
+          <img
+            src={uploadedDoc}
+            alt="uploaded_img"
+            className="w-[100%] max-h-[300px] mx-auto mt-2"
+          />
+        );
+      case selectedFile.name.endsWith(".pdf"):
+        return (
+          <img src={PdfIcon} alt="pdf_icon" className="w-[40px] mx-auto" />
+        );
+      case selectedFile.name.endsWith(".doc") ||
+        selectedFile.name.endsWith(".docx"):
+        return (
+          <img src={DocIcon} alt="doc_icon" className="w-[40px] mx-auto" />
+        );
+      // Add cases for other file types if needed
+      default:
+        return null;
+    }
+  }
+  return null;
+};
+
   return (
     <div
       style={{ fontFamily: `'Poppins', sans-serif` }}
@@ -105,34 +167,54 @@ function Doc() {
         <div className="w-full border-[1px] border-dashed py-5 rounded-lg bg-[#fff7f7] border-[#ff5f63]">
           <div className="w-full md:w-[300px] mx-auto">
             <label htmlFor="document">
-              <img
-                src={DocumnetImg}
-                alt="doc_img"
-                className="w-[40px] mx-auto"
-              />
-              <p className="text-sm mt-2 font-[600]">
-                <span className="text-[#ff5f63] underline">
-                  Click to upload
-                </span>{" "}
-                or Drag and drop document
-              </p>
-              <p className="text-center text-sm text-slate-600">
-                maximum size 30 MB
-              </p>
-              <input
-                type="file"
-                name="document"
-                id="document"
-                className="w-[0px]"
-                onChange={handleFileChange}
-              />
+              {uploadedDoc ? (
+                // Display the uploaded document
+                <div>
+                  <p className="text-sm mt-2 font-[600]">Uploaded Document:</p>
+                  {renderFileTypeIcon()}
+                </div>
+              ) : (
+                // Display the upload area
+                <div>
+                  <img
+                    src={DocumnetImg}
+                    alt="doc_img"
+                    className="w-[40px] mx-auto"
+                  />
+                  <p className="text-sm mt-2 font-[600]">
+                    <span className="text-[#ff5f63] underline">
+                      Click to upload
+                    </span>{" "}
+                    or Drag and drop document
+                  </p>
+                  <p className="text-center text-sm text-slate-600">
+                    maximum size 30 MB
+                  </p>
+                  <input
+                    type="file"
+                    name="document"
+                    id="document"
+                    accept=".pdf, .doc, .docx, image/*"
+                    className="w-[0px]"
+                    onChange={handleFileChange}
+                  />
+                </div>
+              )}
             </label>
           </div>
         </div>
       </div>
+      {/* Warning Message */}
 
+      {warning && (
+
+        <div className="text-red-500 text-sm font-bold">{warning}</div>
+
+      )}
       <div className="mt-3" onClick={handleUpload}>
-        <Button />
+      <div className='w-full text-center md:w-auto float-right'>
+            <Button type="button" className='bg-[#ff5f63] w-[250px] py-2 rounded-md text-white'>Submit</Button>
+        </div>
       </div>
     </div>
   );
