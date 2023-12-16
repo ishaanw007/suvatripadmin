@@ -57,9 +57,33 @@ function Doc() {
 
 
 
+  function isObjectEmpty(obj) {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key) && obj[key] !== null && obj[key] !== undefined && obj[key] !== '') {
+        return false; // If any property is not empty, return false
+      }
+    }
+    return true; // If all properties are empty, return true
+  }
+  
   function handleUpload() {
     // Check if any required field is empty
-    if (!selectedDocument || !selectedFile || !state.contactDetails || !state.basicDetails || !state.picture || !state.roomPicture || !state.areaPicture || !state.facility || !state.roomSetup || !state.ratePlan || !state.hotelRules || !state.paymentPolicy || !state.parking || !state.transportation) {
+    if (
+      isObjectEmpty(state.contactDetails) ||
+      isObjectEmpty(state.basicDetails) ||
+      isObjectEmpty(state.picture) ||
+      isObjectEmpty(state.roomPicture) ||
+      isObjectEmpty(state.areaPicture) ||
+      isObjectEmpty(state.facility) ||
+      isObjectEmpty(state.roomSetup) ||
+      isObjectEmpty(state.ratePlan) ||
+      isObjectEmpty(state.hotelRules) ||
+      isObjectEmpty(state.paymentPolicy) ||
+      isObjectEmpty(state.parking) ||
+      isObjectEmpty(state.transportation) ||
+      !selectedDocument ||
+      !selectedFile
+    ) {
       setWarning('Please fill in all required fields before submitting.');
       return;
     }
@@ -213,7 +237,7 @@ const renderFileTypeIcon = () => {
       )}
       <div className="mt-3" onClick={handleUpload}>
       <div className='w-full text-center md:w-auto float-right'>
-            <Button type="button" className='bg-[#ff5f63] w-[250px] py-2 rounded-md text-white'>Submit </Button>
+            <button type="button" className='bg-[#ff5f63] w-[250px] py-2 rounded-md text-white'>Submit </button>
         </div>
       </div>
     </div>
