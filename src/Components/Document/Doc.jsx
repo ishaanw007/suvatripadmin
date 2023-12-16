@@ -213,7 +213,7 @@ const renderFileTypeIcon = () => {
       )}
       <div className="mt-3" onClick={handleUpload}>
       <div className='w-full text-center md:w-auto float-right'>
-            <Button type="button" className='bg-[#ff5f63] w-[250px] py-2 rounded-md text-white'>Submit </Button>
+            <button type="button" className='bg-[#ff5f63] w-[250px] py-2 rounded-md text-white'>Submit </button>
         </div>
       </div>
     </div>

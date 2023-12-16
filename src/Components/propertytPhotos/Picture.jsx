@@ -9,6 +9,7 @@ function Picture() {
     const { state, dispatch } = useFormContext();
     const [clickedIndex, setClickedIndex] = useState(-1);
     const [images, setImages] = useState([]);
+    const [displayImages, setDisplayImages] = useState([]);
     const [formErrors, setFormErrors] = useState({});
     const navigate = useNavigate();
 
@@ -20,6 +21,7 @@ function Picture() {
        const newImages = Array.from(files).map((file) =>
          URL.createObjectURL(file)
        );
+       setDisplayImages((prevImages) => [...prevImages, ...newImages])
 
        setImages((prevImages) => [...prevImages, ...files]);
      };
@@ -28,6 +30,7 @@ function Picture() {
        const updatedImages = [...images];
        updatedImages.splice(index, 1);
        setImages(updatedImages);
+       setDisplayImages(updatedImages);
 
        // If the deleted image was the one clicked, reset the clickedIndex
        if (index === clickedIndex) {
@@ -101,7 +104,7 @@ function Picture() {
           </div>
           <div>
             <div className="grid grid-rows-1 md:grid-cols-3 gap-x-1 gap-y-2">
-              {images.map((img, index) => (
+              {displayImages.map((img, index) => (
                 <div
                   key={index}
                   onClick={() => {
