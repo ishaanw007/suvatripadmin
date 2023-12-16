@@ -5,7 +5,9 @@ import React, { createContext, useContext, useReducer } from "react";
 const initialState = {
   contactDetails: {},
   basicDetails: {},
-  picture: {},
+  picture: [],
+  roomPicture: [],
+  areaPicture: [],
   facility: {},
   roomSetup: {},
   ratePlan: {},
@@ -34,7 +36,16 @@ const formReducer = (state, action) => {
         ...state,
         picture: action.payload,
       };
-
+    case "SET_ROOM_PICTURE":
+      return {
+        ...state,
+        roomPicture: action.payload,
+      };
+    case "SET_AREA_PICTURE":
+      return {
+        ...state,
+        areaPicture: action.payload,
+      };
     case "SET_FACILITY":
       return {
         ...state,
@@ -89,7 +100,7 @@ const FormContext = createContext();
 export const useFormContext = () => useContext(FormContext);
 
 // context provider
- export const FormProvider = ({ children }) => {
+export const FormProvider = ({ children }) => {
   const [state, dispatch] = useReducer(formReducer, initialState);
 
   return (

@@ -2,7 +2,9 @@ import React from 'react'
 import { Routes, Route, } from 'react-router-dom'
 import Contactform from './Contact/Contactform'
 import Basic from './BasicDetails/Basic'
-import Picture from './Photos/Picture'
+import Picture from './propertytPhotos/Picture'
+import RoomPicture from './roomPhotos/RoomPicture'
+import SightSeeingPicture from './sightseeingPhotos/SightSeeingPicture'
 import Facility from './Facility/Facility'
 import Rate from './RatePlan/Rate'
 import Hotel from './HotelRules/Hotel'
@@ -22,7 +24,9 @@ function NestedRoutes() {
         <Routes>
             <Route path='/' element={<Contactform />} />
             <Route path='basic' element={< Basic />} />
-            <Route path='photos' element={< Picture />} />
+            <Route path='property-photos' element={< Picture />} />
+            <Route path='room-photos' element={< RoomPicture />} />
+            <Route path='area-photos' element={< SightSeeingPicture />} />
             <Route path='facility' element={< Facility />} />
             <Route path='room-setup' element={< RoomSetUp />} />
             <Route path='rate' element={< Rate />} />

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
   const [selectedLink, setSelectedLink] = useState(null);
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   const handleLinkClick = (index) => {
     setSelectedLink(index);
@@ -15,10 +17,10 @@ function Sidebar() {
         class="container text-center px-5"
       >
         <div class="col w-[150px] text-center">
-          <Link to="/contact/">
+          <Link to="/contact">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 1
+                currentPath === "/contact"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
@@ -30,7 +32,7 @@ function Sidebar() {
           <Link to="/contact/basic">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 2
+                currentPath === "/contact/basic"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
@@ -40,26 +42,50 @@ function Sidebar() {
             </div>
           </Link>
 
-          <Link to="photos">
+          <Link to="property-photos">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 3
+                currentPath === "/contact/property-photos"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
               onClick={() => handleLinkClick(3)}
             >
-              Photos
+              Property Photos
+            </div>
+          </Link>
+          <Link to="room-photos">
+            <div
+              className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
+                currentPath === "/contact/room-photos"
+                  ? "bg-[#FF5F6326] text-[#FF5F63]"
+                  : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
+              }`}
+              onClick={() => handleLinkClick(4)}
+            >
+              Room Photos
+            </div>
+          </Link>
+          <Link to="area-photos">
+            <div
+              className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
+                currentPath === "/contact/area-photos"
+                  ? "bg-[#FF5F6326] text-[#FF5F63]"
+                  : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
+              }`}
+              onClick={() => handleLinkClick(5)}
+            >
+              Area Photos
             </div>
           </Link>
           <Link to="facility">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 4
+                currentPath === "/contact/facility"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(4)}
+              onClick={() => handleLinkClick(6)}
             >
               Facilities
             </div>
@@ -67,11 +93,11 @@ function Sidebar() {
           <Link to="room-setup">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 5
+                currentPath === "/contact/room-setup"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(5)}
+              onClick={() => handleLinkClick(7)}
             >
               Room Setup
             </div>
@@ -91,11 +117,11 @@ function Sidebar() {
           <Link to="hotel-rules">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 7
+                currentPath === "/contact/hotel-rules"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(7)}
+              onClick={() => handleLinkClick(8)}
             >
               Hotel Rules
             </div>
@@ -103,11 +129,11 @@ function Sidebar() {
           <Link to="payment">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 8
+                currentPath === "/contact/payment"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(8)}
+              onClick={() => handleLinkClick(9)}
             >
               Payment Policy
             </div>
@@ -115,11 +141,11 @@ function Sidebar() {
           <Link to="park">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 9
+                currentPath === "/contact/park"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(9)}
+              onClick={() => handleLinkClick(10)}
             >
               Parking
             </div>
@@ -127,11 +153,11 @@ function Sidebar() {
           <Link to="transportation">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 10
+                currentPath === "/contact/transportation"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(10)}
+              onClick={() => handleLinkClick(11)}
             >
               Transporation
             </div>
@@ -139,13 +165,13 @@ function Sidebar() {
           <Link to="document">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
-                selectedLink === 11
+                currentPath === "/contact/document"
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(11)}
+              onClick={() => handleLinkClick(12)}
             >
-              Documentaion
+              Documentation
             </div>
           </Link>
         </div>

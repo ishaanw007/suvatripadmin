@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "../Button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFormContext } from "../../context/contextStore";
 
 function Facility() {
@@ -9,7 +9,8 @@ function Facility() {
     accommodation: [],
     recreation: [],
   });
-
+  const [formErrors, setFormErrors] = useState({});
+  const navigate = useNavigate();
   const handleAccommodationChange = (e) => {
     const value = e.target.value;
     setFormData((prevData) => ({
@@ -31,8 +32,18 @@ function Facility() {
   };
 
   const handleSubmit = () => {
-    console.log("This is the data from Facility Components", formData);
+    if (formData.accommodation.length === 0) {
+      setFormErrors({ accommodation: "Please select at least one accommodation facility." });
+      return;
+    }
 
+    if (formData.recreation.length === 0) {
+      setFormErrors({ recreation: "Please select at least one recreation facility." });
+      return;
+    }
+
+    console.log("This is the data from Facility Components", formData);
+    navigate("/contact/room-setup");
     dispatch({ type: "SET_FACILITY", payload: formData });
 
     setFormData({
@@ -143,7 +154,8 @@ function Facility() {
             </label>
             <br />
             {/* Add more checkbox inputs for Accommodation as needed */}
-          </div>
+            </div>
+          {formErrors.accommodation && <p className="text-red-500">{formErrors.accommodation}</p>}
         </div>
         <div className="border-b-[1px] border-slate-300 pb-1 cursor-pointer">
           <p className="text-[22px] font-[400] my-1 text-slate-600">
@@ -231,14 +243,15 @@ function Facility() {
               Beach
             </label>
             <br />
-          </div>
+            </div>
+          {formErrors.recreation && <p className="text-red-500">{formErrors.recreation}</p>}
         </div>
       </div>
-      <Link to="room-setup">
+  
         <div className="mt-2" onClick={handleSubmit}>
           <Button />
         </div>
-      </Link>
+
     </div>
   );
 }

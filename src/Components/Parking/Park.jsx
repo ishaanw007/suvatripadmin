@@ -1,27 +1,26 @@
 import React, { useState } from 'react'
 import Button from '../Button'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useFormContext } from '../../context/contextStore';
 function Park() {
-     const { state, dispatch } = useFormContext();
-    const [isParkingAvailable, setIsParkingAvailable] = useState('');
-    const [parkingCost, setParkingCost] = useState('');
-    const [costType, setCostType] = useState('Per day');
-    const [isParkingReserved, setIsParkingReserved] = useState('');
-    const [parkingLocation, setParkingLocation] = useState('');
+  const { state, dispatch } = useFormContext();
+  const [isParkingAvailable, setIsParkingAvailable] = useState('');
+  const [parkingCost, setParkingCost] = useState('');
+  const [costType, setCostType] = useState('Per day');
+  const [isParkingReserved, setIsParkingReserved] = useState('');
+  const [parkingLocation, setParkingLocation] = useState('');
+  const [warning, setWarning] = useState(''); // State to track the warning message
+  const navigate = useNavigate();
+  const handleIsParkingAvailableChange = (event) => {
+    setIsParkingAvailable(event.target.value);
+  };
 
-    const handleIsParkingAvailableChange = (event) => {
-        setIsParkingAvailable(event.target.value);
-    };
+  const handleParkingCostChange = (event) => {
+    setParkingCost(event.target.value);
+  };
 
-    const handleParkingCostChange = (event) => {
-        setParkingCost(event.target.value);
-    };
-
-  
   const handleCostTypeChange = (event) => {
     const selectedCostType = event.target.innerText;
-
     setCostType(selectedCostType);
 
     // Dynamically set parking cost based on the selected cost type
@@ -32,30 +31,38 @@ function Park() {
     } else if (selectedCostType === 'Per Month') {
       setParkingCost('1000');
     }
-  }
-    const handleIsParkingReservedChange = (event) => {
-        setIsParkingReserved(event.target.value);
+  };
+
+  const handleIsParkingReservedChange = (event) => {
+    setIsParkingReserved(event.target.value);
+  };
+
+  const handleParkingLocationChange = (event) => {
+    setParkingLocation(event.target.value);
+  };
+
+  const handleSaveChanges = () => {
+    // Check if any required field is empty
+    if (!isParkingAvailable || (!isParkingAvailable.includes('no') && !parkingCost) || !parkingLocation) {
+      setWarning('Please fill in all fields before proceeding.');
+      return; // Do not proceed to the next page
+    }
+
+    // Create an object with the selected values
+    const parkingData = {
+      isParkingAvailable: isParkingAvailable,
+      parkingCost: parkingCost,
+      costType: costType,
+      isParkingReserved: isParkingReserved,
+      parkingLocation: parkingLocation,
     };
 
-    const handleParkingLocationChange = (event) => {
-        setParkingLocation(event.target.value);
-    };
-    const handleSaveChanges = () => {
-        // Create an object with the selected values
-
-        const parkingData = {
-            isParkingAvailable: isParkingAvailable,
-            parkingCost: parkingCost,
-            costType: costType,
-            isParkingReserved: isParkingReserved,
-            parkingLocation: parkingLocation,
-        };
-        
-        dispatch({ type: "SET_PARKING", payload: parkingData });
-
-        // Log the parking data or perform other actions with it
-        console.log('This is the data from the parking componets:', parkingData);
-    };
+    dispatch({ type: 'SET_PARKING', payload: parkingData });
+    setWarning(''); // Clear the warning if all fields are filled
+    // Log the parking data or perform other actions with it
+    navigate('/contact/transportation')
+    console.log('This is the data from the parking components:', parkingData);
+  };
 
     return (
       <div
@@ -184,13 +191,17 @@ function Park() {
           </label>
           <br />
         </div>
-
+        {warning && (
+        <div className="text-red-500 mt-2">
+          {warning}
+        </div>
+      )}
         {/* Bottom-Button */}
-        <Link to="transportation">
+       
           <div className="mt-3" onClick={handleSaveChanges}>
             <Button />
           </div>
-        </Link>
+
       </div>
     );
 }

@@ -1,46 +1,51 @@
 import React, { useState } from 'react'
-import DocumnetImg from '../../Assets/img/Document.png'
+import DocumentImg from "../../Assets/img/Document.png";
 import Button from '../Button'
 import Crosssmall from '../../Assets/img/Cross-small.png'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useFormContext } from '../../context/contextStore';
 function Picture() {
     const { state, dispatch } = useFormContext();
     const [clickedIndex, setClickedIndex] = useState(-1);
-    const [img, setImg] = useState('');
     const [images, setImages] = useState([]);
+    const [formErrors, setFormErrors] = useState({});
+    const navigate = useNavigate();
 
   
-      const handleImages = (e) => {
-        setImg(e.target.files[0]);
-        setImages((prevImages) => {
-          const newImages = [
-            ...prevImages,
-            URL.createObjectURL(e.target.files[0]),
-          ];
-          console.log("Updated Images:", newImages);
-          return newImages;
-        });
-      };
+     const handleImages = (e) => {
+       const files = e.target.files;
 
-    
+       // Convert FileList to Array and map to URLs
+       const newImages = Array.from(files).map((file) =>
+         URL.createObjectURL(file)
+       );
 
-    const handleDelete = (index) => {
-        const updatedImages = [...images];
-        updatedImages.splice(index, 1);
-        setImages(updatedImages);
+       setImages((prevImages) => [...prevImages, ...files]);
+     };
 
-        // If the deleted image was the one clicked, reset the clickedIndex
-        if (index === clickedIndex) {
-            setClickedIndex(-1);
-        }
-    };
+     const handleDelete = (index) => {
+       const updatedImages = [...images];
+       updatedImages.splice(index, 1);
+       setImages(updatedImages);
+
+       // If the deleted image was the one clicked, reset the clickedIndex
+       if (index === clickedIndex) {
+         setClickedIndex(-1);
+       }
+     };
 
 
     const handleSubmit = () => {
-        console.log("This is the data from the Photos componets", images)
-        dispatch({ type: "SET_PHOTOS", payload: images });
+      
+      if (images.length < 1) {
+        setFormErrors({ photos: 'Please upload at least 1 photos.' });
+        return;
+      }
+      console.log("This is the data from the picture componets", Array.isArray(images));
+      navigate('/contact/room-photos');
+        dispatch({ type: "SET_PICTURE", payload: images });
+        
     }
 
     return (
@@ -51,7 +56,7 @@ function Picture() {
         >
           <div className="border-b-[1px] border-slate-300">
             <h3 className="text-[35px] tracking-wider font-[600] text-slate-800">
-              Photos
+              Property Photos
             </h3>
             <p className="text-[18px] tracking-wider font-[400] text-slate-600 py-2">
               Upload atleast 5 photos of your property
@@ -61,9 +66,9 @@ function Picture() {
           <div className="pt-4">
             <div className="w-full border-[1px] border-dashed py-5 rounded-lg bg-[#fff7f7] border-[#ff5f63]">
               <div className="w-[200px] md:w-[300px] mx-auto cursor-pointer text-center">
-                <label htmlFor="document" className="cursor-pointer">
+                <label htmlFor="photo" className="cursor-pointer">
                   <img
-                    src={DocumnetImg}
+                    src={DocumentImg}
                     alt="doc_img"
                     className="w-[40px] mx-auto"
                   />
@@ -71,19 +76,18 @@ function Picture() {
                     <span className="text-[#ff5f63] underline">
                       Click to upload
                     </span>{" "}
-                    or Drag and drop document
+                    or Drag and drop photos
                   </p>
                   <p className="text-center text-sm text-slate-600">
                     maximum size 30 MB
                   </p>
                   <input
                     type="file"
-                    name="document"
-                    id="document"
+                    name="photo"
+                    id="photo"
                     className="w-[0px]"
-                    onChange={(e) => {
-                      handleImages(e);
-                    }}
+                    onChange={handleImages}
+                    multiple // Allow multiple file selection
                   />
                 </label>
               </div>
@@ -136,11 +140,14 @@ function Picture() {
             </div>
           </div>
         </div>
-        <Link to="facility">
+      
           <div className="mt-2" onClick={handleSubmit}>
             <Button />
           </div>
-        </Link>
+           {formErrors.photos && (
+             <p className="text-red-500 text-center">{formErrors.photos}</p>
+           )}
+
       </div>
     );
 }

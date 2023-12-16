@@ -1,48 +1,70 @@
-import React, { useState } from 'react'
-import Button from '../Button'
-import { FaStar } from "react-icons/fa6";
-import { Link } from 'react-router-dom'
-import { useFormContext } from '../../context/contextStore';    
+import React, { useState } from 'react';
+import Button from '../Button';
+import { FaStar } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { useFormContext } from '../../context/contextStore';
+
 function Basic() {
   const { state, dispatch } = useFormContext();
   const [formData, setFormData] = useState({
-    propertyName: "",
-    propertyType: "Hotel",
-    starRating: "N/A",
-    currency: "NPR",
+    propertyName: '',
+    propertyType: 'Hotel',
+    starRating: 'N/A',
+    currency: 'NPR',
   });
-
+  const [formErrors, setFormErrors] = useState({});
+  const navigate = useNavigate();
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    // Clear the error message when the user starts typing
+    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
   };
 
   // Handle form submission
   const handleSubmit = () => {
-    console.log("This is the Object from basic Components", formData);
-    dispatch({ type: "SET_BASIC_DETAILS", payload: formData });
+    const isFormValid = validateForm();
+
+    if (isFormValid) {
+      console.log('Object from Basic Components', formData);
+       
+      navigate('/contact/property-photos');
+      dispatch({ type: 'SET_BASIC_DETAILS', payload: formData });
+    } else {
+      console.log('Form submission aborted due to validation errors');
+    }
   };
 
+  // Validate the form
+  const validateForm = () => {
+    const errors = {};
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key]) {
+        errors[key] = 'This field is required';
+      }
+    });
+    setFormErrors(errors);
+
+
+
+     
+    return Object.keys(errors).length === 0;
+  };
 
   return (
-    <div
-      style={{ fontFamily: `'Poppins', sans-serif` }}
-      className="py-3 md:py-5"
-    >
-      <div className="w-full  md:w-[1000px] mt-4 tracking-wider  h-screen md:h-[550px] overflow-x-hidden overflow-y-auto">
+    <div style={{ fontFamily: `'Poppins', sans-serif` }} className="py-3 md:py-5">
+      <div className="w-full md:w-[1000px] mt-4 tracking-wider h-screen md:h-[550px] overflow-x-hidden overflow-y-auto">
         <div className="px-2 md:px-5 py-2 border-b-[1px] border-slate-300">
           <h2 className="text-[30px] font-[600]">Basic details</h2>
           <p className="text-[18px] font-[4000] my-1 text-slate-500">
-            The basic add your property name, adresss, Facilities and more{" "}
+            The basic add your property name, address, Facilities, and more{" "}
           </p>
         </div>
         <div>
           <div className="px-2 md:px-5 py-2 border-b-[1px] border-slate-300">
             <div>
-              <p className="text-[20px] font-[400] my-2 text-slate-500">
-                Property Name
-              </p>
+              <p className="text-[20px] font-[400] my-2 text-slate-500">Property Name</p>
               <input
                 type="text"
                 name="propertyName"
@@ -51,12 +73,11 @@ function Basic() {
                 onChange={handleChange}
                 className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
               />
+              {formErrors.propertyName && <p className="text-red-500">{formErrors.propertyName}</p>}
             </div>
             {/* Property Type */}
             <div className="my-2">
-              <p className="text-[20px] font-[400] my-2 text-slate-500">
-                Property type
-              </p>
+              <p className="text-[20px] font-[400] my-2 text-slate-500">Property type</p>
               <div className="input-group w-full md:w-[400px]">
                 <select
                   className="form-select"
@@ -96,9 +117,11 @@ function Basic() {
                   <option value="Farm Stay">Farm Stay</option>
                   {/* Add other property types */}
                 </select>
-              </div>
+                </div>
+              {formErrors.propertyType && <p className="text-red-500">{formErrors.propertyType}</p>}
             </div>
             {/* Rating Div */}
+            <div className="my-2 tracking-wider cursor-pointer">
             <div className="my-2 tracking-wider cursor-pointer">
               <p className="text-[20px] font-[400] my-2 text-slate-500">
                 What is the star rating of your hotel?
@@ -155,10 +178,9 @@ function Basic() {
               </div>
             </div>
 
+         
             <div className="my-2">
-              <p className="text-[20px] font-[400] my-2 text-slate-500">
-                Currency
-              </p>
+              <p className="text-[20px] font-[400] my-2 text-slate-500">Currency</p>
               <div className="input-group w-full md:w-[400px]">
                 <select
                   className="form-select"
@@ -171,7 +193,9 @@ function Basic() {
                   <option value="USD">USD</option>
                 </select>
               </div>
+              {formErrors.currency && <p className="text-red-500">{formErrors.currency}</p>}
             </div>
+          </div>
           </div>
           {/* New Question about the channel manager */}
           {/* <div className="px-2 md:px-0">
@@ -215,12 +239,14 @@ function Basic() {
           </div> */}
         </div>
       </div>
-      <Link to="photos">
+     
         <div className="mt-2" onClick={handleSubmit}>
           <Button />
         </div>
-      </Link>
+      
     </div>
+
+
   );
 }
 
