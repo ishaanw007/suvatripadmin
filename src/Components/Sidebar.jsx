@@ -41,7 +41,18 @@ function Sidebar() {
               Basic
             </div>
           </Link>
-
+          <Link to="/contact/description">
+            <div
+              className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
+                currentPath === "/contact/description"
+                  ? "bg-[#FF5F6326] text-[#FF5F63]"
+                  : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
+              }`}
+              onClick={() => handleLinkClick(3)}
+            >
+              Description
+            </div>
+          </Link>
           <Link to="property-photos">
             <div
               className={`col my-2 py-2 rounded-md cursor-pointer ease-in-out duration-200 ${
@@ -49,7 +60,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(3)}
+              onClick={() => handleLinkClick(4)}
             >
               Property Photos
             </div>
@@ -61,7 +72,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(4)}
+              onClick={() => handleLinkClick(5)}
             >
               Room Photos
             </div>
@@ -73,7 +84,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(5)}
+              onClick={() => handleLinkClick(6)}
             >
               Area Photos
             </div>
@@ -85,7 +96,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(6)}
+              onClick={() => handleLinkClick(7)}
             >
               Facilities
             </div>
@@ -97,7 +108,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(7)}
+              onClick={() => handleLinkClick(8)}
             >
               Room Setup
             </div>
@@ -121,7 +132,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(8)}
+              onClick={() => handleLinkClick(9)}
             >
               Hotel Rules
             </div>
@@ -133,7 +144,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(9)}
+              onClick={() => handleLinkClick(10)}
             >
               Payment Policy
             </div>
@@ -145,7 +156,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(10)}
+              onClick={() => handleLinkClick(11)}
             >
               Parking
             </div>
@@ -157,7 +168,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(11)}
+              onClick={() => handleLinkClick(12)}
             >
               Transporation
             </div>
@@ -169,7 +180,7 @@ function Sidebar() {
                   ? "bg-[#FF5F6326] text-[#FF5F63]"
                   : "hover:bg-[#FF5F6326] hover:text-[#FF5F63]"
               }`}
-              onClick={() => handleLinkClick(12)}
+              onClick={() => handleLinkClick(13)}
             >
               Documentation
             </div>

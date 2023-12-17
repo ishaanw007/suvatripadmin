@@ -4,6 +4,7 @@ import React, { createContext, useContext, useReducer } from "react";
 
 const initialState = {
   contactDetails: {},
+  description: '',
   basicDetails: {},
   picture: [],
   roomPicture: [],
@@ -31,6 +32,11 @@ const formReducer = (state, action) => {
         ...state,
         basicDetails: action.payload,
       };
+      case "SET_DESCRIPTION":
+        return {
+          ...state,
+          description: action.payload,
+        };
     case "SET_PICTURE":
       return {
         ...state,

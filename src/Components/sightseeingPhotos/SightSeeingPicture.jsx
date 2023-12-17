@@ -24,7 +24,9 @@ function SightSeeingPicture() {
        );
        setDisplayImages((prevImages) => [...prevImages, ...newImages])
 
-       setImages((prevImages) => [...prevImages, ...files]);
+       Array.from(e.target.files).forEach(file => {
+        setImages((prevImages) => [...prevImages, {img: file, main: false}]);
+       })
      };
 
      const handleDelete = (index) => {
@@ -110,6 +112,16 @@ function SightSeeingPicture() {
                 <div
                   key={index}
                   onClick={() => {
+                    setImages(prevImages => {
+                      return prevImages.map((img, i) => {
+                        if (i === clickedIndex+1) {
+                          return { img, main: true };
+                        }
+                        else {
+                          return { img, main: false };
+                        }
+                      });
+                    });
                     setClickedIndex(index);
                   }}
                   className={`w-full md:w-[320px] h-[250px] cursor-pointer relative rounded-lg ${

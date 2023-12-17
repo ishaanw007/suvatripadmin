@@ -13,6 +13,7 @@ import Park from './Parking/Park'
 import Transportation from './Transpoartion/Transport'
 import Document from './Document/Doc'
 import RoomSetUp from './RoomSet-up/RoomSetUp'
+import Description from './Description/Description'
 
 
 
@@ -24,6 +25,7 @@ function NestedRoutes() {
         <Routes>
             <Route path='/' element={<Contactform />} />
             <Route path='basic' element={< Basic />} />
+            <Route path='description' element={< Description />} />
             <Route path='property-photos' element={< Picture />} />
             <Route path='room-photos' element={< RoomPicture />} />
             <Route path='area-photos' element={< SightSeeingPicture />} />
