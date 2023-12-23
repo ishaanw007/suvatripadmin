@@ -94,8 +94,8 @@ function Doc() {
     formData.append('documentType', selectedDocument);
     formData.append('file', selectedFile);
 
-    console.log(state.picture);
-    console.log(state.roomPicture);
+    console.log(state.picture, 'pppppppp');
+    console.log(state.roomPicture, 'rrrrrrrrrrrrr');
   
     // Append other form data
     formData.append('contactDetails', JSON.stringify(state.contactDetails));
