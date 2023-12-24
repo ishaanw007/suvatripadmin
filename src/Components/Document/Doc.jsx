@@ -68,17 +68,15 @@ function Doc() {
   
   function handleUpload() {
     // Check if any required field is empty
-    console.log(
-    selectedDocument)
     if (
       isObjectEmpty(state.contactDetails) ||
       isObjectEmpty(state.basicDetails) ||
-      state.description==='' ||
       isObjectEmpty(state.picture) ||
       isObjectEmpty(state.roomPicture) ||
       isObjectEmpty(state.areaPicture) ||
       isObjectEmpty(state.facility) ||
       isObjectEmpty(state.roomSetup) ||
+      isObjectEmpty(state.ratePlan) ||
       isObjectEmpty(state.hotelRules) ||
       isObjectEmpty(state.paymentPolicy) ||
       isObjectEmpty(state.parking) ||
@@ -93,25 +91,18 @@ function Doc() {
     const formData = new FormData();
     formData.append('documentType', selectedDocument);
     formData.append('file', selectedFile);
-
-    console.log(state.picture);
-    console.log(state.roomPicture);
   
     // Append other form data
     formData.append('contactDetails', JSON.stringify(state.contactDetails));
     formData.append('basicDetails', JSON.stringify(state.basicDetails));
-    formData.append('description', JSON.stringify(state.description));
     for (let i = 0; i < state.picture.length; i++) {
-      formData.append('picture', state.picture[i].img);
-      formData.append('pictureMain', state.picture[i].main);
+      formData.append('picture', state.picture[i]);
     }
     for (let i = 0; i < state.roomPicture.length; i++) {
-      formData.append('roomPicture', state.roomPicture[i].img);
-      formData.append('roomPictureMain', state.roomPicture[i].main);
+      formData.append('roomPicture', state.roomPicture[i]);
     }
     for (let i = 0; i < state.areaPicture.length; i++) {
-      formData.append('areaPicture', state.areaPicture[i].img);
-      formData.append('areaPictureMain', state.areaPicture[i].main);
+      formData.append('areaPicture', state.areaPicture[i]);
     }
     formData.append('facility', JSON.stringify(state.facility));
     formData.append('roomSetup', JSON.stringify(state.roomSetup));
