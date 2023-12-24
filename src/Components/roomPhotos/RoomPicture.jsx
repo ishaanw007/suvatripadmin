@@ -22,7 +22,12 @@ function RoomPicture() {
     setDisplayImages((prevImages) => [...prevImages, ...newImages])
 
     Array.from(e.target.files).forEach(file => {
-      setImages((prevImages) => [...prevImages, {img: file, main: false}]);
+      let data = {}
+      data = {
+        img: file,
+        main: false
+      }
+      setImages((prevImages) => [...prevImages, data]);
      })
   };
 
@@ -109,9 +114,9 @@ function RoomPicture() {
                   setImages(prevImages => {
                     return prevImages.map((img, i) => {
                       if (i === clickedIndex+1) {
-                        return { img, main: true };
+                        return { ...img, main: true };
                       } else {
-                        return { img, main: false };
+                        return { ...img, main: false };
                       }
                     });
                   });
