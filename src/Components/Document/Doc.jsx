@@ -120,6 +120,7 @@ function Doc() {
     formData.append('paymentPolicy', JSON.stringify(state.paymentPolicy));
     formData.append('parking', JSON.stringify(state.parking));
     formData.append('transportation', JSON.stringify(state.transportation));
+    formData.append('email', 'xyz@gmail.com');
   
     postData(formData);
   }

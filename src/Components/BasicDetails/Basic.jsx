@@ -29,7 +29,7 @@ function Basic() {
     if (isFormValid) {
       console.log('Object from Basic Components', formData);
        
-      navigate('/contact/property-photos');
+      navigate('/contact/description');
       dispatch({ type: 'SET_BASIC_DETAILS', payload: formData });
     } else {
       console.log('Form submission aborted due to validation errors');
