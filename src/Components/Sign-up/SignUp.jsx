@@ -36,7 +36,7 @@ function SignUp() {
         // Store the JWT token in localStorage
         localStorage.setItem("token", data.token);
         // Navigate to the home page
-        navigate("/contact");
+        navigate("/otp-verify", {state: {email: email}});
       } else {
         // Handle error cases
         alert(`Error: ${data.message}`);
