@@ -209,7 +209,7 @@ function RoomSetUp() {
                         Guests
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         value={guNumber}
                         id="Guests"

@@ -4,6 +4,7 @@ import PdfIcon from "../../Assets/icon/PDF_file_icon.svg";
 import DocIcon from "../../Assets/icon/PDF_file_icon.svg";
 import Button from "../Button";
 import { useFormContext } from "../../context/contextStore";
+import { useNavigate } from "react-router-dom";
 
 function Doc() {
   const { state, dispatch } = useFormContext();
@@ -11,6 +12,7 @@ function Doc() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadedDoc, setUploadedDoc] = useState(null);
   const [warning, setWarning] = useState('');
+  const navigate = useNavigate();
 
   const handleDocumentChange = (event) => {
     setSelectedDocument(event.target.value);
@@ -40,14 +42,18 @@ function Doc() {
       const response = await fetch('http://localhost:8000/hotel/create-hotel', {
         method: 'POST',
         body: formData,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log(data);
+      await response.json();
+      localStorage.getItem('registration', true)
+      navigate('/success');
     } catch (error) {
       console.error('Error during network request:', error);
     }
@@ -65,9 +71,9 @@ function Doc() {
     }
     return true; // If all properties are empty, return true
   }
-  
+
   function handleUpload() {
-    // Check if any required field is empty
+    console.log(state, selectedDocument, selectedFile);
     if (
       isObjectEmpty(state.contactDetails) ||
       isObjectEmpty(state.basicDetails) ||
@@ -76,7 +82,6 @@ function Doc() {
       isObjectEmpty(state.areaPicture) ||
       isObjectEmpty(state.facility) ||
       isObjectEmpty(state.roomSetup) ||
-      isObjectEmpty(state.ratePlan) ||
       isObjectEmpty(state.hotelRules) ||
       isObjectEmpty(state.paymentPolicy) ||
       isObjectEmpty(state.parking) ||
@@ -87,22 +92,26 @@ function Doc() {
       setWarning('Please fill in all required fields before submitting.');
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('documentType', selectedDocument);
     formData.append('file', selectedFile);
-  
+
     // Append other form data
     formData.append('contactDetails', JSON.stringify(state.contactDetails));
     formData.append('basicDetails', JSON.stringify(state.basicDetails));
+    console.log(state.picture, 'pppppppp');
     for (let i = 0; i < state.picture.length; i++) {
-      formData.append('picture', state.picture[i]);
+      formData.append('picture', state.picture[i].img);
+      formData.append('main', state.picture[i].main);
     }
     for (let i = 0; i < state.roomPicture.length; i++) {
-      formData.append('roomPicture', state.roomPicture[i]);
+      formData.append('roomPicture', state.roomPicture[i].img);
+      formData.append('roomMain', state.roomPicture[i].main);
     }
     for (let i = 0; i < state.areaPicture.length; i++) {
-      formData.append('areaPicture', state.areaPicture[i]);
+      formData.append('areaPicture', state.areaPicture[i].img);
+      formData.append('areaMain', state.areaPicture[i].main);
     }
     formData.append('facility', JSON.stringify(state.facility));
     formData.append('roomSetup', JSON.stringify(state.roomSetup));
@@ -111,39 +120,39 @@ function Doc() {
     formData.append('paymentPolicy', JSON.stringify(state.paymentPolicy));
     formData.append('parking', JSON.stringify(state.parking));
     formData.append('transportation', JSON.stringify(state.transportation));
-    formData.append('email', 'xyz@gmail.com');
-  
+    formData.append('description', state.description);
+
     postData(formData);
   }
-  
 
-const renderFileTypeIcon = () => {
-  if (selectedFile) {
-    switch (true) {
-      case selectedFile.type.startsWith("image/"):
-        return (
-          <img
-            src={uploadedDoc}
-            alt="uploaded_img"
-            className="w-[100%] max-h-[300px] mx-auto mt-2"
-          />
-        );
-      case selectedFile.name.endsWith(".pdf"):
-        return (
-          <img src={PdfIcon} alt="pdf_icon" className="w-[40px] mx-auto" />
-        );
-      case selectedFile.name.endsWith(".doc") ||
-        selectedFile.name.endsWith(".docx"):
-        return (
-          <img src={DocIcon} alt="doc_icon" className="w-[40px] mx-auto" />
-        );
-      // Add cases for other file types if needed
-      default:
-        return null;
+
+  const renderFileTypeIcon = () => {
+    if (selectedFile) {
+      switch (true) {
+        case selectedFile.type.startsWith("image/"):
+          return (
+            <img
+              src={uploadedDoc}
+              alt="uploaded_img"
+              className="w-[100%] max-h-[300px] mx-auto mt-2"
+            />
+          );
+        case selectedFile.name.endsWith(".pdf"):
+          return (
+            <img src={PdfIcon} alt="pdf_icon" className="w-[40px] mx-auto" />
+          );
+        case selectedFile.name.endsWith(".doc") ||
+          selectedFile.name.endsWith(".docx"):
+          return (
+            <img src={DocIcon} alt="doc_icon" className="w-[40px] mx-auto" />
+          );
+        // Add cases for other file types if needed
+        default:
+          return null;
+      }
     }
-  }
-  return null;
-};
+    return null;
+  };
 
   return (
     <div
@@ -237,8 +246,8 @@ const renderFileTypeIcon = () => {
 
       )}
       <div className="mt-3" onClick={handleUpload}>
-      <div className='w-full text-center md:w-auto float-right'>
-            <button type="button" className='bg-[#ff5f63] w-[250px] py-2 rounded-md text-white'>Submit </button>
+        <div className='w-full text-center md:w-auto float-right'>
+          <button type="button" className='bg-[#ff5f63] w-[250px] py-2 rounded-md text-white'>Submit </button>
         </div>
       </div>
     </div>
