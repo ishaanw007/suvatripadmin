@@ -10,27 +10,31 @@ import { useNavigate } from "react-router-dom";
 import { useFormContext } from "../../context/contextStore";
 
 function RoomSetUp() {
-   const [roomType, setRoomType] = useState("");
-   const [editIndex, setEditIndex] = useState(-1);
-   const [guNumber, setGuNumber] = useState("");
-   const [bdNumber, setBdNumber] = useState(0);
-   const [bathNum, setBathNum] = useState("");
-   const [price, setPrice] = useState("");
-   const [roomData, setRoomData] = useState([]);
-   const [singleBedValue, setSingleBedValue] = useState(0);
-   const [doubleBedValue, setDoubleBedValue] = useState(0);
-   const [largeBedValue, setLargeBedValue] = useState(0);
-   const [kingSizeBedValue, setKingSizeBedValue] = useState(0);
-   const [units, sameUnitsNumber] = useState(0);
-   const [whichType, setWhichType] = useState(0);
-   const [UnitData, setUnitData] = useState({});
-   const [unitObject, setUnitObject] = useState({});
-   const [showWarning, setShowWarning] = useState(false);
-//  const [isModelOpen, setIsModelOpen] = useState(false);
-    const navigate = useNavigate();
-   const totalBed =
-     singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue;
-   const { state, dispatch } = useFormContext();
+  const [roomType, setRoomType] = useState("");
+  const [editIndex, setEditIndex] = useState(-1);
+  const [guNumber, setGuNumber] = useState("");
+  const [bdNumber, setBdNumber] = useState(0);
+  const [bathNum, setBathNum] = useState("");
+  const [noOfRooms, setNoOfRooms] = useState("");
+  const [price, setPrice] = useState("");
+  const [weekdayPrice, setWeekdayPrice] = useState("");
+  const [weekendPrice, setWeekendPrice] = useState("");
+  const [nonRefundPrice, setNonRefundPrice] = useState("");
+  const [roomData, setRoomData] = useState([]);
+  const [singleBedValue, setSingleBedValue] = useState(0);
+  const [doubleBedValue, setDoubleBedValue] = useState(0);
+  const [largeBedValue, setLargeBedValue] = useState(0);
+  const [kingSizeBedValue, setKingSizeBedValue] = useState(0);
+  const [units, sameUnitsNumber] = useState(0);
+  const [whichType, setWhichType] = useState(0);
+  const [UnitData, setUnitData] = useState({});
+  const [unitObject, setUnitObject] = useState({});
+  const [showWarning, setShowWarning] = useState(false);
+  //  const [isModelOpen, setIsModelOpen] = useState(false);
+  const navigate = useNavigate();
+  const totalBed =
+    singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue;
+  const { state, dispatch } = useFormContext();
 
   const unitOptions = [
     "Single",
@@ -44,28 +48,31 @@ function RoomSetUp() {
 
   const handleSaveChanges = () => {
     // Check if any required field is empty
-    if (!roomType || !guNumber || totalBed === 0 || !bathNum || !price) {
+    if (roomType==="" || guNumber==="" || totalBed === 0 || bathNum==="" || weekdayPrice==="" || weekendPrice==="" || nonRefundPrice==="" || noOfRooms==="") {
       // Set a warning state to indicate that a warning should be displayed
       setShowWarning(true);
       return; // Exit the function if any required field is empty
     }
-  
+
     // Reset warning state
     setShowWarning(false);
-  
-    
+
+
     const setUpRoomObject = {
       roomType,
       guNumber,
       bdNumber: totalBed,
       bathNum,
-      price,
+      weekdayPrice,
+      weekendPrice,
+      nonRefundPrice,
       singleBedValue,
       doubleBedValue,
       largeBedValue,
       kingSizeBedValue,
+      noOfRooms
     };
-  
+
     if (editIndex !== -1) {
       // If editing, update the existing data
       setRoomData((prevData) =>
@@ -78,7 +85,7 @@ function RoomSetUp() {
       // If not editing, add new data
       setRoomData((prevData) => [...prevData, setUpRoomObject]);
     }
-  
+
     // Clear the form fields after saving changes
     setRoomType("");
     setEditIndex(-1);
@@ -91,41 +98,41 @@ function RoomSetUp() {
     setPrice("");
     console.log("Changes saved successfully");
   };
-  
 
-    const handleEdit = (index) => {
-      // Set the editIndex and pre-fill the form fields with the data of the item being edited
-      const dataToEdit = roomData[index];
-      setEditIndex(index);
-      setRoomType(dataToEdit.roomType);
-      setGuNumber(dataToEdit.guNumber);
-      setBdNumber(dataToEdit.bdNumber);
-      setBathNum(dataToEdit.bathNum);
-      setPrice(dataToEdit.price);
-      setSingleBedValue(dataToEdit.singleBedValue);
-      setDoubleBedValue(dataToEdit.doubleBedValue);
-      setLargeBedValue(dataToEdit.largeBedValue);
-      setKingSizeBedValue(dataToEdit.kingSizeBedValue);
+
+  const handleEdit = (index) => {
+    // Set the editIndex and pre-fill the form fields with the data of the item being edited
+    const dataToEdit = roomData[index];
+    setEditIndex(index);
+    setRoomType(dataToEdit.roomType);
+    setGuNumber(dataToEdit.guNumber);
+    setBdNumber(dataToEdit.bdNumber);
+    setBathNum(dataToEdit.bathNum);
+    setPrice(dataToEdit.price);
+    setSingleBedValue(dataToEdit.singleBedValue);
+    setDoubleBedValue(dataToEdit.doubleBedValue);
+    setLargeBedValue(dataToEdit.largeBedValue);
+    setKingSizeBedValue(dataToEdit.kingSizeBedValue);
+  };
+  const handleSubmit = () => {
+
+
+    // Create a newUnitObject with the required data
+    const newUnitObject = {
+      ...unitObject,
+      modalData: roomData,
+      UnitData: units,
+      whichType: whichType,
     };
-    const handleSubmit = () => {
-  
-    
-      // Create a newUnitObject with the required data
-      const newUnitObject = {
-        ...unitObject,
-        modalData: roomData,
-        UnitData: units,
-        whichType: whichType,
-      };
-      
-      // Dispatch the action to set room setup data
-      dispatch({ type: "SET_ROOM_SETUP", payload: newUnitObject });
-    
-      // Navigate to the next route (replace 'YOUR_NEXT_ROUTE' with the actual route)
-      navigate('/contact/hotel-rules');
-    };
-    
-    
+
+    // Dispatch the action to set room setup data
+    dispatch({ type: "SET_ROOM_SETUP", payload: newUnitObject });
+
+    // Navigate to the next route (replace 'YOUR_NEXT_ROUTE' with the actual route)
+    navigate('/contact/hotel-rules');
+  };
+
+
 
   const handleDelete = (index) => {
     // Create a new array excluding the item at the specified index
@@ -144,7 +151,7 @@ function RoomSetUp() {
       {/* Code for modal */}
 
 
-    
+
       <>
         <div className="container">
           <div
@@ -186,23 +193,23 @@ function RoomSetUp() {
                         }}
                         
                       /> */}
-                       <select
-                    className="form-control"
-                    id="unitsInput"
-                    onChange={(e) => {
-                      const selectedUnit = e.target.value;
-                      setRoomType(selectedUnit);
-                    }}
-                  >
-                    <option value="" disabled selected>
-                      Select unit type
-                    </option>
-                    {unitOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                      <select
+                        className="form-control"
+                        id="unitsInput"
+                        onChange={(e) => {
+                          const selectedUnit = e.target.value;
+                          setRoomType(selectedUnit);
+                        }}
+                      >
+                        <option value="" disabled selected>
+                          Select unit type
+                        </option>
+                        {unitOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <div className="mb-2">
                       <label htmlFor="Guests" className="form-label">
@@ -442,17 +449,65 @@ function RoomSetUp() {
                     </div>
 
                     <div className="mb-2">
-                      <label htmlFor="Price" className="form-label">
-                        Price
+                      <label htmlFor="Bathroom" className="form-label">
+                        No of Rooms Available
                       </label>
                       <input
                         type="number"
                         className="form-control"
-                        value={price}
-                        id="Price"
-                        placeholder="Enter the price"
+                        value={noOfRooms}
+                        id="noOfRooms"
+                        placeholder="Enter number of Bathroom"
                         onChange={(e) => {
-                          setPrice(e.target.value);
+                          setNoOfRooms(e.target.value);
+                        }}
+                      />
+                    </div>
+
+                    <div className="mb-2">
+                      <label htmlFor="Price" className="form-label">
+                        Weekday Price
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={weekdayPrice}
+                        id="weekdayPrice"
+                        placeholder="Enter the weekday price"
+                        onChange={(e) => {
+                          setWeekdayPrice(e.target.value);
+                        }}
+                      />
+                    </div>
+
+                    <div className="mb-2">
+                      <label htmlFor="Price" className="form-label">
+                        Weekend Price
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={weekendPrice}
+                        id="weekendPrice"
+                        placeholder="Enter the weekend price"
+                        onChange={(e) => {
+                          setWeekendPrice(e.target.value);
+                        }}
+                      />
+                    </div>
+
+                    <div className="mb-2">
+                      <label htmlFor="Price" className="form-label">
+                        Non Refundable Price
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={nonRefundPrice}
+                        id="nonRefundPrice"
+                        placeholder="Enter the non refundable price"
+                        onChange={(e) => {
+                          setNonRefundPrice(e.target.value);
                         }}
                       />
                     </div>
@@ -523,7 +578,9 @@ function RoomSetUp() {
                     <th className="px-2 py-2">Guests</th>
                     <th className="px-2 py-2">Beds</th>
                     <th className="px-2 py-2">Bathroom</th>
-                    <th className="px-2 py-2">Price</th>
+                    <th className="px-2 py-2">Weekday Price</th>
+                    <th className="px-2 py-2">Weekend Price</th>
+                    <th className="px-2 py-2">Non Refundable Price</th>
                     <th className="px-2 py-2"></th>
                     <th className="px-2 py-2"></th>
                   </tr>
@@ -538,11 +595,13 @@ function RoomSetUp() {
                         <td className="px-2 py-2">{data.roomType}</td>
                         <td className="px-2 py-2">{data.guNumber}</td>
                         <td className="px-2 py-2">{data.singleBedValue > 0 && `SB-${data.singleBedValue} `}
-  {data.doubleBedValue > 0 && `DB-${data.doubleBedValue} `}
-  {data.largeBedValue > 0 && `LB-${data.largeBedValue} `}
-  {data.kingSizeBedValue > 0 && `KB-${data.kingSizeBedValue} `}</td>
+                          {data.doubleBedValue > 0 && `DB-${data.doubleBedValue} `}
+                          {data.largeBedValue > 0 && `LB-${data.largeBedValue} `}
+                          {data.kingSizeBedValue > 0 && `KB-${data.kingSizeBedValue} `}</td>
                         <td className="px-2 py-2">{data.bathNum}</td>
-                        <td className="px-2 py-2">Rs {data.price}</td>
+                        <td className="px-2 py-2">Rs {data.weekdayPrice}</td>
+                        <td className="px-2 py-2">Rs {data.weekendPrice}</td>
+                        <td className="px-2 py-2">Rs {data.nonRefundPrice}</td>
                         <td
                           className="px-2 py-2 cursor-pointer"
                           data-bs-toggle="modal"
@@ -617,16 +676,16 @@ function RoomSetUp() {
           </div>
         </div>
         {showWarning && (
-        <div className="text-red-500 font-semibold">
-          Please fill in all required fields.
-        </div>
-      )}
+          <div className="text-red-500 font-semibold">
+            Please fill in all required fields.
+          </div>
+        )}
       </div>
-     
-        <div onClick={handleSubmit}>
-          <Button />
-        </div>
-      
+
+      <div onClick={handleSubmit}>
+        <Button />
+      </div>
+
     </div>
   );
 }

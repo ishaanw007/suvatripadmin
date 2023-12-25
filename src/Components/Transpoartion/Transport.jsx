@@ -124,7 +124,7 @@ function Transport() {
         </div>
 
         {/* How much would you charge for a pick-up for your guest? Section */}
-        <div className="py-2">
+        {chargeType==="Payable" && <div className="py-2">
           <p className="text-[14px] font-[600] my-2 text-slate-600 uppercase">
             How much would you charge for a pick-up for your guest?
           </p>
@@ -134,7 +134,7 @@ function Transport() {
             value={pickupCharge}
             onChange={handlePickupChargeChange}
           />
-        </div>
+        </div>}
      
           {/* Warning Message */}
 

@@ -51,7 +51,35 @@ function Doc() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      await response.json();
+      let data = await response.json();
+
+      let id = data.data._id
+
+      state.roomSetup.modalData.forEach(async (x) => {
+        try {
+          const responseRoom = await fetch('http://localhost:8000/room', {
+            method: 'POST',
+            body: JSON.stringify({
+              ...x,
+              hotelId: id
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+          
+          if (!responseRoom.ok) {
+            throw new Error(`HTTP error! Status: ${responseRoom.status}`);
+          }
+          
+          // Handle success if needed
+        } catch (error) {
+          console.error('Error:', error);
+          // Handle error
+        }
+      })
+
       localStorage.getItem('registration', true)
       navigate('/success');
     } catch (error) {
@@ -73,7 +101,7 @@ function Doc() {
   }
 
   function handleUpload() {
-    console.log(state, selectedDocument, selectedFile);
+    console.log(state.roomSetup, 'pppppppppsssssss');
     if (
       isObjectEmpty(state.contactDetails) ||
       isObjectEmpty(state.basicDetails) ||
