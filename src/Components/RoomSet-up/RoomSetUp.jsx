@@ -5,9 +5,7 @@ import SinglebedIcon from '../../Assets/img/single-bed-icon.png';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../../context/contextStore';
-import downIcon from "../../Assets/img/down-icon.png";
-import EditableImg from "../../Assets/img/edit.png";
-import Trash from "../../Assets/img/trash.png";
+
 function RoomSetUp() {
   const [roomType, setRoomType] = useState('');
   const [editIndex, setEditIndex] = useState(-1);
@@ -41,12 +39,11 @@ function RoomSetUp() {
 
   const handleSaveChanges = () => {
     // Check if any required field is empty
-    if (roomType==="" || guNumber==="" || totalBed === 0 || bathNum==="" || weekdayPrice==="" || weekendPrice==="" || nonRefundPrice==="" || noOfRooms==="") {
+    if (!roomType || !guNumber || totalBed === 0 || !bathNum || !price) {
       // Set a warning state to indicate that a warning should be displayed
       setShowWarning(true);
       return; // Exit the function if any required field is empty
     }
-
 
     // Reset warning state
     setShowWarning(false);
@@ -56,16 +53,12 @@ function RoomSetUp() {
       guNumber,
       bdNumber: totalBed,
       bathNum,
-      weekdayPrice,
-      weekendPrice,
-      nonRefundPrice,
+      price,
       singleBedValue,
       doubleBedValue,
       largeBedValue,
       kingSizeBedValue,
-      noOfRooms
     };
-
 
     if (editIndex !== -1) {
       // If editing, update the existing data
