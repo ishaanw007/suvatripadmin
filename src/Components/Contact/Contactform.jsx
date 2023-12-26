@@ -66,7 +66,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>Name</p>
                 <input
                   type='text'
-                  value={formData.name}
+                  value={state.contactDetails.name}
                   placeholder='Enter Your name'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('name', e.target.value)}
@@ -77,7 +77,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>Contact No</p>
                 <input
                   type='text'
-                  value={formData.contactNo}
+                  value={state.contactDetails.contactNo}
                   placeholder='Enter Your number'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('contactNo', e.target.value)}
@@ -90,7 +90,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>Country</p>
                 <input
                   type='text'
-                  value={formData.country}
+                  value={state.contactDetails.country}
                   placeholder='Enter Your Country'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('country', e.target.value)}
@@ -101,7 +101,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>City</p>
                 <input
                   type='text'
-                  value={formData.city}
+                  value={state.contactDetails.city}
                   placeholder='Enter Your City'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('city', e.target.value)}
@@ -114,7 +114,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>Area Code</p>
                 <input
                   type='text'
-                  value={formData.areaCode}
+                  value={state.contactDetails.areaCode}
                   placeholder='Enter Your pincode'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('areaCode', e.target.value)}

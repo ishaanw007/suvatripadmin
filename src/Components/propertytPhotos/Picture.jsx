@@ -110,29 +110,25 @@ function Picture() {
             </p>
           </div>
           <div>
-            <div className="grid grid-rows-1 md:grid-cols-3 gap-x-1 gap-y-2">
-              {displayImages.map((img, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    setImages(prevImages => {
-                      return prevImages.map((img, i) => {
-                        if (i === clickedIndex+1) {
-                          return { ...img, main: true };
-                        }
-                        else {
-                          return { ...img, main: false };
-                        }
-                      });
-                    });
-                    setClickedIndex(index);
-                  }}
-                  className={`w-full md:w-[320px] h-[250px] cursor-pointer relative rounded-lg ${
-                    index === clickedIndex
-                      ? "border-[3px] border-[#ff6a6e]"
-                      : "border-none"
-                  }`}
-                >
+          <div className="grid grid-rows-1 md:grid-cols-3 gap-x-1 gap-y-2">
+          {displayImages.map((img, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                setImages((prevImages) =>
+                  prevImages.map((img, i) => ({
+                    ...img,
+                    main: i === clickedIndex + 1,
+                  }))
+                );
+                setClickedIndex(index);
+              }}
+              className={`w-full md:w-[320px] h-[250px] cursor-pointer relative rounded-lg ${
+                index === clickedIndex
+                  ? 'border-[3px] border-[#ff6a6e]'
+                  : 'border-none'
+              }`}
+            >
                   <img
                     src={img}
                     alt="random_pic"

@@ -69,7 +69,7 @@ function Basic() {
                 type="text"
                 name="propertyName"
                 placeholder="Enter your property name"
-                value={formData.propertyName}
+                value={state.basicDetails.propertyName}
                 onChange={handleChange}
                 className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
               />
@@ -83,7 +83,7 @@ function Basic() {
                   className="form-select"
                   id="inputGroupSelect02"
                   name="propertyType"
-                  value={formData.propertyType}
+                  value={state.basicDetails.propertyType}
                   onChange={handleChange}
                   style={{
                     padding: "10px", // Added padding for options
@@ -186,7 +186,7 @@ function Basic() {
                   className="form-select"
                   id="inputGroupSelect02"
                   name="currency"
-                  value={formData.currency}
+                  value={state.basicDetails.currency}
                   onChange={handleChange}
                 >
                   <option selected>NPR</option>
