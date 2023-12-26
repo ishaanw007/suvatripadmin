@@ -6,7 +6,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2FydGhhazIwMDEiLCJhIjoiY2xxbW03OGdjMnp4NTJpbm1rczc5dHU2MyJ9.FKA-q4xOhqxLkJu_edMkTA';
 
-const Map = (setAddress, setLatitude, SetLongitude) => {
+const Map = ({setAddress, setLatitude, setLongitude}) => {
     let currentMarker = null;
     const mapContainer = useRef(null);
     const [map, setMap] = useState(null);
@@ -60,7 +60,7 @@ const Map = (setAddress, setLatitude, SetLongitude) => {
             currentMarker = newMarker;
 
             setLatitude(lat)
-            SetLongitude(lng)
+            setLongitude(lng)
         }
     };
 
