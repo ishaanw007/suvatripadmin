@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '../Button'
 import { useNavigate } from 'react-router-dom'
 import { useFormContext } from '../../context/contextStore';
@@ -11,6 +11,16 @@ function Park() {
   const [parkingLocation, setParkingLocation] = useState('');
   const [warning, setWarning] = useState(''); // State to track the warning message
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(Object.keys(state.parking).length !== 0) {
+      setIsParkingAvailable(state.parking.isParkingAvailable)
+      setParkingCost(state.parking.parkingCost)
+      setCostType(state.parking.costType)
+      setParkingLocation(state.parking.parkingLocation)
+    }
+  }, [state.parking])
+
   const handleIsParkingAvailableChange = (event) => {
     setIsParkingAvailable(event.target.value);
   };
@@ -51,9 +61,8 @@ function Park() {
     // Create an object with the selected values
     const parkingData = {
       isParkingAvailable: isParkingAvailable,
-      parkingCost: parkingCost,
+      parkingCost: isParkingAvailable.includes('yesPaid') ?  parkingCost : '0',
       costType: costType,
-      isParkingReserved: isParkingReserved,
       parkingLocation: parkingLocation,
     };
 

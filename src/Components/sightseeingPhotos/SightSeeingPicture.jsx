@@ -14,8 +14,9 @@ function SightSeeingPicture() {
     const navigate = useNavigate();
  
     useEffect(() => {
-      if(state.displayAreaPicture.length > 0 && state.areaPicture.length > 0) {
-        setDisplayImages(state.displayAreaPicture)
+      if(Object.keys(state.displayAreaPicture).length !== 0 && state.areaPicture.length > 0) {
+        setDisplayImages(state.displayAreaPicture.images)
+        setClickedIndex(state.displayAreaPicture.index)
         setImages(state.areaPicture)
       }
     }, [state.displayAreaPicture, state.areaPicture])
@@ -62,6 +63,7 @@ function SightSeeingPicture() {
        console.log("This is the data from the picture componets", images);
         navigate('/contact/facility');
         dispatch({ type: "SET_AREA_PICTURE", payload: images });
+        dispatch({ type: "SET_DISPLAY_AREA_PICTURE", payload: {images: displayImages, index: clickedIndex} });
         
     }
 

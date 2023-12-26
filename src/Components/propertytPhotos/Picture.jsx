@@ -14,8 +14,9 @@ function Picture() {
     const navigate = useNavigate();
 
     useEffect(() => {
-      if(state.displayPicture.length > 0 && state.picture.length > 0) {
-        setDisplayImages(state.displayPicture)
+      if(Object.keys(state.displayPicture).length !== 0 && state.picture.length > 0) {
+        setDisplayImages(state.displayPicture.images)
+        setClickedIndex(state.displayPicture.index)
         setImages(state.picture)
       }
     }, [state.displayPicture, state.picture])
@@ -62,7 +63,7 @@ function Picture() {
       navigate('/contact/room-photos');
       
         dispatch({ type: "SET_PICTURE", payload: images });
-        dispatch({ type: "SET_DISPLAY_PICTURE", payload: displayImages });
+        dispatch({ type: "SET_DISPLAY_PICTURE", payload: {images: displayImages, index: clickedIndex} });
     }
 
     return (

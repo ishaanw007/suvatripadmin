@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '../Button'
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../../context/contextStore';
@@ -9,6 +9,15 @@ function Transport() {
   const [pickupCharge, setPickupCharge] = useState('');
   const [warning, setWarning] = useState(''); // State to track the warning message
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(Object.keys(state.transportation).length !== 0) {
+      setProvidePickUpService(state.transportation.providePickUpService)
+      setChargeType(state.transportation.chargeType)
+      setPickupCharge(state.transportation.pickupCharge)
+    }
+  }, [state.transportation])
+
   const handleProvidePickUpServiceChange = (event) => {
     setProvidePickUpService(event.target.value);
   };

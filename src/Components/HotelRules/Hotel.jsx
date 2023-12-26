@@ -20,9 +20,8 @@ function Hotel() {
 
    useEffect(() => {
     if(Object.keys(state.hotelRules).length !== 0) {
-      console.log(state.hotelRules, hhhhhh);
-      setCheckIn(state.hotelRules.checkIn)
-      setCheckOut(state.hotelRules.checkOut)
+      setCheckIn(state.hotelRules.checkInData)
+      setCheckOut(state.hotelRules.checkOutData)
       setAllowChildren(state.hotelRules.allowChildren)
     }
   }, [state.hotelRules])

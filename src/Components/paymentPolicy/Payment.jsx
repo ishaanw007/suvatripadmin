@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '../Button'
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../../context/contextStore';
@@ -6,7 +6,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 function Payment() {
   const { state, dispatch } = useFormContext();
-  const [paymentOption, setPaymentOption] = useState('');
+  const [paymentOption, setPaymentOption] = useState('Both');
   const [cancleOption, setCancleOption] = useState('Yes');
   const [canclePeriod, setCanclePeriod] = useState('Until two days before arrival');
   const [warning, setWarning] = useState(''); // State to track the warning message
@@ -27,6 +27,15 @@ function Payment() {
   const handleCanclePeriodChange = (event) => {
     setCanclePeriod(event.target.value);
   };
+
+  useEffect(() => {
+    if(Object.keys(state.paymentPolicy).length !== 0) {
+      setPaymentOption(state.paymentPolicy[0].paymentOption)
+      setCancleOption(state.paymentPolicy[0].cancleOption)
+      setCanclePeriod(state.paymentPolicy[0].canclePeriod)
+      setEditorHtml(state.paymentPolicy[0].description)
+    }
+  }, [state.paymentPolicy])
 
   const handleSaveChanges = () => {
     // Check if any required field is empty

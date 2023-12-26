@@ -13,8 +13,9 @@ function RoomPicture() {
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
-    if(state.displayRoomPicture.length > 0 && state.roomPicture.length > 0) {
-      setDisplayImages(state.displayRoomPicture)
+    if(Object.keys(state.displayRoomPicture).length !== 0 && state.roomPicture.length > 0) {
+      setDisplayImages(state.displayRoomPicture.images)
+      setClickedIndex(state.displayRoomPicture.index)
       setImages(state.roomPicture)
     }
   }, [state.displayRoomPicture, state.roomPicture])
@@ -58,6 +59,7 @@ function RoomPicture() {
     console.log("This is the data from the picture components", images);
     navigate('/contact/area-photos');
     dispatch({ type: "SET_ROOM_PICTURE", payload: images });
+    dispatch({ type: "SET_DISPLAY_ROOM_PICTURE", payload: {images: displayImages, index: clickedIndex}});
   };
 
   return (
