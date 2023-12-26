@@ -141,7 +141,11 @@ function Doc() {
       isObjectEmpty(state.parking) ||
       isObjectEmpty(state.transportation) ||
       !selectedFile ||
-      !selectedTaxFile
+      !selectedTaxFile ||
+      state.description==='',
+      state.address==='',
+      state.latitude==='',
+      state.longitude===''
     ) {
       setWarning('Please fill in all required fields before submitting.');
       return;
@@ -173,6 +177,9 @@ function Doc() {
     formData.append('parking', JSON.stringify(state.parking));
     formData.append('transportation', JSON.stringify(state.transportation));
     formData.append('description', state.description);
+    formData.append('address', state.address);
+    formData.append('latitude', state.latitude);
+    formData.append('longitude', state.longitude);
 
     postData(formData);
   }

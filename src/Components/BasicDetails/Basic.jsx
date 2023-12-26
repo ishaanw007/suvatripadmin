@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Button from '../Button';
 import { FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
+import Map from './Map';
 import { useFormContext } from '../../context/contextStore';
 
 function Basic() {
   const { state, dispatch } = useFormContext();
+  const [address, setAddress] = useState('')
+  const [latitude, setLatitude] = useState('')
+  const [longitude, setLongitude] = useState('')
   const [formData, setFormData] = useState({
     propertyName: '',
     propertyType: 'Hotel',
@@ -35,8 +39,11 @@ function Basic() {
     if (isFormValid) {
       console.log('Object from Basic Components', formData);
        
-      navigate('/contact/description');
+      dispatch({ type: 'SET_LATITUDE', payload: latitude });
+      dispatch({ type: 'SET_LONGITUDE', payload: longitude });
+      dispatch({ type: 'SET_ADDRESS', payload: address });
       dispatch({ type: 'SET_BASIC_DETAILS', payload: formData });
+      navigate('/contact/description');
     } else {
       console.log('Form submission aborted due to validation errors');
     }
@@ -50,10 +57,10 @@ function Basic() {
         errors[key] = 'This field is required';
       }
     });
+    if(!address || !latitude || !longitude) {
+      errors.map = 'This field is required';
+    }
     setFormErrors(errors);
-
-
-
      
     return Object.keys(errors).length === 0;
   };
@@ -126,6 +133,13 @@ function Basic() {
                 </div>
               {formErrors.propertyType && <p className="text-red-500">{formErrors.propertyType}</p>}
             </div>
+
+            <div className="my-2">
+              <p className="text-[20px] font-[400] my-2 text-slate-500">Location</p>
+              <Map setAddress={setAddress} setLatitude={setLatitude} setLongitude={setLongitude} />
+              {formErrors.map && <p className="text-red-500">{formErrors.map}</p>}
+            </div>
+
             {/* Rating Div */}
             <div className="my-2 tracking-wider cursor-pointer">
             <div className="my-2 tracking-wider cursor-pointer">

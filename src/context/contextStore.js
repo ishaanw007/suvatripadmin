@@ -20,6 +20,9 @@ const initialState = {
   parking: {},
   transportation: {},
   document: {},
+  address: '',
+  latitude: '',
+  longitude: ''
 };
 
 // reducer function
@@ -36,17 +39,32 @@ const formReducer = (state, action) => {
         ...state,
         basicDetails: action.payload,
       };
-      case "SET_DESCRIPTION":
-        return {
-          ...state,
-          description: action.payload,
-        };
+    case "SET_ADDRESS":
+      return {
+        ...state,
+        address: action.payload,
+      };
+    case "SET_LATITUDE":
+      return {
+        ...state,
+        latitude: action.payload,
+      };
+    case "SET_LONGITUDE":
+      return {
+        ...state,
+        longitude: action.payload,
+      };
+    case "SET_DESCRIPTION":
+      return {
+        ...state,
+        description: action.payload,
+      };
     case "SET_PICTURE":
       return {
         ...state,
         picture: action.payload,
       };
-      case "SET_DISPLAY_PICTURE":
+    case "SET_DISPLAY_PICTURE":
       return {
         ...state,
         displayPicture: action.payload,
@@ -56,7 +74,7 @@ const formReducer = (state, action) => {
         ...state,
         roomPicture: action.payload,
       };
-      case "SET_DISPLAY_ROOM_PICTURE":
+    case "SET_DISPLAY_ROOM_PICTURE":
       return {
         ...state,
         displayRoomPicture: action.payload,
@@ -66,7 +84,7 @@ const formReducer = (state, action) => {
         ...state,
         areaPicture: action.payload,
       };
-      case "SET_DISPLAY_AREA_PICTURE":
+    case "SET_DISPLAY_AREA_PICTURE":
       return {
         ...state,
         displayAreaPicture: action.payload,
