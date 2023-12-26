@@ -4,7 +4,7 @@ import React, { createContext, useContext, useReducer } from "react";
 
 const initialState = {
   contactDetails: {},
-  description: '',
+  description: {},
   basicDetails: {},
   picture: [],
   roomPicture: [],

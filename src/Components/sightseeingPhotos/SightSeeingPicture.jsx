@@ -1,64 +1,65 @@
-import React, { useState } from 'react'
-import DocumentImg from "../../Assets/img/Document.png";
-import Button from '../Button'
-import Crosssmall from '../../Assets/img/Cross-small.png'
+import React, { useState, useEffect } from 'react';
+import DocumentImg from '../../Assets/img/Document.png';
+import Button from '../Button';
+import Crosssmall from '../../Assets/img/Cross-small.png';
 import { useNavigate } from 'react-router-dom';
-
 import { useFormContext } from '../../context/contextStore';
+
 function SightSeeingPicture() {
-    const { state, dispatch } = useFormContext();
-    const [clickedIndex, setClickedIndex] = useState(-1);
-    const [images, setImages] = useState([]);
-    const [displayImages, setDisplayImages] = useState([]);
-    const [formErrors, setFormErrors] = useState({});
-    const navigate = useNavigate();
- 
+  const { state, dispatch } = useFormContext();
+  const [clickedIndex, setClickedIndex] = useState(-1);
+  const [images, setImages] = useState([]);
+  const [displayImages, setDisplayImages] = useState([]);
+  const [formErrors, setFormErrors] = useState({});
+  const navigate = useNavigate();
 
-  
-     const handleImages = (e) => {
-       const files = e.target.files;
+  const handleImages = (e) => {
+    const files = e.target.files;
 
-       // Convert FileList to Array and map to URLs
-       const newImages = Array.from(files).map((file) =>
-         URL.createObjectURL(file)
-       );
-       setDisplayImages((prevImages) => [...prevImages, ...newImages])
+    // Convert FileList to Array and map to URLs
+    const newImages = Array.from(files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    setDisplayImages((prevImages) => [...prevImages, ...newImages]);
 
-       Array.from(e.target.files).forEach(file => {
-        let data = {}
-        data = {
-          img: file,
-          main: false
-        }
-        setImages((prevImages) => [...prevImages, data]);
-       })
-     };
+    Array.from(e.target.files).forEach((file) => {
+      let data = {
+        img: file,
+        main: false,
+      };
+      setImages((prevImages) => [...prevImages, data]);
+    });
+  };
 
-     const handleDelete = (index) => {
-       const updatedImages = [...images];
-       updatedImages.splice(index, 1);
-       setImages(updatedImages);
-       setDisplayImages(updatedImages);
+  const handleDelete = (index) => {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
+    setDisplayImages(updatedImages);
 
-       // If the deleted image was the one clicked, reset the clickedIndex
-       if (index === clickedIndex) {
-         setClickedIndex(-1);
-       }
-     };
-
-
-    const handleSubmit = () => {
-     if(images.length < 1){
-        setFormErrors({ photos: 'Please upload at least 1 photos.' });
-        return;
-     }
-
-
-       console.log("This is the data from the picture componets", images);
-        navigate('/contact/facility');
-        dispatch({ type: "SET_AREA_PICTURE", payload: images });
-        
+    // If the deleted image was the one clicked, reset the clickedIndex
+    if (index === clickedIndex) {
+      setClickedIndex(-1);
     }
+  };
+
+  const handleSubmit = () => {
+    if (images.length < 1) {
+      setFormErrors({ photos: 'Please upload at least 1 photo.' });
+      return;
+    }
+
+    console.log('This is the data from the picture component', images);
+    navigate('/contact/facility');
+    dispatch({ type: 'SET_AREA_PICTURE', payload: images });
+  };
+
+  useEffect(() => {
+    // Set initial state based on context data when component mounts
+    setImages(state.areaPicture || []);
+    setDisplayImages(state.areaPicture || []);
+  }, [state.areaPicture]);
+
 
     return (
       <div>
