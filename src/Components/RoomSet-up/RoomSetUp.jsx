@@ -36,6 +36,12 @@ function RoomSetUp() {
     singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue;
   const { state, dispatch } = useFormContext();
 
+  useEffect(() => {
+    if(Object.keys(state.roomSetup).length !== 0) {
+      setRoomData(state.roomSetup)
+    }
+  }, [state.roomSetup])
+
   const unitOptions = [
     "Single",
     "Double",

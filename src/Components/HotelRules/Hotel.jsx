@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '../Button'
 import { useNavigate } from 'react-router-dom'
 import { useFormContext } from '../../context/contextStore';
@@ -17,6 +17,15 @@ function Hotel() {
    });
    const [allowChildren, setAllowChildren] = useState('');
    const [warning, setWarning] = useState(''); // State to track the warning message
+
+   useEffect(() => {
+    if(Object.keys(state.hotelRules).length !== 0) {
+      console.log(state.hotelRules, hhhhhh);
+      setCheckIn(state.hotelRules.checkIn)
+      setCheckOut(state.hotelRules.checkOut)
+      setAllowChildren(state.hotelRules.allowChildren)
+    }
+  }, [state.hotelRules])
  
    const handleAllowChildrenChange = (event) => {
      setAllowChildren(event.target.value);

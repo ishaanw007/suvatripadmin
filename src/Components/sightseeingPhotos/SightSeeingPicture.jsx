@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DocumentImg from "../../Assets/img/Document.png";
 import Button from '../Button'
 import Crosssmall from '../../Assets/img/Cross-small.png'
@@ -13,7 +13,12 @@ function SightSeeingPicture() {
     const [formErrors, setFormErrors] = useState({});
     const navigate = useNavigate();
  
-
+    useEffect(() => {
+      if(state.displayAreaPicture.length > 0 && state.areaPicture.length > 0) {
+        setDisplayImages(state.displayAreaPicture)
+        setImages(state.areaPicture)
+      }
+    }, [state.displayAreaPicture, state.areaPicture])
   
      const handleImages = (e) => {
        const files = e.target.files;

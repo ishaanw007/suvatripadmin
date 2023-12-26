@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DocumentImg from "../../Assets/img/Document.png";
 import Button from '../Button';
 import Crosssmall from '../../Assets/img/Cross-small.png';
@@ -12,6 +12,12 @@ function RoomPicture() {
   const [displayImages, setDisplayImages] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
+  useEffect(() => {
+    if(state.displayRoomPicture.length > 0 && state.roomPicture.length > 0) {
+      setDisplayImages(state.displayRoomPicture)
+      setImages(state.roomPicture)
+    }
+  }, [state.displayRoomPicture, state.roomPicture])
   const handleImages = (e) => {
     const files = e.target.files;
 

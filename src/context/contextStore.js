@@ -7,8 +7,11 @@ const initialState = {
   description: '',
   basicDetails: {},
   picture: [],
+  displayPicture: [],
   roomPicture: [],
+  displayRoomPicture: [],
   areaPicture: [],
+  displayAreaPicture: [],
   facility: {},
   roomSetup: {},
   ratePlan: {},
@@ -42,15 +45,30 @@ const formReducer = (state, action) => {
         ...state,
         picture: action.payload,
       };
+      case "SET_DISPLAY_PICTURE":
+      return {
+        ...state,
+        displayPicture: action.payload,
+      };
     case "SET_ROOM_PICTURE":
       return {
         ...state,
         roomPicture: action.payload,
       };
+      case "SET_DISPLAY_ROOM_PICTURE":
+      return {
+        ...state,
+        displayRoomPicture: action.payload,
+      };
     case "SET_AREA_PICTURE":
       return {
         ...state,
         areaPicture: action.payload,
+      };
+      case "SET_DISPLAY_AREA_PICTURE":
+      return {
+        ...state,
+        displayAreaPicture: action.payload,
       };
     case "SET_FACILITY":
       return {

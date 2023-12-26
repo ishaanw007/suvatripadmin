@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../Button';
 import { FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +21,12 @@ function Basic() {
     // Clear the error message when the user starts typing
     setFormErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
   };
+
+  useEffect(() => {
+    if(Object.keys(state.basicDetails).length !== 0) {
+      setFormData(state.basicDetails)
+    }
+  }, [state.basicDetails])
 
   // Handle form submission
   const handleSubmit = () => {

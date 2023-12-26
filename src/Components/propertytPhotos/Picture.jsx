@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DocumentImg from "../../Assets/img/Document.png";
 import Button from '../Button'
 import Crosssmall from '../../Assets/img/Cross-small.png'
@@ -13,6 +13,12 @@ function Picture() {
     const [formErrors, setFormErrors] = useState({});
     const navigate = useNavigate();
 
+    useEffect(() => {
+      if(state.displayPicture.length > 0 && state.picture.length > 0) {
+        setDisplayImages(state.displayPicture)
+        setImages(state.picture)
+      }
+    }, [state.displayPicture, state.picture])
   
      const handleImages = (e) => {
        const files = e.target.files;
@@ -54,8 +60,9 @@ function Picture() {
       }
       console.log("This is the data from the picture componets", Array.isArray(images));
       navigate('/contact/room-photos');
+      
         dispatch({ type: "SET_PICTURE", payload: images });
-        
+        dispatch({ type: "SET_DISPLAY_PICTURE", payload: displayImages });
     }
 
     return (

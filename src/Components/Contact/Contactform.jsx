@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../../context/contextStore';
@@ -6,14 +6,13 @@ import { useFormContext } from '../../context/contextStore';
 function Contactform() {
   const { state, dispatch } = useFormContext();
 
-  const initialFormData = {
+  const [formData, setFormData] = useState({
     name: '',
     contactNo: '',
     country: '',
     city: '',
     areaCode: '',
-  };
-  const [formData, setFormData] = useState(initialFormData);
+  });
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
   const handleInputChange = (fieldName, value) => {
@@ -27,6 +26,12 @@ function Contactform() {
       [fieldName]: '',
     }));
   };
+
+  useEffect(() => {
+    if(Object.keys(state.contactDetails).length !== 0) {
+      setFormData(state.contactDetails)
+    }
+  }, [state.contactDetails])
 
   const validateForm = () => {
     const errors = {};

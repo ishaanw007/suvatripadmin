@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../Button';
 import { FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -28,12 +28,17 @@ function Description() {
     setFormErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
   };
 
+  useEffect(() => {
+    if(state.description !== '') {
+      setEditorHtml(state.description)
+    }
+  }, [state.description])
+
   // Handle form submission
   const handleSubmit = () => {
     const isFormValid = validateForm();
 
     if (isFormValid) {
-      // console.log('Object from Basic Components', formData);
 
       navigate('/contact/property-photos');
       dispatch({ type: 'SET_DESCRIPTION', payload: editorHtml });

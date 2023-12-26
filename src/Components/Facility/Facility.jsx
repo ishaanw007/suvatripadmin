@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 import { useFormContext } from "../../context/contextStore";
@@ -20,6 +20,12 @@ function Facility() {
         : [...prevData.accommodation, value],
     }));
   };
+
+  useEffect(() => {
+    if(Object.keys(state.facility).length !== 0) {
+      setFormData(state.facility)
+    }
+  }, [state.facility])
 
   const handleRecreationChange = (e) => {
     const value = e.target.value;
