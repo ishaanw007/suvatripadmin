@@ -76,7 +76,7 @@ function Contactform() {
               <div className='col'>
                 <p className='text-slate-500 my-1'>Contact No</p>
                 <input
-                  type='text'
+                  type='number'
                   value={state.contactDetails.contactNo}
                   placeholder='Enter Your number'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'

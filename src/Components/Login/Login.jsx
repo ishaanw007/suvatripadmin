@@ -29,14 +29,20 @@ function Login() {
         body: JSON.stringify({
           email,
           password,
-          role: "vendor",
+          role: "vendor-admin",
         }),
       });
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        localStorage.setItem("token", data.token);
-        navigate("/contact");
+        if(data.registration===false) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("registration", data.registration);
+          navigate("/contact");
+        } else {
+          localStorage.setItem("registration", data.registration);
+          navigate("/success");
+        }
       } else {
         alert("Invalid Credentials");
       }

@@ -3,29 +3,34 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../Assets/img/logo.png";
 import { FaGoogle } from "react-icons/fa";
 import RectangleImg from "../../Assets/img/Rectangle.png";
+import { useLocation } from "react-router-dom";
 
-function SignUp() {
+function OtpVerify() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [OTP, setOTP] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSignUp = async () => {
     // Basic form validation
-    if (!username || !email || !phone || !password) {
+    if (!OTP) {
       alert("Please fill in all the required fields.");
       return;
     }
 
+    console.log(location.state.email);
+
     try {
       // Make a POST request to the server
-      const response = await fetch("http://localhost:8000/auth/signup/vendor", {
+      const response = await fetch("http://localhost:8000/auth/vendor-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, phone, password }),
+        body: JSON.stringify({ email: location.state.email, otp: OTP }),
       });
 
       // Assuming the server responds with a JSON containing a token
@@ -36,7 +41,7 @@ function SignUp() {
         // Store the JWT token in localStorage
         localStorage.setItem("token", data.token);
         // Navigate to the home page
-        navigate("/otp-verify", {state: {email: email}});
+        navigate("/contact");
       } else {
         // Handle error cases
         alert(`Error: ${data.message}`);
@@ -71,45 +76,14 @@ function SignUp() {
             </p>
             <div className="w-full">
               <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
-                UserName:-
+                OTP:-
               </p>
               <input
-                type="text"
+                type="number"
                 className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
-                id="userInput"
-                placeholder="Enter the Username"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
-                Email:-
-              </p>
-              <input
-                type="email"
-                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
-                id="emailInput"
-                placeholder="Enter your email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
-                Phone:-
-              </p>
-              <input
-                type="tel"
-                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
-                id="phoneInput"
-                placeholder="Enter your phone number"
-                onChange={(e) => setPhone(e.target.value)}
-              />
-
-              <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
-                Password:-
-              </p>
-              <input
-                type="password"
-                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
-                id="passwordInput"
-                placeholder="Enter your password"
-                onChange={(e) => setPassword(e.target.value)}
+                id="otp"
+                placeholder="Enter OTP"
+                onChange={(e) => setOTP(e.target.value)}
               />
               <button
                 type="button"
@@ -138,4 +112,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default OtpVerify;

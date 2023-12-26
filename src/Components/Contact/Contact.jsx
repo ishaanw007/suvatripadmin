@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Logo from '../../Assets/img/logo.png'
 import Sidebar from '../Sidebar'
 import { Outlet, Link } from 'react-router-dom'
 import NestedRoutes from '../NestedRoutes'
-
+import { useNavigate } from "react-router-dom";
 
 function Contact() {
-    console.log("its conatc render")
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(localStorage.getItem("registration")==='true') {
+            navigate('/success');
+        }
+    }, [])
 
     return (
 

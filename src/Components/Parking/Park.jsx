@@ -51,7 +51,8 @@ function Park() {
   };
 
   const handleSaveChanges = () => {
-    if (!isParkingAvailable || (!isParkingAvailable.includes('no') && !parkingCost) || !parkingLocation) {
+    // Check if any required field is empty
+    if (!isParkingAvailable || (isParkingAvailable.includes('yesPaid') && !parkingCost) || !parkingLocation) {
       setWarning('Please fill in all fields before proceeding.');
       return;
     }

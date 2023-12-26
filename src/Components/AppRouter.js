@@ -4,9 +4,9 @@ import Main from './Home/Main';
 import Login from './Login/Login';
 import SignUp from './Sign-up/SignUp';
 import Contact from './Contact/Contact';
-import '../App.css'; 
-
-
+import Success from './Success/Success';
+import OtpVerify from './OtpVerify/OtpVerify';
+import '../App.css';
 
 const AppRouter = () => {
     return (
@@ -15,7 +15,9 @@ const AppRouter = () => {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/success" element={<Success />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/otp-verify" element={<OtpVerify />} />
             <Route path="/contact/*" element={<Contact />} />
           </Routes>
         </Router>
