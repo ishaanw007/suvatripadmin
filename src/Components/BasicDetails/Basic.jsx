@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../Button';
 import { FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ function Basic() {
   });
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
+
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +29,7 @@ function Basic() {
 
     if (isFormValid) {
       console.log('Object from Basic Components', formData);
-       
+
       navigate('/contact/property-photos');
       dispatch({ type: 'SET_BASIC_DETAILS', payload: formData });
     } else {
@@ -46,11 +47,18 @@ function Basic() {
     });
     setFormErrors(errors);
 
-
-
-     
     return Object.keys(errors).length === 0;
   };
+
+  useEffect(() => {
+    // Set initial state based on context data when component mounts
+    setFormData({
+      propertyName: state.basicDetails.propertyName || '',
+      propertyType: state.basicDetails.propertyType || 'Hotel',
+      starRating: state.basicDetails.starRating || 'N/A',
+      currency: state.basicDetails.currency || 'NPR',
+    });
+  }, [state.basicDetails]);
 
   return (
     <div style={{ fontFamily: `'Poppins', sans-serif` }} className="py-3 md:py-5">

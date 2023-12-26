@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import DocumentImg from "../../Assets/img/Document.png";
+import React, { useState, useEffect } from 'react';
+import DocumentImg from '../../Assets/img/Document.png';
 import Button from '../Button';
 import Crosssmall from '../../Assets/img/Cross-small.png';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ function RoomPicture() {
   const [displayImages, setDisplayImages] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
+
   const handleImages = (e) => {
     const files = e.target.files;
 
@@ -19,16 +20,15 @@ function RoomPicture() {
     const newImages = Array.from(files).map((file) =>
       URL.createObjectURL(file)
     );
-    setDisplayImages((prevImages) => [...prevImages, ...newImages])
+    setDisplayImages((prevImages) => [...prevImages, ...newImages]);
 
-    Array.from(e.target.files).forEach(file => {
-      let data = {}
-      data = {
+    Array.from(e.target.files).forEach((file) => {
+      let data = {
         img: file,
-        main: false
-      }
+        main: false,
+      };
       setImages((prevImages) => [...prevImages, data]);
-     })
+    });
   };
 
   const handleDelete = (index) => {
@@ -45,15 +45,20 @@ function RoomPicture() {
 
   const handleSubmit = () => {
     if (images.length < 1) {
-      setFormErrors({ photos: 'Please upload at least 1 photos.' });
+      setFormErrors({ photos: 'Please upload at least 1 photo.' });
       return;
     }
 
-    console.log("This is the data from the picture components", images);
+    console.log('This is the data from the picture component', images);
     navigate('/contact/area-photos');
-    dispatch({ type: "SET_ROOM_PICTURE", payload: images });
+    dispatch({ type: 'SET_ROOM_PICTURE', payload: images });
   };
 
+  useEffect(() => {
+    // Set initial state based on context data when component mounts
+    setImages(state.roomPicture || []);
+    setDisplayImages(state.roomPicture || []);
+  }, [state.roomPicture]);
   return (
     <div>
       <div

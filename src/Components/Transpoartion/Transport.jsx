@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
-import Button from '../Button'
+import React, { useState, useEffect } from 'react';
+import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../../context/contextStore';
+
 function Transport() {
   const { state, dispatch } = useFormContext();
-  const [providePickUpService, setProvidePickUpService] = useState('');
-  const [chargeType, setChargeType] = useState('');
-  const [pickupCharge, setPickupCharge] = useState('');
-  const [warning, setWarning] = useState(''); // State to track the warning message
+  const [providePickUpService, setProvidePickUpService] = useState(state.transportation.providePickUpService || '');
+  const [chargeType, setChargeType] = useState(state.transportation.chargeType || '');
+  const [pickupCharge, setPickupCharge] = useState(state.transportation.pickupCharge || '');
+  const [warning, setWarning] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Initialize state with context values
+    setProvidePickUpService(state.transportation.providePickUpService || '');
+    setChargeType(state.transportation.chargeType || '');
+    setPickupCharge(state.transportation.pickupCharge || '');
+  }, [state.transportation]);
+
   const handleProvidePickUpServiceChange = (event) => {
     setProvidePickUpService(event.target.value);
   };
@@ -22,13 +31,11 @@ function Transport() {
   };
 
   const handleSaveChanges = () => {
-    // Check if any required field is empty
     if (!providePickUpService || !chargeType || (chargeType === 'Payable' && !pickupCharge)) {
       setWarning('Please fill in all fields before proceeding.');
-      return; // Do not proceed to the next page
+      return;
     }
 
-    // Create an object with the selected values
     const pickupServiceData = {
       providePickUpService: providePickUpService,
       chargeType: chargeType,
@@ -36,11 +43,11 @@ function Transport() {
     };
 
     dispatch({ type: 'SET_TRANSPORTATION', payload: pickupServiceData });
-    setWarning(''); // Clear the warning if all fields are filled
-    // Log the pickup service data or perform other actions with it
-    navigate('/contact/document')
+    setWarning('');
+    navigate('/contact/document');
     console.log('Pickup Service Data:', pickupServiceData);
   };
+
     return (
       <div
         style={{ fontFamily: `'Poppins', sans-serif` }}

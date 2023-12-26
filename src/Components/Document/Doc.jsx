@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import DocumnetImg from "../../Assets/img/Document.png";
 import PdfIcon from "../../Assets/icon/PDF_file_icon.svg";
 import DocIcon from "../../Assets/icon/PDF_file_icon.svg";
@@ -7,9 +7,9 @@ import { useFormContext } from "../../context/contextStore";
 
 function Doc() {
   const { state, dispatch } = useFormContext();
-  const [selectedDocument, setSelectedDocument] = useState('');
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadedDoc, setUploadedDoc] = useState(null);
+  const [selectedDocument, setSelectedDocument] = useState(state.document.selectedDocument || '');
+  const [selectedFile, setSelectedFile] = useState(state.document.selectedFile || null);
+  const [uploadedDoc, setUploadedDoc] = useState(state.document.uploadedDoc || null);
   const [warning, setWarning] = useState('');
 
   const handleDocumentChange = (event) => {
@@ -53,8 +53,12 @@ function Doc() {
     }
   }
 
-
-
+  useEffect(() => {
+    // Initialize state with context values
+    setSelectedDocument(state.document.selectedDocument || '');
+    setSelectedFile(state.document.selectedFile || null);
+    setUploadedDoc(state.document.uploadedDoc || null);
+  }, [state.document]);
 
 
   function isObjectEmpty(obj) {

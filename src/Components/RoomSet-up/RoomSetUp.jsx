@@ -1,45 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import Button from '../Button';
+import BedIcon from '../../Assets/img/double-bed-icon.png';
+import SinglebedIcon from '../../Assets/img/single-bed-icon.png';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import { useFormContext } from '../../context/contextStore';
 import downIcon from "../../Assets/img/down-icon.png";
 import EditableImg from "../../Assets/img/edit.png";
 import Trash from "../../Assets/img/trash.png";
-import Button from "../Button";
-import BedIcon from "../../Assets/img/double-bed-icon.png";
-import SinglebedIcon from "../../Assets/img/single-bed-icon.png";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { useFormContext } from "../../context/contextStore";
-
 function RoomSetUp() {
-   const [roomType, setRoomType] = useState("");
-   const [editIndex, setEditIndex] = useState(-1);
-   const [guNumber, setGuNumber] = useState("");
-   const [bdNumber, setBdNumber] = useState(0);
-   const [bathNum, setBathNum] = useState("");
-   const [price, setPrice] = useState("");
-   const [roomData, setRoomData] = useState([]);
-   const [singleBedValue, setSingleBedValue] = useState(0);
-   const [doubleBedValue, setDoubleBedValue] = useState(0);
-   const [largeBedValue, setLargeBedValue] = useState(0);
-   const [kingSizeBedValue, setKingSizeBedValue] = useState(0);
-   const [units, sameUnitsNumber] = useState(0);
-   const [whichType, setWhichType] = useState(0);
-   const [UnitData, setUnitData] = useState({});
-   const [unitObject, setUnitObject] = useState({});
-   const [showWarning, setShowWarning] = useState(false);
-//  const [isModelOpen, setIsModelOpen] = useState(false);
-    const navigate = useNavigate();
-   const totalBed =
-     singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue;
-   const { state, dispatch } = useFormContext();
+  const [roomType, setRoomType] = useState('');
+  const [editIndex, setEditIndex] = useState(-1);
+  const [guNumber, setGuNumber] = useState('');
+  const [bdNumber, setBdNumber] = useState(0);
+  const [bathNum, setBathNum] = useState('');
+  const [price, setPrice] = useState('');
+  const [roomData, setRoomData] = useState([]);
+  const [singleBedValue, setSingleBedValue] = useState(0);
+  const [doubleBedValue, setDoubleBedValue] = useState(0);
+  const [largeBedValue, setLargeBedValue] = useState(0);
+  const [kingSizeBedValue, setKingSizeBedValue] = useState(0);
+  const [units, sameUnitsNumber] = useState(0);
+  const [whichType, setWhichType] = useState(0);
+  const [unitObject, setUnitObject] = useState({});
+  const [showWarning, setShowWarning] = useState(false);
+
+  const navigate = useNavigate();
+  const totalBed = singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue;
+  const { state, dispatch } = useFormContext();
 
   const unitOptions = [
-    "Single",
-    "Double",
-    "Twin",
-    "Triple",
-    "Quadruple",
-    "Studio",
-    "Apartment",
+    'Single',
+    'Double',
+    'Twin',
+    'Triple',
+    'Quadruple',
+    'Studio',
+    'Apartment',
   ];
 
   const handleSaveChanges = () => {
@@ -49,11 +46,10 @@ function RoomSetUp() {
       setShowWarning(true);
       return; // Exit the function if any required field is empty
     }
-  
+
     // Reset warning state
     setShowWarning(false);
-  
-    
+
     const setUpRoomObject = {
       roomType,
       guNumber,
@@ -65,7 +61,7 @@ function RoomSetUp() {
       largeBedValue,
       kingSizeBedValue,
     };
-  
+
     if (editIndex !== -1) {
       // If editing, update the existing data
       setRoomData((prevData) =>
@@ -78,54 +74,50 @@ function RoomSetUp() {
       // If not editing, add new data
       setRoomData((prevData) => [...prevData, setUpRoomObject]);
     }
-  
+
     // Clear the form fields after saving changes
-    setRoomType("");
+    setRoomType('');
     setEditIndex(-1);
-    setGuNumber("");
+    setGuNumber('');
     setSingleBedValue(0);
     setDoubleBedValue(0);
     setLargeBedValue(0);
     setKingSizeBedValue(0);
-    setBathNum("");
-    setPrice("");
-    console.log("Changes saved successfully");
+    setBathNum('');
+    setPrice('');
+    console.log('Changes saved successfully');
   };
-  
 
-    const handleEdit = (index) => {
-      // Set the editIndex and pre-fill the form fields with the data of the item being edited
-      const dataToEdit = roomData[index];
-      setEditIndex(index);
-      setRoomType(dataToEdit.roomType);
-      setGuNumber(dataToEdit.guNumber);
-      setBdNumber(dataToEdit.bdNumber);
-      setBathNum(dataToEdit.bathNum);
-      setPrice(dataToEdit.price);
-      setSingleBedValue(dataToEdit.singleBedValue);
-      setDoubleBedValue(dataToEdit.doubleBedValue);
-      setLargeBedValue(dataToEdit.largeBedValue);
-      setKingSizeBedValue(dataToEdit.kingSizeBedValue);
+  const handleEdit = (index) => {
+    // Set the editIndex and pre-fill the form fields with the data of the item being edited
+    const dataToEdit = roomData[index];
+    setEditIndex(index);
+    setRoomType(dataToEdit.roomType);
+    setGuNumber(dataToEdit.guNumber);
+    setBdNumber(dataToEdit.bdNumber);
+    setBathNum(dataToEdit.bathNum);
+    setPrice(dataToEdit.price);
+    setSingleBedValue(dataToEdit.singleBedValue);
+    setDoubleBedValue(dataToEdit.doubleBedValue);
+    setLargeBedValue(dataToEdit.largeBedValue);
+    setKingSizeBedValue(dataToEdit.kingSizeBedValue);
+  };
+
+  const handleSubmit = () => {
+    // Create a newUnitObject with the required data
+    const newUnitObject = {
+      ...unitObject,
+      modalData: roomData,
+      UnitData: units,
+      whichType: whichType,
     };
-    const handleSubmit = () => {
-  
-    
-      // Create a newUnitObject with the required data
-      const newUnitObject = {
-        ...unitObject,
-        modalData: roomData,
-        UnitData: units,
-        whichType: whichType,
-      };
-      
-      // Dispatch the action to set room setup data
-      dispatch({ type: "SET_ROOM_SETUP", payload: newUnitObject });
-    
-      // Navigate to the next route (replace 'YOUR_NEXT_ROUTE' with the actual route)
-      navigate('/contact/hotel-rules');
-    };
-    
-    
+
+    // Dispatch the action to set room setup data
+    dispatch({ type: 'SET_ROOM_SETUP', payload: newUnitObject });
+
+    // Navigate to the next route (replace 'YOUR_NEXT_ROUTE' with the actual route)
+    navigate('/contact/hotel-rules');
+  };
 
   const handleDelete = (index) => {
     // Create a new array excluding the item at the specified index
@@ -136,9 +128,14 @@ function RoomSetUp() {
   };
 
   useEffect(() => {
-    console.log("This data from the Room-setUp components", unitObject);
-    // alert(unitObject)
+    console.log('This data from the Room-setUp components', unitObject);
   }, [unitObject]);
+
+  useEffect(() => {
+    // Populate form data from context when component mounts
+    setRoomData(state.roomSetup.modalData || []);
+  }, [state.roomSetup.modalData]);
+
   return (
     <div style={{ fontFamily: `'Poppins', sans-serif` }}>
       {/* Code for modal */}
@@ -448,7 +445,7 @@ function RoomSetUp() {
                       <input
                         type="number"
                         className="form-control"
-                        value={price}
+                        value={state.roomSetup.price}
                         id="Price"
                         placeholder="Enter the price"
                         onChange={(e) => {
