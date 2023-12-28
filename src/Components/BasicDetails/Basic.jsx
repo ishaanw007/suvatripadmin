@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Button from '../Button';
 import { FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
-import Map from './Map';
 import { useFormContext } from '../../context/contextStore';
 
 function Basic() {
@@ -39,11 +38,8 @@ function Basic() {
     if (isFormValid) {
       console.log('Object from Basic Components', formData);
        
-      dispatch({ type: 'SET_LATITUDE', payload: latitude });
-      dispatch({ type: 'SET_LONGITUDE', payload: longitude });
-      dispatch({ type: 'SET_ADDRESS', payload: address });
       dispatch({ type: 'SET_BASIC_DETAILS', payload: formData });
-      navigate('/contact/description');
+      navigate('/contact/location');
     } else {
       console.log('Form submission aborted due to validation errors');
     }
@@ -57,9 +53,6 @@ function Basic() {
         errors[key] = 'This field is required';
       }
     });
-    if(!address || !latitude || !longitude) {
-      errors.map = 'This field is required';
-    }
     setFormErrors(errors);
      
     return Object.keys(errors).length === 0;
@@ -71,7 +64,7 @@ function Basic() {
         <div className="px-2 md:px-5 py-2 border-b-[1px] border-slate-300">
           <h2 className="text-[30px] font-[600]">Basic details</h2>
           <p className="text-[18px] font-[4000] my-1 text-slate-500">
-            The basic add your property name, address, Facilities, and more{" "}
+            The basic add your property name, facilities, and more{" "}
           </p>
         </div>
         <div>
@@ -135,9 +128,42 @@ function Basic() {
             </div>
 
             <div className="my-2">
-              <p className="text-[20px] font-[400] my-2 text-slate-500">Location</p>
-              <Map setAddress={setAddress} setLatitude={setLatitude} setLongitude={setLongitude} />
-              {formErrors.map && <p className="text-red-500">{formErrors.map}</p>}
+              <p className="text-[20px] font-[400] my-2 text-slate-500">City</p>
+              <input
+                type="text"
+                name="propertyName"
+                placeholder="Enter your property name"
+                value={formData.city}
+                onChange={handleChange}
+                className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
+              />
+              {formErrors.city && <p className="text-red-500">{formErrors.city}</p>}
+            </div>
+
+            <div className="my-2">
+              <p className="text-[20px] font-[400] my-2 text-slate-500">Country</p>
+              <input
+                type="text"
+                name="propertyName"
+                placeholder="Enter your property name"
+                value={formData.country}
+                onChange={handleChange}
+                className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
+              />
+              {formErrors.country && <p className="text-red-500">{formErrors.country}</p>}
+            </div>
+
+            <div className="my-2">
+              <p className="text-[20px] font-[400] my-2 text-slate-500">Address</p>
+              <input
+                type="text"
+                name="propertyName"
+                placeholder="Enter your property name"
+                value={formData.address}
+                onChange={handleChange}
+                className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
+              />
+              {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
             </div>
 
             {/* Rating Div */}
