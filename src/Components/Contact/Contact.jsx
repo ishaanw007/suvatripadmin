@@ -12,6 +12,9 @@ function Contact() {
         if(localStorage.getItem("registration")==='true') {
             navigate('/success');
         }
+        if(!localStorage.getItem("token")) {
+            navigate('/');
+        }
     }, [])
 
     return (
