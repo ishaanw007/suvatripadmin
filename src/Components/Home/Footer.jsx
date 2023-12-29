@@ -14,13 +14,13 @@ function Footer() {
           <div className="w-[200px] mx-auto">
             <img src={fotterLogo} alt="footer-logo" />
           </div>
-          <div className="w-[300px] mx-auto px-4 py-4">
+          <div className="w-[350px] mx-auto px-4 py-4">
             <ul className="flex flex-row justify-around items-center">
               <li className="text-[#fff]">Help Center</li>
               <span className="text-[#fff] font-[500]">|</span>
-              <li className="text-[#fff]">Privacy policy</li>
+              <li className="text-[#fff] ml-1">Privacy policy</li>
               <span className="text-[#fff] font-[500]">|</span>
-              <li className="text-[#fff]">FAQ</li>
+              <li className="text-[#fff] ml-1">FAQ</li>
             </ul>
           </div>
           <div className="w-[300px] mx-auto  px-8 py-4">

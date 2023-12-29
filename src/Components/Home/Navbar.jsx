@@ -57,13 +57,13 @@ function Navbar() {
       style={{ fontFamily: `'Poppins', sans-serif` }}
       className="bg-[#fff] w-full h-24 px-2 md:px-10 flex flex-row justify-between items-center"
     >
-      <div className="ml-0 md:ml-12">
-        <img src={logo} alt="logo" />
+      <div className="ml-0 md:ml-12 w-[130px] md:w-[200px]">
+        <img src={logo} alt="logo" className="w-full" />
       </div>
       <div className="flex flex-row items-center">
         <button
           onClick={handleListProperty}
-          className="bg-[#ff474b] flex items-center px-3 py-2 md:py-4 text-[8px] md:text-[14px] uppercase font-[200] md:font-[600] shadow-xl text-slate-50 rounded-xl hover:shadow-inner"
+          className="bg-[#ff474b] flex items-center px-3 py-2 md:py-4 text-[8px] md:text-[14px] uppercase font-[300] md:font-[600] shadow-xl text-slate-50 rounded-xl hover:shadow-inner"
         >
           List Your Property{" "}
           <img src={Arrow} alt="arrow" className="ml-0 md:ml-4" />

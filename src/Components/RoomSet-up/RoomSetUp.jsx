@@ -8,6 +8,12 @@ import SinglebedIcon from "../../Assets/img/single-bed-icon.png";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useFormContext } from "../../context/contextStore";
+import { FaChevronDown } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+
+
+
 
 function RoomSetUp() {
   const [roomType, setRoomType] = useState("");
@@ -155,9 +161,6 @@ function RoomSetUp() {
   return (
     <div style={{ fontFamily: `'Poppins', sans-serif` }}>
       {/* Code for modal */}
-
-
-
       <>
         <div className="container">
           <div
@@ -525,7 +528,6 @@ function RoomSetUp() {
                     className="btn btn-secondary"
                     style={{ color: "black", transition: "color 0.3s" }}
                     data-bs-dismiss="modal"
-
                     onMouseOver={(e) => (e.currentTarget.style.color = "white")}
                     onMouseOut={(e) => (e.currentTarget.style.color = "black")}
                   >
@@ -536,7 +538,6 @@ function RoomSetUp() {
                     className="btn btn-primary"
                     style={{ color: "black" }}
                     data-bs-dismiss="modal"
-
                     onClick={handleSaveChanges}
                     onMouseOver={(e) => (e.currentTarget.style.color = "white")}
                     onMouseOut={(e) => (e.currentTarget.style.color = "black")}
@@ -550,10 +551,10 @@ function RoomSetUp() {
         </div>
       </>
 
-      <div className="w-full md:w-[1000px] pt-5 mx-auto  h-screen md:h-[600px] overflow-x-hidden overflow-y-auto">
+      <div className="w-full md:w-[900px] pt-5 mx-auto  h-screen md:h-[600px] overflow-x-hidden">
         {/* Room-set-up code */}
         <div className="py-2 border-b-[1px] border-slate-300">
-          <div>
+          <div className="px-2">
             <div className="flex flex-col md:flex-row justify-between items-start">
               <h3 className="text-[20px] tracking-wider font-[600] text-slate-800 mb-2 md:mb-0">
                 Room Details
@@ -575,23 +576,77 @@ function RoomSetUp() {
             </div>
 
             {/* Table */}
-            <div className="my-3">
-              <table className="table-auto w-full border-[1px]">
-                <thead className="border-2">
-                  <tr className="p-5 border-2">
+            <div className="overflow-auto w-[350px] md:w-full h-[300px] mx-auto">
+              <table>
+                <thead  className="border-2">
+                  <tr>
                     <th className="px-2 py-2"></th>
-                    <th className="px-2 py-2">Room type</th>
-                    <th className="px-2 py-2">Guests</th>
-                    <th className="px-2 py-2">Beds</th>
-                    <th className="px-2 py-2">Bathroom</th>
-                    <th className="px-2 py-2">Weekday Price</th>
-                    <th className="px-2 py-2">Weekend Price</th>
-                    <th className="px-2 py-2">Non Refundable Price</th>
+                    <th className="p-2">Room type</th>
+                    <th className="p-2">Guests</th>
+                    <th className="p-2">Beds</th>
+                    <th className="p-2">Bathroom</th>
+                    <th className="p-2">Weekday Price</th>
+                    <th className="p-2">Weekend Price</th>
+                    <th className="p-2">Non Refundable Price</th>
                     <th className="px-2 py-2"></th>
                     <th className="px-2 py-2"></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody  className="bg-white divide-y divide-gray-200">
+                  {roomData.map((data, index) => {
+                    return (
+                      <tr key={index} className="p-5 border-2">
+                        <td className="px-2 py-2">
+                         <FaChevronDown />
+                        </td>
+                        <td className="px-2 py-2">{data.roomType}</td>
+                        <td className="px-2 py-2">{data.guNumber}</td>
+                        <td className="px-2 py-2">{data.singleBedValue > 0 && `SB-${data.singleBedValue} `}
+                          {data.doubleBedValue > 0 && `DB-${data.doubleBedValue} `}
+                          {data.largeBedValue > 0 && `LB-${data.largeBedValue} `}
+                          {data.kingSizeBedValue > 0 && `KB-${data.kingSizeBedValue} `}</td>
+                        <td className="px-2 py-2">{data.bathNum}</td>
+                        <td className="px-2 py-2">Rs {data.weekdayPrice}</td>
+                        <td className="px-2 py-2">Rs {data.weekendPrice}</td>
+                        <td className="px-2 py-2">Rs {data.nonRefundPrice}</td>
+                        <td
+                          className="px-2 py-2 cursor-pointer"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop"
+                          onClick={() => handleEdit(index)}
+                        >
+                         <FaRegEdit />
+                        </td>
+                        <td
+                          className="px-2 py-3 cursor-pointer"
+                          onClick={() => handleDelete(index)}
+                        >
+                          <MdDelete />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* <div>
+              <table>
+              <thead className="border-2">
+                 <tr>
+                      <th className="p-2 sm:p-3"></th>
+        <th className="p-2 sm:p-3">Room type</th>
+        <th className="p-2 sm:p-3">Guests</th>
+        <th className="p-2 sm:p-3">Beds</th>
+        <th className="p-2 sm:p-3">Bathroom</th>
+        <th className="p-2 sm:p-3">Weekday Price</th>
+        <th className="p-2 sm:p-3">Weekend Price</th>
+        <th className="p-2 sm:p-3">Non Refundable Price</th>
+        <th className="p-2 sm:p-3"></th>
+        <th className="p-2 sm:p-3"></th>
+                  </tr>
+              </thead>
+                <tbody  className="bg-white divide-y divide-gray-200">
                   {roomData.map((data, index) => {
                     return (
                       <tr key={index} className="p-5 border-2">
@@ -627,7 +682,7 @@ function RoomSetUp() {
                   })}
                 </tbody>
               </table>
-            </div>
+            </div> */}
             {/* <div className="my-1 border-y-[1px] border-slate-300 py-2">
               <h3 className="text-[22px] font-[600] text-slate-700 py-1">
                 Room Details
@@ -691,7 +746,6 @@ function RoomSetUp() {
       <div onClick={handleSubmit}>
         <Button />
       </div>
-
     </div>
   );
 }

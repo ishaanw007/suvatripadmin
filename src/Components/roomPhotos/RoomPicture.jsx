@@ -164,7 +164,7 @@ function RoomPicture() {
         </div>
       </div>
      
-        <div className="mt-2" onClick={handleSubmit}>
+        <div className="my-2" onClick={handleSubmit}>
           <Button />
         </div>
     
