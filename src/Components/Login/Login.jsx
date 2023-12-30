@@ -55,12 +55,12 @@ function Login() {
     <div>
       <div
         style={{ fontFamily: `'Poppins', sans-serif` }}
-        className="container flex flex-col md:flex-row justify-between m-0 p-0"
+        className="flex flex-col md:flex-row justify-between m-0 p-0"
       >
         {/* Sign-up form */}
-        <div className="w-full md:w-[750px] h-screen">
+        <div className="w-full md:w-[800px] h-screen">
           <div>
-            <div className="flex flex-row justify-between items-center px-3 md:px-10 py-3 md:py-8">
+            <div className="flex flex-row justify-between items-center px-3 md:px-10 py-3 md:py-6">
               <img src={Logo} alt="logo_here" />
               <Link to={"/signup"}>
                 <p className="text-capitalize underline cursor-pointer">
@@ -68,7 +68,7 @@ function Login() {
                 </p>
               </Link>
             </div>
-            <div className="mx-[0] mt-5 md:mx-auto w-full md:w-[500px] px-3 md:px-0">
+            <div className="mx-[0] mt-2 md:mx-auto w-full md:w-[500px] px-3 md:px-0">
               <h2 className="text-[#000] fs-3 fw-medium lh-lg">
                 Log In to SuvaTrip
               </h2>
@@ -120,7 +120,7 @@ function Login() {
               <div className="w-full">
                 <button
                   type="button"
-                  className="btn btn-primary container lh-lg mt-5 text-uppercase text-dark"
+                  className="btn btn-primary container lh-lg my-4 text-uppercase text-dark"
 
                 >
                   Join Our Partner Program
@@ -130,7 +130,7 @@ function Login() {
           </div>
         </div>
         {/* Sign-up images */}
-        <div className="w-full md:w-[750px] hidden md:block h-screen">
+        <div className="w-full md:w-[800px] hidden md:block h-screen">
           <img src={LoginImg} alt="Rec_error" className="w-full h-full" />
         </div>
       </div>
