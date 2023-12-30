@@ -127,45 +127,6 @@ function Basic() {
               {formErrors.propertyType && <p className="text-red-500">{formErrors.propertyType}</p>}
             </div>
 
-            <div className="my-2">
-              <p className="text-[20px] font-[400] my-2 text-slate-500">City</p>
-              <input
-                type="text"
-                name="propertyName"
-                placeholder="Enter your property name"
-                value={formData.city}
-                onChange={handleChange}
-                className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
-              />
-              {formErrors.city && <p className="text-red-500">{formErrors.city}</p>}
-            </div>
-
-            <div className="my-2">
-              <p className="text-[20px] font-[400] my-2 text-slate-500">Country</p>
-              <input
-                type="text"
-                name="propertyName"
-                placeholder="Enter your property name"
-                value={formData.country}
-                onChange={handleChange}
-                className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
-              />
-              {formErrors.country && <p className="text-red-500">{formErrors.country}</p>}
-            </div>
-
-            <div className="my-2">
-              <p className="text-[20px] font-[400] my-2 text-slate-500">Address</p>
-              <input
-                type="text"
-                name="propertyName"
-                placeholder="Enter your property name"
-                value={formData.address}
-                onChange={handleChange}
-                className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
-              />
-              {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
-            </div>
-
             {/* Rating Div */}
             <div className="my-2 tracking-wider cursor-pointer">
             <div className="my-2 tracking-wider cursor-pointer">

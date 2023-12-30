@@ -28,15 +28,8 @@ function Location() {
   const [formErrors, setFormErrors] = useState({});
   const [authToken, setAuthToken] = useState('');
   const navigate = useNavigate();
-  // Handle input change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    // Clear the error message when the user starts typing
-    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
-  };
 
-  // Function to fetch city suggestions based on input
+
   const fetchCitySuggestions = async (value) => {
     const cities = [
       "Tokyo, Japan", "Delhi, India", "Shanghai, China", "Mumbai, India", "Beijing, China",
@@ -119,23 +112,27 @@ function Location() {
   };
 
   useEffect(() => {
-    if (Object.keys(state.basicDetails).length !== 0) {
-      setFormData(state.basicDetails)
-    }
-  }, [state.basicDetails])
+    setLatitude(state.latitude)
+    setLongitude(state.longitude)
+    setAddress(state.address)
+    setCityValue(state.city)
+    setCountryValue(state.country)
+    setSelectedCity(state.city)
+    setSelectedCountry(state.country)
+  }, [state.address, state.city, state.country, state.latitude, state.longitude])
 
   // Handle form submission
   const handleSubmit = () => {
     const isFormValid = validateForm();
 
     if (isFormValid) {
-      console.log('Object from Basic Components', formData);
+      console.log('Object from Basic Components', latitude, longitude, address, selectedCity, selectedCountry);
 
       dispatch({ type: 'SET_LATITUDE', payload: latitude });
       dispatch({ type: 'SET_LONGITUDE', payload: longitude });
       dispatch({ type: 'SET_ADDRESS', payload: address });
-      dispatch({ type: 'SET_COUNTRY', payload: address });
-      dispatch({ type: 'SET_CITY', payload: address });
+      dispatch({ type: 'SET_COUNTRY', payload: selectedCountry });
+      dispatch({ type: 'SET_CITY', payload: selectedCity });
       navigate('/contact/description');
     } else {
       console.log('Form submission aborted due to validation errors');
@@ -145,8 +142,18 @@ function Location() {
   // Validate the form
   const validateForm = () => {
     const errors = {};
-    if (!address || !latitude || !longitude || !selectedCity || !selectedCountry) {
+    console.log(address, latitude, longitude, selectedCity, selectedCountry);
+    if (!latitude && !longitude) {
       errors.map = 'This field is required';
+    }
+    if (!address) {
+      errors.address = 'This field is required';
+    }
+    if (!selectedCity) {
+      errors.city = 'This field is required';
+    }
+    if (!selectedCountry) {
+      errors.country = 'This field is required';
     }
     setFormErrors(errors);
 
@@ -173,7 +180,7 @@ function Location() {
             inputProps={countryInputProps}
             onSuggestionSelected={onCountrySuggestionSelected}
           />
-          {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
+          {formErrors.country && <p className="text-red-500">{formErrors.country}</p>}
         </div>
         <div className="my-2">
           <p className="text-[20px] font-[400] my-2 text-slate-500">City</p>
@@ -186,16 +193,16 @@ function Location() {
             inputProps={cityInputProps}
             onSuggestionSelected={onCitySuggestionSelected}
           />
-          {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
+          {formErrors.city && <p className="text-red-500">{formErrors.city}</p>}
         </div>
         <div className="my-2">
           <p className="text-[20px] font-[400] my-2 text-slate-500">Address</p>
           <input
             type="text"
-            name="propertyName"
-            placeholder="Enter your property name"
-            value={formData.address}
-            onChange={handleChange}
+            name="address"
+            placeholder="Enter your property address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
           />
           {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
@@ -204,7 +211,7 @@ function Location() {
           <div className="px-2 md:px-5 py-2 border-b-[1px] border-slate-300">
             <div className="my-2">
               <p className="text-[20px] font-[400] my-2 text-slate-500">Location</p>
-              <Map setAddress={setAddress} setLatitude={setLatitude} setLongitude={setLongitude} />
+              <Map setLatitude={setLatitude} setLongitude={setLongitude} />
               {formErrors.map && <p className="text-red-500">{formErrors.map}</p>}
             </div>
           </div>

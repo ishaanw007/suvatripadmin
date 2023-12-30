@@ -28,17 +28,11 @@ function SignUp() {
         body: JSON.stringify({ username, email, phone, password }),
       });
 
-      // Assuming the server responds with a JSON containing a token
       const data = await response.json();
-      console.log(data.token);
-      // Check if the request was successful
+
       if (response.ok) {
-        // Store the JWT token in localStorage
-        localStorage.setItem("token", data.token);
-        // Navigate to the home page
-        navigate("/otp-verify", {state: {email: email}});
+        navigate("/otp-verify", {state: {email: email, token: data.token}});
       } else {
-        // Handle error cases
         alert(`Error: ${data.message}`);
       }
     } catch (error) {

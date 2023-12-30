@@ -33,17 +33,13 @@ function OtpVerify() {
         body: JSON.stringify({ email: location.state.email, otp: OTP }),
       });
 
-      // Assuming the server responds with a JSON containing a token
       const data = await response.json();
       console.log(data.token);
-      // Check if the request was successful
       if (response.ok) {
-        // Store the JWT token in localStorage
-        localStorage.setItem("token", data.token);
-        // Navigate to the home page
+        localStorage.setItem("token", location.state.token);
+        localStorage.setItem("registration", false);
         navigate("/contact");
       } else {
-        // Handle error cases
         alert(`Error: ${data.message}`);
       }
     } catch (error) {

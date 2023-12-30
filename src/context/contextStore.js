@@ -24,7 +24,8 @@ const initialState = {
   latitude: '',
   longitude: '',
   city: '',
-  country: ''
+  country: '',
+  zoom: 0
 };
 
 // reducer function
@@ -46,6 +47,11 @@ const formReducer = (state, action) => {
         ...state,
         address: action.payload,
       };
+      case "SET_ZOOM":
+        return {
+          ...state,
+          zoom: action.payload,
+        };
     case "SET_LATITUDE":
       return {
         ...state,
@@ -59,12 +65,12 @@ const formReducer = (state, action) => {
       case "SET_COUNTRY":
       return {
         ...state,
-        address: action.payload,
+        country: action.payload,
       };
       case "SET_CITY":
       return {
         ...state,
-        address: action.payload,
+        city: action.payload,
       };
     case "SET_DESCRIPTION":
       return {

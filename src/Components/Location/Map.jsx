@@ -3,10 +3,12 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import { useFormContext } from '../../context/contextStore';
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2FydGhhazIwMDEiLCJhIjoiY2xxbW03OGdjMnp4NTJpbm1rczc5dHU2MyJ9.FKA-q4xOhqxLkJu_edMkTA';
 
-const Map = ({setAddress, setLatitude, setLongitude}) => {
+const Map = ({ setLatitude, setLongitude }) => {
+    const { state, dispatch } = useFormContext();
     let currentMarker = null;
     const mapContainer = useRef(null);
     const [map, setMap] = useState(null);
@@ -31,12 +33,29 @@ const Map = ({setAddress, setLatitude, setLongitude}) => {
             newMap.on('load', () => {
                 setMap(newMap);
             });
+
+            newMap.on('zoomend', () => {
+                dispatch({ type: 'SET_ZOOM', payload: newMap.getZoom() });
+            });
         };
 
         if (!map) initializeMap();
 
         if (map) {
             map.on('click', handleMapClick)
+            if (state.latitude !== '' && state.longitude !== '') {
+                const newMarker = new mapboxgl.Marker()
+                    .setLngLat([state.longitude, state.latitude])
+                    .addTo(map);
+
+                currentMarker = newMarker;
+            }
+            if(state.zoom>0 && state.latitude !== '' && state.longitude !== '') {
+                map.flyTo({
+                    center: [state.longitude, state.latitude],
+                    zoom: state.zoom,
+                });
+            }
         }
     }, [map]);
 
