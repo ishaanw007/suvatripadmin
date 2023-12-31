@@ -32,7 +32,6 @@ function SignUp() {
       const data = await response.json();
 
       if (response.ok) {
-
         navigate("/otp-verify", {state: {email: email, token: data.token}});
       } else {
         alert(`Error: ${data.message}`);

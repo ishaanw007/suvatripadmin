@@ -115,6 +115,8 @@ function Location() {
     setLatitude(state.latitude)
     setLongitude(state.longitude)
     setAddress(state.address)
+    setCityValue(state.city)
+    setCountryValue(state.country)
     setSelectedCity(state.city)
     setSelectedCountry(state.country)
   }, [state.address, state.city, state.country, state.latitude, state.longitude])
@@ -169,7 +171,7 @@ function Location() {
         </div>
         <div className="my-2">
           <p className="text-[20px] font-[400] my-2 text-slate-500">Country</p>
-          {/* <Autosuggest
+          <Autosuggest
             suggestions={countrySuggestions}
             onSuggestionsFetchRequested={({ value }) => fetchCountrySuggestions(value)}
             onSuggestionsClearRequested={() => setCountrySuggestions([])}
@@ -177,20 +179,12 @@ function Location() {
             renderSuggestion={(suggestion) => <div>{suggestion}</div>}
             inputProps={countryInputProps}
             onSuggestionSelected={onCountrySuggestionSelected}
-          /> */}
-          <input
-            type="text"
-            name="country"
-            placeholder="Enter your Country"
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-            className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
           />
           {formErrors.country && <p className="text-red-500">{formErrors.country}</p>}
         </div>
         <div className="my-2">
           <p className="text-[20px] font-[400] my-2 text-slate-500">City</p>
-          {/* <Autosuggest
+          <Autosuggest
             suggestions={citySuggestions}
             onSuggestionsFetchRequested={({ value }) => fetchCitySuggestions(value)}
             onSuggestionsClearRequested={() => setCitySuggestions([])}
@@ -198,14 +192,6 @@ function Location() {
             renderSuggestion={(suggestion) => <div>{suggestion}</div>}
             inputProps={cityInputProps}
             onSuggestionSelected={onCitySuggestionSelected}
-          /> */}
-          <input
-            type="text"
-            name="city"
-            placeholder="Enter your City"
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
           />
           {formErrors.city && <p className="text-red-500">{formErrors.city}</p>}
         </div>
