@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState  , useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../Assets/img/logo.png";
 import { FaGoogle } from "react-icons/fa";
 import RectangleImg from "../../Assets/img/Rectangle.png";
 import { useLocation } from "react-router-dom";
-
+import { useFormContext } from "../../context/contextStore";
 function OtpVerify() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ function OtpVerify() {
   const [OTP, setOTP] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { state , dispatch } = useFormContext();
   const handleSignUp = async () => {
     // Basic form validation
     if (!OTP) {
@@ -21,8 +21,7 @@ function OtpVerify() {
       return;
     }
 
-    console.log(location.state.email);
-
+ 
     try {
       // Make a POST request to the server
       const response = await fetch("http://localhost:8000/auth/vendor-otp", {
@@ -36,6 +35,7 @@ function OtpVerify() {
       const data = await response.json();
       console.log(data.token);
       if (response.ok) {
+        dispatch({ type: "SET_IS_LOGGEDIN", payload: true });
         localStorage.setItem("token", location.state.token);
         localStorage.setItem("registration", false);
         navigate("/contact");
@@ -46,6 +46,14 @@ function OtpVerify() {
       console.error("Error during sign-up:", error);
     }
   };
+
+  useEffect(() => {
+    if(state.isLoggedin || localStorage.getItem("token")){
+      navigate('/')
+    }
+   
+   },[state.isLoggedin , navigate])
+   
 
   return (
     <div

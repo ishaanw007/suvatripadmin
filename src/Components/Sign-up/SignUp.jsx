@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState  , useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../Assets/img/logo.png";
-import { FaGoogle } from "react-icons/fa";
+import { useFormContext } from "../../context/contextStore";
 import RectangleImg from "../../Assets/img/Rectangle.png";
 
 function SignUp() {
@@ -10,7 +10,8 @@ function SignUp() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const { state , dispatch } = useFormContext();
+ 
   const handleSignUp = async () => {
     // Basic form validation
     if (!username || !email || !phone || !password) {
@@ -39,6 +40,14 @@ function SignUp() {
       console.error("Error during sign-up:", error);
     }
   };
+
+  useEffect(() => {
+    if(state.isLoggedin || localStorage.getItem("token")){
+      navigate('/')
+    }
+   
+   },[state.isLoggedin , navigate])
+   
 
   return (
     <div
