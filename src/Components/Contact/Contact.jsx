@@ -9,8 +9,13 @@ function Contact() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(localStorage.getItem("registration")==='true') {
-            navigate('/success');
+        if(localStorage.getItem("token") && localStorage.getItem("registration")) {
+            if(localStorage.getItem("registration")==='true') {
+                navigate('/success');
+            }
+        }
+        if(!localStorage.getItem("token")) {
+            navigate('/');
         }
     }, [])
 

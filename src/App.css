@@ -1,6 +1,45 @@
 .gloabl-font {
   font-family: 'Poppins', sans-serif !important;
 }
+/* AutosuggestForm.css */
+.autosuggest-container {
+  max-width: 300px; /* Adjust this based on your layout */
+  margin: 0 auto;
+}
+
+.react-autosuggest__input {
+  width: 40%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+  position: absolute;
+  width: 21%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 10;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+}
+
+.react-autosuggest__suggestion {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #f0f0f0;
+}
+
 /* 
 /* Hide default checkboxes and radio buttons */
 /* input[type="checkbox"],

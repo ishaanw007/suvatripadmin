@@ -1,61 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import DocumentImg from '../../Assets/img/Document.png';
-import Button from '../Button';
-import Crosssmall from '../../Assets/img/Cross-small.png';
+import React, { useState, useEffect } from 'react'
+import DocumentImg from "../../Assets/img/Document.png";
+import Button from '../Button'
+import Crosssmall from '../../Assets/img/Cross-small.png'
 import { useNavigate } from 'react-router-dom';
+
 import { useFormContext } from '../../context/contextStore';
-
 function Picture() {
-  const { state, dispatch } = useFormContext();
-  const [clickedIndex, setClickedIndex] = useState(-1);
-  const [images, setImages] = useState([]);
-  const [displayImages, setDisplayImages] = useState([]);
-  const [formErrors, setFormErrors] = useState({});
-  const navigate = useNavigate();
+    const { state, dispatch } = useFormContext();
+    const [clickedIndex, setClickedIndex] = useState(-1);
+    const [images, setImages] = useState([]);
+    const [displayImages, setDisplayImages] = useState([]);
+    const [formErrors, setFormErrors] = useState({});
+    const navigate = useNavigate();
 
-  const handleImages = (e) => {
-    const files = e.target.files;
+    useEffect(() => {
+      if(Object.keys(state.displayPicture).length !== 0 && state.picture.length > 0) {
+        setDisplayImages(state.displayPicture.images)
+        setClickedIndex(state.displayPicture.index)
+        setImages(state.picture)
+      }
+    }, [state.displayPicture, state.picture])
+  
+     const handleImages = (e) => {
+       const files = e.target.files;
 
-    // Convert FileList to Array and map to URLs
-    const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
-    setDisplayImages((prevImages) => [...prevImages, ...newImages]);
+       // Convert FileList to Array and map to URLs
+       const newImages = Array.from(files).map((file) =>
+         URL.createObjectURL(file)
+       );
+       setDisplayImages((prevImages) => [...prevImages, ...newImages])
 
-    Array.from(e.target.files).forEach((file) => {
-      let data = {
-        img: file,
-        main: false,
-      };
-      setImages((prevImages) => [...prevImages, data]);
-    });
-  };
+       Array.from(e.target.files).forEach(file => {
+        let data = {}
+        data = {
+          img: file,
+          main: false
+        }
+        setImages((prevImages) => [...prevImages, data]);
+       })
+     };
 
-  const handleDelete = (index) => {
-    const updatedImages = [...images];
-    updatedImages.splice(index, 1);
-    setImages(updatedImages);
-    setDisplayImages(updatedImages);
+     const handleDelete = (index) => {
+       const updatedImages = [...images];
+       updatedImages.splice(index, 1);
+       setImages(updatedImages);
+       setDisplayImages(updatedImages);
 
-    // If the deleted image was the one clicked, reset the clickedIndex
-    if (index === clickedIndex) {
-      setClickedIndex(-1);
+       // If the deleted image was the one clicked, reset the clickedIndex
+       if (index === clickedIndex) {
+         setClickedIndex(-1);
+       }
+     };
+
+
+    const handleSubmit = () => {
+      
+      if (images.length < 1) {
+        setFormErrors({ photos: 'Please upload at least 1 photos.' });
+        return;
+      }
+      console.log("This is the data from the picture componets", Array.isArray(images));
+      navigate('/contact/room-photos');
+      
+        dispatch({ type: "SET_PICTURE", payload: images });
+        dispatch({ type: "SET_DISPLAY_PICTURE", payload: {images: displayImages, index: clickedIndex} });
     }
-  };
-
-  const handleSubmit = () => {
-    if (images.length < 1) {
-      setFormErrors({ photos: 'Please upload at least 1 photo.' });
-      return;
-    }
-    console.log('This is the data from the picture component', Array.isArray(images));
-    navigate('/contact/room-photos');
-    dispatch({ type: 'SET_PICTURE', payload: images });
-  };
-
-  useEffect(() => {
-    // Set initial state based on context data when component mounts
-    setImages(state.picture || []);
-    setDisplayImages(state.picture || []);
-  }, [state.picture]);
 
     return (
       <div>
@@ -109,25 +118,29 @@ function Picture() {
             </p>
           </div>
           <div>
-          <div className="grid grid-rows-1 md:grid-cols-3 gap-x-1 gap-y-2">
-          {displayImages.map((img, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                setImages((prevImages) =>
-                  prevImages.map((img, i) => ({
-                    ...img,
-                    main: i === clickedIndex + 1,
-                  }))
-                );
-                setClickedIndex(index);
-              }}
-              className={`w-full md:w-[320px] h-[250px] cursor-pointer relative rounded-lg ${
-                index === clickedIndex
-                  ? 'border-[3px] border-[#ff6a6e]'
-                  : 'border-none'
-              }`}
-            >
+            <div className="grid grid-rows-1 md:grid-cols-3 gap-x-1 gap-y-2">
+              {displayImages.map((img, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setImages(prevImages => {
+                      return prevImages.map((img, i) => {
+                        if (i === clickedIndex+1) {
+                          return { ...img, main: true };
+                        }
+                        else {
+                          return { ...img, main: false };
+                        }
+                      });
+                    });
+                    setClickedIndex(index);
+                  }}
+                  className={`w-full md:w-[320px] h-[250px] cursor-pointer relative rounded-lg ${
+                    index === clickedIndex
+                      ? "border-[3px] border-[#ff6a6e]"
+                      : "border-none"
+                  }`}
+                >
                   <img
                     src={img}
                     alt="random_pic"
@@ -156,7 +169,7 @@ function Picture() {
           </div>
         </div>
       
-          <div className="mt-2" onClick={handleSubmit}>
+          <div className="my-2" onClick={handleSubmit}>
             <Button />
           </div>
            {formErrors.photos && (

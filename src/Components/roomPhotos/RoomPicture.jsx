@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import DocumentImg from '../../Assets/img/Document.png';
+import DocumentImg from "../../Assets/img/Document.png";
 import Button from '../Button';
 import Crosssmall from '../../Assets/img/Cross-small.png';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,13 @@ function RoomPicture() {
   const [displayImages, setDisplayImages] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if(Object.keys(state.displayRoomPicture).length !== 0 && state.roomPicture.length > 0) {
+      setDisplayImages(state.displayRoomPicture.images)
+      setClickedIndex(state.displayRoomPicture.index)
+      setImages(state.roomPicture)
+    }
+  }, [state.displayRoomPicture, state.roomPicture])
   const handleImages = (e) => {
     const files = e.target.files;
 
@@ -20,15 +26,16 @@ function RoomPicture() {
     const newImages = Array.from(files).map((file) =>
       URL.createObjectURL(file)
     );
-    setDisplayImages((prevImages) => [...prevImages, ...newImages]);
+    setDisplayImages((prevImages) => [...prevImages, ...newImages])
 
-    Array.from(e.target.files).forEach((file) => {
-      let data = {
+    Array.from(e.target.files).forEach(file => {
+      let data = {}
+      data = {
         img: file,
-        main: false,
-      };
+        main: false
+      }
       setImages((prevImages) => [...prevImages, data]);
-    });
+     })
   };
 
   const handleDelete = (index) => {
@@ -45,20 +52,16 @@ function RoomPicture() {
 
   const handleSubmit = () => {
     if (images.length < 1) {
-      setFormErrors({ photos: 'Please upload at least 1 photo.' });
+      setFormErrors({ photos: 'Please upload at least 1 photos.' });
       return;
     }
 
-    console.log('This is the data from the picture component', images);
+    console.log("This is the data from the picture components", images);
     navigate('/contact/area-photos');
-    dispatch({ type: 'SET_ROOM_PICTURE', payload: images });
+    dispatch({ type: "SET_ROOM_PICTURE", payload: images });
+    dispatch({ type: "SET_DISPLAY_ROOM_PICTURE", payload: {images: displayImages, index: clickedIndex}});
   };
 
-  useEffect(() => {
-    // Set initial state based on context data when component mounts
-    setImages(state.roomPicture || []);
-    setDisplayImages(state.roomPicture || []);
-  }, [state.roomPicture]);
   return (
     <div>
       <div
@@ -161,7 +164,7 @@ function RoomPicture() {
         </div>
       </div>
      
-        <div className="mt-2" onClick={handleSubmit}>
+        <div className="my-2" onClick={handleSubmit}>
           <Button />
         </div>
     

@@ -1,48 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import Button from '../Button';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import Button from '../Button'
+import { useNavigate } from 'react-router-dom'
 import { useFormContext } from '../../context/contextStore';
-
 function Hotel() {
-  const { state, dispatch } = useFormContext();
-  const navigate = useNavigate();
+   
 
-  // Initialize state with previously entered values or default values
-  const [checkIn, setCheckIn] = useState({
-    from: (state.hotelRules.checkInData && state.hotelRules.checkInData.from) || '00:00',
-    until: (state.hotelRules.checkInData && state.hotelRules.checkInData.until) || '00:00',
-  });
-  const [checkOut, setCheckOut] = useState({
-    from: (state.hotelRules.checkOutData && state.hotelRules.checkOutData.from) || '06:00',
-    until: (state.hotelRules.checkOutData && state.hotelRules.checkOutData.until) || '06:00',
-  });
-  const [allowChildren, setAllowChildren] = useState(state.hotelRules.allowChildren || '');
-  const [warning, setWarning] = useState('');
+   const { state, dispatch } = useFormContext();
+   const navigate = useNavigate();  
+   const [checkIn, setCheckIn] = useState({
+     from: '00:00',
+     until: '00:00',
+   });
+   const [checkOut, setCheckOut] = useState({
+     from: '06:00',
+     until: '06:00',
+   });
+   const [allowChildren, setAllowChildren] = useState('');
+   const [warning, setWarning] = useState(''); // State to track the warning message
 
-  useEffect(() => {
-    // You can add more specific initialization logic here
-    // For example, if the context data is not available, you can fetch it or set default values
-    // Just make sure to handle the async nature of data fetching if needed
-  }, []);
+   useEffect(() => {
+    if(Object.keys(state.hotelRules).length !== 0) {
+      setCheckIn(state.hotelRules.checkInData)
+      setCheckOut(state.hotelRules.checkOutData)
+      setAllowChildren(state.hotelRules.allowChildren)
+    }
+  }, [state.hotelRules])
+ 
+   const handleAllowChildrenChange = (event) => {
+     setAllowChildren(event.target.value);
+   };
+ 
+   const handleCheckInChange = (event) => {
+     const { id, value } = event.target;
+     setCheckIn((prevCheckIn) => ({ ...prevCheckIn, [id]: value }));
+   };
+ 
+   const handleCheckOutChange = (event) => {
+     const { id, value } = event.target;
+     setCheckOut((prevCheckOut) => ({ ...prevCheckOut, [id]: value }));
+   };
 
-  const handleAllowChildrenChange = (event) => {
-    setAllowChildren(event.target.value);
-  };
 
-  const handleCheckInChange = (event) => {
-    const { id, value } = event.target;
-    setCheckIn((prevCheckIn) => ({ ...prevCheckIn, [id]: value }));
-  };
-
-  const handleCheckOutChange = (event) => {
-    const { id, value } = event.target;
-    setCheckOut((prevCheckOut) => ({ ...prevCheckOut, [id]: value }));
-  };
-
-  const handleSaveChanges = () => {
+   const handleSaveChanges = () => {
+    // Check if any required field is empty
     if (!checkIn.from || !checkIn.until || !checkOut.from || !checkOut.until || !allowChildren) {
       setWarning('Please fill in all fields before proceeding.');
-      return;
+      return; // Do not proceed to the next page
     }
 
     const formData = {
@@ -56,9 +59,8 @@ function Hotel() {
     dispatch({ type: 'SET_HOTEL_RULES', payload: formData });
     setWarning('');
     navigate('/contact/payment');
-  };
-
-
+        // Add any additional logic here
+    };
     return (
       <div
         style={{ fontFamily: `'Poppins', sans-serif` }}

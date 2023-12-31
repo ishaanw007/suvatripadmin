@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Button from '../Button';
-import { useNavigate } from 'react-router-dom';
-import { useFormContext } from '../../context/contextStore';
+import React, { useState, useEffect } from "react";
+import Button from "../Button";
+import { useNavigate } from "react-router-dom";
+import { useFormContext } from "../../context/contextStore";
 
 function Facility() {
   const { state, dispatch } = useFormContext();
@@ -11,7 +11,6 @@ function Facility() {
   });
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
-
   const handleAccommodationChange = (e) => {
     const value = e.target.value;
     setFormData((prevData) => ({
@@ -21,6 +20,12 @@ function Facility() {
         : [...prevData.accommodation, value],
     }));
   };
+
+  useEffect(() => {
+    if(Object.keys(state.facility).length !== 0) {
+      setFormData(state.facility)
+    }
+  }, [state.facility])
 
   const handleRecreationChange = (e) => {
     const value = e.target.value;
@@ -34,22 +39,18 @@ function Facility() {
 
   const handleSubmit = () => {
     if (formData.accommodation.length === 0) {
-      setFormErrors({
-        accommodation: 'Please select at least one accommodation facility.',
-      });
+      setFormErrors({ accommodation: "Please select at least one accommodation facility." });
       return;
     }
 
     if (formData.recreation.length === 0) {
-      setFormErrors({
-        recreation: 'Please select at least one recreation facility.',
-      });
+      setFormErrors({ recreation: "Please select at least one recreation facility." });
       return;
     }
 
-    console.log('This is the data from Facility Components', formData);
-    navigate('/contact/room-setup');
-    dispatch({ type: 'SET_FACILITY', payload: formData });
+    console.log("This is the data from Facility Components", formData);
+    navigate("/contact/room-setup");
+    dispatch({ type: "SET_FACILITY", payload: formData });
 
     setFormData({
       accommodation: [],
@@ -57,15 +58,6 @@ function Facility() {
     });
   };
 
-  useEffect(() => {
-    // Set initial state based on context data when component mounts
-    if (state.facility) {
-      setFormData({
-        accommodation: state.facility.accommodation || [],
-        recreation: state.facility.recreation || [],
-      });
-    }
-  }, [state.facility]);
   return (
     <div className="pt-5 tracking-wider">
       <div

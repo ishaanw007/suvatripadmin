@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState  , useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../Assets/img/logo.png";
-import { FaGoogle } from "react-icons/fa";
+import { useFormContext } from "../../context/contextStore";
 import RectangleImg from "../../Assets/img/Rectangle.png";
 
 function SignUp() {
@@ -10,7 +10,8 @@ function SignUp() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const { state , dispatch } = useFormContext();
+ 
   const handleSignUp = async () => {
     // Basic form validation
     if (!username || !email || !phone || !password) {
@@ -28,17 +29,12 @@ function SignUp() {
         body: JSON.stringify({ username, email, phone, password }),
       });
 
-      // Assuming the server responds with a JSON containing a token
       const data = await response.json();
-      console.log(data.token);
-      // Check if the request was successful
+
       if (response.ok) {
-        // Store the JWT token in localStorage
-        localStorage.setItem("token", data.token);
-        // Navigate to the home page
-        navigate("/otp-verify", {state: {email: email}});
+
+        navigate("/otp-verify", {state: {email: email, token: data.token}});
       } else {
-        // Handle error cases
         alert(`Error: ${data.message}`);
       }
     } catch (error) {
@@ -46,67 +42,75 @@ function SignUp() {
     }
   };
 
+  useEffect(() => {
+    if(state.isLoggedin || localStorage.getItem("token")){
+      navigate('/')
+    }
+   
+   },[state.isLoggedin , navigate])
+   
+
   return (
     <div
       style={{ fontFamily: `'Poppins', sans-serif` }}
-      className="container flex flex-col md:flex-row justify-between m-0 p-0"
+      className="flex flex-col md:flex-row justify-between m-0 p-0"
     >
       {/* Sign-up form */}
       <div className="w-full md:w-[750px] h-screen">
         <div>
           {/* Uppermost part */}
-          <div className="flex flex-row justify-between items-center px-3 md:px-10 py-3 md:py-8">
+          <div className="flex flex-row justify-between items-center px-3 md:px-10 py-2 md:py-8">
             <img src={Logo} alt="logo_here" />
             <Link to="/login">
               <p className="text-capitalize underline cursor-pointer">login</p>
             </Link>
           </div>
           {/* For Sign-up Part */}
-          <div className="mx-[0] my-5 md:mx-auto w-full md:w-[500px] px-3 md:px-0">
-            <h2 className="text-[#000] fs-3 fw-medium lh-lg">
+          <div className="mx-[0] mt-3 md:mx-auto w-full md:w-[500px] px-3 md:px-0">
+            <h2 className="text-[#000] text-[25px] mb-2 font-[600]">
               Sign-up to manage Your Property
             </h2>
-            <p className="fs-6 lh-lg">
+            <p className="text-[18px] font-[400] leading-7">
               Welcome to SuvaTrip, please enter the details to continue
             </p>
             <div className="w-full">
-              <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
+              <p className="lh-lg my-1 fw-medium fs-6 text-capitalize">
                 UserName:-
               </p>
               <input
                 type="text"
-                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
+                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-0"
                 id="userInput"
                 placeholder="Enter the Username"
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
+              <p className="lh-lg my-1 fw-medium fs-6 text-capitalize">
                 Email:-
               </p>
               <input
                 type="email"
-                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
+                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-0"
                 id="emailInput"
                 placeholder="Enter your email"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
+              <p className="lh-lg my-1 fw-medium fs-6 text-capitalize">
                 Phone:-
               </p>
               <input
-                type="tel"
-                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
+                type="number"
+                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-0"
                 id="phoneInput"
                 placeholder="Enter your phone number"
                 onChange={(e) => setPhone(e.target.value)}
               />
 
-              <p className="lh-lg my-2 fw-medium fs-6 text-capitalize">
+              <p className="lh-lg my-1 fw-medium fs-6 text-capitalize">
                 Password:-
               </p>
               <input
                 type="password"
-                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-1"
+                className="w-full py-2 border-2 outline-none px-1 rounded-md mb-0"
                 id="passwordInput"
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -122,7 +126,7 @@ function SignUp() {
             <div className="w-full">
               <button
                 type="button"
-                className="btn btn-primary container lh-lg my-5 text-uppercase text-dark"
+                className="btn btn-primary container lh-lg my-[2px] text-uppercase text-dark"
               >
                 Join Our Partner Program
               </button>

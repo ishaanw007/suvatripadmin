@@ -1,18 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import Button from '../Button';
-import BedIcon from '../../Assets/img/double-bed-icon.png';
-import SinglebedIcon from '../../Assets/img/single-bed-icon.png';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
-import { useFormContext } from '../../context/contextStore';
+import React, { useState, useEffect } from "react";
+import downIcon from "../../Assets/img/down-icon.png";
+import EditableImg from "../../Assets/img/edit.png";
+import Trash from "../../Assets/img/trash.png";
+import Button from "../Button";
+import BedIcon from "../../Assets/img/double-bed-icon.png";
+import SinglebedIcon from "../../Assets/img/single-bed-icon.png";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { useFormContext } from "../../context/contextStore";
+import { FaChevronDown } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+
+
+
 
 function RoomSetUp() {
-  const [roomType, setRoomType] = useState('');
+  const [roomType, setRoomType] = useState("");
   const [editIndex, setEditIndex] = useState(-1);
-  const [guNumber, setGuNumber] = useState('');
+  const [guNumber, setGuNumber] = useState("");
   const [bdNumber, setBdNumber] = useState(0);
-  const [bathNum, setBathNum] = useState('');
-  const [price, setPrice] = useState('');
+  const [bathNum, setBathNum] = useState("");
+  const [noOfRooms, setNoOfRooms] = useState("");
+  const [price, setPrice] = useState("");
+  const [weekdayPrice, setWeekdayPrice] = useState("");
+  const [weekendPrice, setWeekendPrice] = useState("");
+  const [nonRefundPrice, setNonRefundPrice] = useState("");
   const [roomData, setRoomData] = useState([]);
   const [singleBedValue, setSingleBedValue] = useState(0);
   const [doubleBedValue, setDoubleBedValue] = useState(0);
@@ -20,26 +33,34 @@ function RoomSetUp() {
   const [kingSizeBedValue, setKingSizeBedValue] = useState(0);
   const [units, sameUnitsNumber] = useState(0);
   const [whichType, setWhichType] = useState(0);
+  const [UnitData, setUnitData] = useState({});
   const [unitObject, setUnitObject] = useState({});
   const [showWarning, setShowWarning] = useState(false);
-
+  //  const [isModelOpen, setIsModelOpen] = useState(false);
   const navigate = useNavigate();
-  const totalBed = singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue;
+  const totalBed =
+    singleBedValue + doubleBedValue + largeBedValue + kingSizeBedValue;
   const { state, dispatch } = useFormContext();
 
+  useEffect(() => {
+    if(Object.keys(state.roomSetup).length !== 0) {
+      setRoomData(state.roomSetup)
+    }
+  }, [state.roomSetup])
+
   const unitOptions = [
-    'Single',
-    'Double',
-    'Twin',
-    'Triple',
-    'Quadruple',
-    'Studio',
-    'Apartment',
+    "Single",
+    "Double",
+    "Twin",
+    "Triple",
+    "Quadruple",
+    "Studio",
+    "Apartment",
   ];
 
   const handleSaveChanges = () => {
     // Check if any required field is empty
-    if (!roomType || !guNumber || totalBed === 0 || !bathNum || !price) {
+    if (roomType==="" || guNumber==="" || totalBed === 0 || bathNum==="" || weekdayPrice==="" || weekendPrice==="" || nonRefundPrice==="" || noOfRooms==="") {
       // Set a warning state to indicate that a warning should be displayed
       setShowWarning(true);
       return; // Exit the function if any required field is empty
@@ -48,16 +69,20 @@ function RoomSetUp() {
     // Reset warning state
     setShowWarning(false);
 
+
     const setUpRoomObject = {
       roomType,
       guNumber,
       bdNumber: totalBed,
       bathNum,
-      price,
+      weekdayPrice,
+      weekendPrice,
+      nonRefundPrice,
       singleBedValue,
       doubleBedValue,
       largeBedValue,
       kingSizeBedValue,
+      noOfRooms
     };
 
     if (editIndex !== -1) {
@@ -74,17 +99,18 @@ function RoomSetUp() {
     }
 
     // Clear the form fields after saving changes
-    setRoomType('');
+    setRoomType("");
     setEditIndex(-1);
-    setGuNumber('');
+    setGuNumber("");
     setSingleBedValue(0);
     setDoubleBedValue(0);
     setLargeBedValue(0);
     setKingSizeBedValue(0);
-    setBathNum('');
-    setPrice('');
-    console.log('Changes saved successfully');
+    setBathNum("");
+    setPrice("");
+    console.log("Changes saved successfully");
   };
+
 
   const handleEdit = (index) => {
     // Set the editIndex and pre-fill the form fields with the data of the item being edited
@@ -100,8 +126,9 @@ function RoomSetUp() {
     setLargeBedValue(dataToEdit.largeBedValue);
     setKingSizeBedValue(dataToEdit.kingSizeBedValue);
   };
-
   const handleSubmit = () => {
+
+
     // Create a newUnitObject with the required data
     const newUnitObject = {
       ...unitObject,
@@ -111,11 +138,13 @@ function RoomSetUp() {
     };
 
     // Dispatch the action to set room setup data
-    dispatch({ type: 'SET_ROOM_SETUP', payload: newUnitObject });
+    dispatch({ type: "SET_ROOM_SETUP", payload: newUnitObject });
 
     // Navigate to the next route (replace 'YOUR_NEXT_ROUTE' with the actual route)
     navigate('/contact/hotel-rules');
   };
+
+
 
   const handleDelete = (index) => {
     // Create a new array excluding the item at the specified index
@@ -126,20 +155,12 @@ function RoomSetUp() {
   };
 
   useEffect(() => {
-    console.log('This data from the Room-setUp components', unitObject);
+    console.log("This data from the Room-setUp components", unitObject);
+    // alert(unitObject)
   }, [unitObject]);
-
-  useEffect(() => {
-    // Populate form data from context when component mounts
-    setRoomData(state.roomSetup.modalData || []);
-  }, [state.roomSetup.modalData]);
-
   return (
     <div style={{ fontFamily: `'Poppins', sans-serif` }}>
       {/* Code for modal */}
-
-
-
       <>
         <div className="container">
           <div
@@ -491,9 +512,9 @@ function RoomSetUp() {
                       <input
                         type="number"
                         className="form-control"
-                        value={price}
-                        id="Price"
-                        placeholder="Enter the price"
+                        value={nonRefundPrice}
+                        id="nonRefundPrice"
+                        placeholder="Enter the non refundable price"
                         onChange={(e) => {
                           setNonRefundPrice(e.target.value);
                         }}
@@ -507,7 +528,6 @@ function RoomSetUp() {
                     className="btn btn-secondary"
                     style={{ color: "black", transition: "color 0.3s" }}
                     data-bs-dismiss="modal"
-
                     onMouseOver={(e) => (e.currentTarget.style.color = "white")}
                     onMouseOut={(e) => (e.currentTarget.style.color = "black")}
                   >
@@ -518,7 +538,6 @@ function RoomSetUp() {
                     className="btn btn-primary"
                     style={{ color: "black" }}
                     data-bs-dismiss="modal"
-
                     onClick={handleSaveChanges}
                     onMouseOver={(e) => (e.currentTarget.style.color = "white")}
                     onMouseOut={(e) => (e.currentTarget.style.color = "black")}
@@ -532,10 +551,10 @@ function RoomSetUp() {
         </div>
       </>
 
-      <div className="w-full md:w-[1000px] pt-5 mx-auto  h-screen md:h-[600px] overflow-x-hidden overflow-y-auto">
+      <div className="w-full md:w-[900px] pt-5 mx-auto  h-screen md:h-[600px] overflow-x-hidden">
         {/* Room-set-up code */}
         <div className="py-2 border-b-[1px] border-slate-300">
-          <div>
+          <div className="px-2">
             <div className="flex flex-col md:flex-row justify-between items-start">
               <h3 className="text-[20px] tracking-wider font-[600] text-slate-800 mb-2 md:mb-0">
                 Room Details
@@ -557,23 +576,77 @@ function RoomSetUp() {
             </div>
 
             {/* Table */}
-            <div className="my-3">
-              <table className="table-auto w-full border-[1px]">
-                <thead className="border-2">
-                  <tr className="p-5 border-2">
+            <div className="overflow-auto w-[350px] md:w-full h-[300px] mx-auto">
+              <table>
+                <thead  className="border-2">
+                  <tr>
                     <th className="px-2 py-2"></th>
-                    <th className="px-2 py-2">Room type</th>
-                    <th className="px-2 py-2">Guests</th>
-                    <th className="px-2 py-2">Beds</th>
-                    <th className="px-2 py-2">Bathroom</th>
-                    <th className="px-2 py-2">Weekday Price</th>
-                    <th className="px-2 py-2">Weekend Price</th>
-                    <th className="px-2 py-2">Non Refundable Price</th>
+                    <th className="p-2">Room type</th>
+                    <th className="p-2">Guests</th>
+                    <th className="p-2">Beds</th>
+                    <th className="p-2">Bathroom</th>
+                    <th className="p-2">Weekday Price</th>
+                    <th className="p-2">Weekend Price</th>
+                    <th className="p-2">Non Refundable Price</th>
                     <th className="px-2 py-2"></th>
                     <th className="px-2 py-2"></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody  className="bg-white divide-y divide-gray-200">
+                  {roomData.map((data, index) => {
+                    return (
+                      <tr key={index} className="p-5 border-2">
+                        <td className="px-2 py-2">
+                         <FaChevronDown />
+                        </td>
+                        <td className="px-2 py-2">{data.roomType}</td>
+                        <td className="px-2 py-2">{data.guNumber}</td>
+                        <td className="px-2 py-2">{data.singleBedValue > 0 && `SB-${data.singleBedValue} `}
+                          {data.doubleBedValue > 0 && `DB-${data.doubleBedValue} `}
+                          {data.largeBedValue > 0 && `LB-${data.largeBedValue} `}
+                          {data.kingSizeBedValue > 0 && `KB-${data.kingSizeBedValue} `}</td>
+                        <td className="px-2 py-2">{data.bathNum}</td>
+                        <td className="px-2 py-2">Rs {data.weekdayPrice}</td>
+                        <td className="px-2 py-2">Rs {data.weekendPrice}</td>
+                        <td className="px-2 py-2">Rs {data.nonRefundPrice}</td>
+                        <td
+                          className="px-2 py-2 cursor-pointer"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop"
+                          onClick={() => handleEdit(index)}
+                        >
+                         <FaRegEdit />
+                        </td>
+                        <td
+                          className="px-2 py-3 cursor-pointer"
+                          onClick={() => handleDelete(index)}
+                        >
+                          <MdDelete />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* <div>
+              <table>
+              <thead className="border-2">
+                 <tr>
+                      <th className="p-2 sm:p-3"></th>
+        <th className="p-2 sm:p-3">Room type</th>
+        <th className="p-2 sm:p-3">Guests</th>
+        <th className="p-2 sm:p-3">Beds</th>
+        <th className="p-2 sm:p-3">Bathroom</th>
+        <th className="p-2 sm:p-3">Weekday Price</th>
+        <th className="p-2 sm:p-3">Weekend Price</th>
+        <th className="p-2 sm:p-3">Non Refundable Price</th>
+        <th className="p-2 sm:p-3"></th>
+        <th className="p-2 sm:p-3"></th>
+                  </tr>
+              </thead>
+                <tbody  className="bg-white divide-y divide-gray-200">
                   {roomData.map((data, index) => {
                     return (
                       <tr key={index} className="p-5 border-2">
@@ -609,7 +682,7 @@ function RoomSetUp() {
                   })}
                 </tbody>
               </table>
-            </div>
+            </div> */}
             {/* <div className="my-1 border-y-[1px] border-slate-300 py-2">
               <h3 className="text-[22px] font-[600] text-slate-700 py-1">
                 Room Details
@@ -673,7 +746,6 @@ function RoomSetUp() {
       <div onClick={handleSubmit}>
         <Button />
       </div>
-
     </div>
   );
 }

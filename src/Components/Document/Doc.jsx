@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState } from "react";
 import DocumnetImg from "../../Assets/img/Document.png";
 import PdfIcon from "../../Assets/icon/PDF_file_icon.svg";
 import DocIcon from "../../Assets/icon/PDF_file_icon.svg";
@@ -34,7 +34,6 @@ function Doc() {
       setUploadedDoc(null);
     }
   };
-
 
   const handleTaxFileChange = (event) => {
     const file = event.target.files[0];
@@ -98,10 +97,11 @@ function Doc() {
         }
       })
 
-      const vendorResponse = await fetch('http://localhost:8000/vendor-edit', {
+      const vendorResponse = await fetch('http://localhost:8000/auth/vendor-edit', {
         method: 'POST',
         body: JSON.stringify(state.contactDetails),
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
@@ -110,20 +110,12 @@ function Doc() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      localStorage.getItem('registration', true)
+      localStorage.setItem('registration', true)
       navigate('/success');
     } catch (error) {
       console.error('Error during network request:', error);
     }
   }
-
-  useEffect(() => {
-    // Initialize state with context values
-    setSelectedDocument(state.document.selectedDocument || '');
-    setSelectedFile(state.document.selectedFile || null);
-    setUploadedDoc(state.document.uploadedDoc || null);
-  }, [state.document]);
-
 
   function isObjectEmpty(obj) {
     for (let key in obj) {
@@ -135,6 +127,7 @@ function Doc() {
   }
 
   function handleUpload() {
+    console.log(state.contactDetails, state.basicDetails, state.picture, state.roomPicture, state.areaPicture, state.facility, state.roomSetup, state.hotelRules, state.hotelRules, state.paymentPolicy, state.parking, state.transportatio, selectedFile, selectedTaxFile, 'ttttteeeeesssssttttt');
     if (
       isObjectEmpty(state.contactDetails) ||
       isObjectEmpty(state.basicDetails) ||
@@ -148,7 +141,13 @@ function Doc() {
       isObjectEmpty(state.parking) ||
       isObjectEmpty(state.transportation) ||
       !selectedFile ||
-      !selectedTaxFile
+      !selectedTaxFile ||
+      state.description==='',
+      state.address==='',
+      state.latitude==='',
+      state.longitude==='',
+      state.country==='',
+      state.city===''
     ) {
       setWarning('Please fill in all required fields before submitting.');
       return;
@@ -157,7 +156,7 @@ function Doc() {
     const formData = new FormData();
     formData.append('propertyFile', selectedFile);
     formData.append('taxFile', selectedTaxFile);
-
+    formData.append('contactDetails', JSON.stringify(state.contactDetails));
     // Append other form data
     formData.append('basicDetails', JSON.stringify(state.basicDetails));
     for (let i = 0; i < state.picture.length; i++) {
@@ -180,6 +179,11 @@ function Doc() {
     formData.append('parking', JSON.stringify(state.parking));
     formData.append('transportation', JSON.stringify(state.transportation));
     formData.append('description', state.description);
+    formData.append('address', state.address);
+    formData.append('latitude', state.latitude);
+    formData.append('longitude', state.longitude);
+    formData.append('country', state.country);
+    formData.append('city', state.city);
 
     postData(formData);
   }

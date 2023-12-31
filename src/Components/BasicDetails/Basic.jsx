@@ -6,6 +6,9 @@ import { useFormContext } from '../../context/contextStore';
 
 function Basic() {
   const { state, dispatch } = useFormContext();
+  const [address, setAddress] = useState('')
+  const [latitude, setLatitude] = useState('')
+  const [longitude, setLongitude] = useState('')
   const [formData, setFormData] = useState({
     propertyName: '',
     propertyType: 'Hotel',
@@ -14,7 +17,6 @@ function Basic() {
   });
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
-
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,15 +25,21 @@ function Basic() {
     setFormErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
   };
 
+  useEffect(() => {
+    if(Object.keys(state.basicDetails).length !== 0) {
+      setFormData(state.basicDetails)
+    }
+  }, [state.basicDetails])
+
   // Handle form submission
   const handleSubmit = () => {
     const isFormValid = validateForm();
 
     if (isFormValid) {
       console.log('Object from Basic Components', formData);
-
-      navigate('/contact/property-photos');
+       
       dispatch({ type: 'SET_BASIC_DETAILS', payload: formData });
+      navigate('/contact/location');
     } else {
       console.log('Form submission aborted due to validation errors');
     }
@@ -46,19 +54,9 @@ function Basic() {
       }
     });
     setFormErrors(errors);
-
+     
     return Object.keys(errors).length === 0;
   };
-
-  useEffect(() => {
-    // Set initial state based on context data when component mounts
-    setFormData({
-      propertyName: state.basicDetails.propertyName || '',
-      propertyType: state.basicDetails.propertyType || 'Hotel',
-      starRating: state.basicDetails.starRating || 'N/A',
-      currency: state.basicDetails.currency || 'NPR',
-    });
-  }, [state.basicDetails]);
 
   return (
     <div style={{ fontFamily: `'Poppins', sans-serif` }} className="py-3 md:py-5">
@@ -66,7 +64,7 @@ function Basic() {
         <div className="px-2 md:px-5 py-2 border-b-[1px] border-slate-300">
           <h2 className="text-[30px] font-[600]">Basic details</h2>
           <p className="text-[18px] font-[4000] my-1 text-slate-500">
-            The basic add your property name, address, Facilities, and more{" "}
+            The basic add your property name, facilities, and more{" "}
           </p>
         </div>
         <div>
@@ -77,7 +75,7 @@ function Basic() {
                 type="text"
                 name="propertyName"
                 placeholder="Enter your property name"
-                value={state.basicDetails.propertyName}
+                value={formData.propertyName}
                 onChange={handleChange}
                 className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
               />
@@ -91,7 +89,7 @@ function Basic() {
                   className="form-select"
                   id="inputGroupSelect02"
                   name="propertyType"
-                  value={state.basicDetails.propertyType}
+                  value={formData.propertyType}
                   onChange={handleChange}
                   style={{
                     padding: "10px", // Added padding for options
@@ -128,6 +126,7 @@ function Basic() {
                 </div>
               {formErrors.propertyType && <p className="text-red-500">{formErrors.propertyType}</p>}
             </div>
+
             {/* Rating Div */}
             <div className="my-2 tracking-wider cursor-pointer">
             <div className="my-2 tracking-wider cursor-pointer">
@@ -194,7 +193,7 @@ function Basic() {
                   className="form-select"
                   id="inputGroupSelect02"
                   name="currency"
-                  value={state.basicDetails.currency}
+                  value={formData.currency}
                   onChange={handleChange}
                 >
                   <option selected>NPR</option>

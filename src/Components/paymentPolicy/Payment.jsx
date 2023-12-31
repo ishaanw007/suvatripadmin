@@ -1,30 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import Button from '../Button';
+import React, { useState, useEffect } from 'react'
+import Button from '../Button'
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../../context/contextStore';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
 function Payment() {
   const { state, dispatch } = useFormContext();
-  const [paymentOption, setPaymentOption] = useState(state.paymentPolicy.paymentOption || '');
-  const [cancleOption, setCancleOption] = useState(state.paymentPolicy.cancleOption || 'Yes');
-  const [canclePeriod, setCanclePeriod] = useState(state.paymentPolicy.canclePeriod || 'Until two days before arrival');
-  const [warning, setWarning] = useState('');
-  const [editorHtml, setEditorHtml] = useState(state.paymentPolicy.description || '');
+  const [paymentOption, setPaymentOption] = useState('Both');
+  const [cancleOption, setCancleOption] = useState('Yes');
+  const [canclePeriod, setCanclePeriod] = useState('Until two days before arrival');
+  const [warning, setWarning] = useState(''); // State to track the warning message
+  const [editorHtml, setEditorHtml] = useState('');
 
   const handleEditorChange = (html) => {
     setEditorHtml(html);
   };
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // You can add more specific initialization logic here
-    // For example, if the context data is not available, you can fetch it or set default values
-    // Just make sure to handle the async nature of data fetching if needed
-  }, []);
-
   const handlePaymentOptionChange = (event) => {
     setPaymentOption(event.target.value);
   };
@@ -37,22 +28,34 @@ function Payment() {
     setCanclePeriod(event.target.value);
   };
 
+  useEffect(() => {
+    if(Object.keys(state.paymentPolicy).length !== 0) {
+      setPaymentOption(state.paymentPolicy[0].paymentOption)
+      setCancleOption(state.paymentPolicy[0].cancleOption)
+      setCanclePeriod(state.paymentPolicy[0].canclePeriod)
+      setEditorHtml(state.paymentPolicy[0].description)
+    }
+  }, [state.paymentPolicy])
+
   const handleSaveChanges = () => {
+    // Check if any required field is empty
     if (!paymentOption || !cancleOption || !canclePeriod || !editorHtml) {
       setWarning('Please fill in all fields before proceeding.');
-      return;
+      return; // Do not proceed to the next page
     }
 
-    const formData = {
+    // Create an object with the selected values
+    const formData = [{
       paymentOption: paymentOption,
       cancleOption: cancleOption,
       canclePeriod: canclePeriod,
-      description: editorHtml,
-    };
+      description: editorHtml
+    }];
 
     dispatch({ type: 'SET_PAYMENT_POLICY', payload: formData });
-    setWarning('');
-    navigate('/contact/park');
+    setWarning(''); // Clear the warning if all fields are filled
+    // Log the form data or perform other actions with it
+    navigate('/contact/park')
     console.log('This is data from payment components:', formData);
   };
   return (

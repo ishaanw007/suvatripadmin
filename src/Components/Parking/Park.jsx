@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import Button from '../Button';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import Button from '../Button'
+import { useNavigate } from 'react-router-dom'
 import { useFormContext } from '../../context/contextStore';
-
 function Park() {
   const { state, dispatch } = useFormContext();
-  const [isParkingAvailable, setIsParkingAvailable] = useState(state.parking.isParkingAvailable || '');
-  const [parkingCost, setParkingCost] = useState(state.parking.parkingCost || '');
-  const [costType, setCostType] = useState(state.parking.costType || 'Per day');
-  const [isParkingReserved, setIsParkingReserved] = useState(state.parking.isParkingReserved || '');
-  const [parkingLocation, setParkingLocation] = useState(state.parking.parkingLocation || '');
-  const [warning, setWarning] = useState('');
-
+  const [isParkingAvailable, setIsParkingAvailable] = useState('');
+  const [parkingCost, setParkingCost] = useState('');
+  const [costType, setCostType] = useState('Per day');
+  const [isParkingReserved, setIsParkingReserved] = useState('');
+  const [parkingLocation, setParkingLocation] = useState('');
+  const [warning, setWarning] = useState(''); // State to track the warning message
   const navigate = useNavigate();
 
   useEffect(() => {
-    // You can add more specific initialization logic here
-    // For example, if the context data is not available, you can fetch it or set default values
-    // Just make sure to handle the async nature of data fetching if needed
-  }, []);
+    if(Object.keys(state.parking).length !== 0) {
+      setIsParkingAvailable(state.parking.isParkingAvailable)
+      setParkingCost(state.parking.parkingCost)
+      setCostType(state.parking.costType)
+      setParkingLocation(state.parking.parkingLocation)
+    }
+  }, [state.parking])
 
   const handleIsParkingAvailableChange = (event) => {
     setIsParkingAvailable(event.target.value);
@@ -54,20 +55,21 @@ function Park() {
     // Check if any required field is empty
     if (!isParkingAvailable || (isParkingAvailable.includes('yesPaid') && !parkingCost) || !parkingLocation) {
       setWarning('Please fill in all fields before proceeding.');
-      return;
+      return; // Do not proceed to the next page
     }
 
+    // Create an object with the selected values
     const parkingData = {
       isParkingAvailable: isParkingAvailable,
-      parkingCost: parkingCost,
+      parkingCost: isParkingAvailable.includes('yesPaid') ?  parkingCost : '0',
       costType: costType,
-      isParkingReserved: isParkingReserved,
       parkingLocation: parkingLocation,
     };
 
     dispatch({ type: 'SET_PARKING', payload: parkingData });
-    setWarning('');
-    navigate('/contact/transportation');
+    setWarning(''); // Clear the warning if all fields are filled
+    // Log the parking data or perform other actions with it
+    navigate('/contact/transportation')
     console.log('This is the data from the parking components:', parkingData);
   };
 

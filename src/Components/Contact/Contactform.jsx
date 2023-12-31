@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../../context/contextStore';
@@ -6,14 +6,13 @@ import { useFormContext } from '../../context/contextStore';
 function Contactform() {
   const { state, dispatch } = useFormContext();
 
-  const initialFormData = {
+  const [formData, setFormData] = useState({
     name: '',
     contactNo: '',
     country: '',
     city: '',
     areaCode: '',
-  };
-  const [formData, setFormData] = useState(initialFormData);
+  });
   const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
   const handleInputChange = (fieldName, value) => {
@@ -27,6 +26,12 @@ function Contactform() {
       [fieldName]: '',
     }));
   };
+
+  useEffect(() => {
+    if(Object.keys(state.contactDetails).length !== 0) {
+      setFormData(state.contactDetails)
+    }
+  }, [state.contactDetails])
 
   const validateForm = () => {
     const errors = {};
@@ -66,7 +71,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>Name</p>
                 <input
                   type='text'
-                  value={state.contactDetails.name}
+                  value={formData.name}
                   placeholder='Enter Your name'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('name', e.target.value)}
@@ -77,7 +82,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>Contact No</p>
                 <input
                   type='number'
-                  value={state.contactDetails.contactNo}
+                  value={formData.contactNo}
                   placeholder='Enter Your number'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('contactNo', e.target.value)}
@@ -90,7 +95,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>Country</p>
                 <input
                   type='text'
-                  value={state.contactDetails.country}
+                  value={formData.country}
                   placeholder='Enter Your Country'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('country', e.target.value)}
@@ -101,7 +106,7 @@ function Contactform() {
                 <p className='text-slate-500 my-1'>City</p>
                 <input
                   type='text'
-                  value={state.contactDetails.city}
+                  value={formData.city}
                   placeholder='Enter Your City'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('city', e.target.value)}
@@ -113,8 +118,8 @@ function Contactform() {
               <div className='col'>
                 <p className='text-slate-500 my-1'>Area Code</p>
                 <input
-                  type='text'
-                  value={state.contactDetails.areaCode}
+                  type='number'
+                  value={formData.areaCode}
                   placeholder='Enter Your pincode'
                   className='w-full md:w-[350px] py-[5px] px-1 rounded-md border-[1px] border-slate-400 outline-none'
                   onChange={(e) => handleInputChange('areaCode', e.target.value)}
