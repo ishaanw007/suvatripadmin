@@ -42,7 +42,7 @@ function SignUp() {
   };
 
   useEffect(() => {
-    if(state.isLoggedin || localStorage.getItem("token")){
+    if(state.isLoggedin && localStorage.getItem("token")){
       navigate('/')
     }
    
