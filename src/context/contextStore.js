@@ -4,7 +4,7 @@ import React, { createContext, useContext, useReducer } from "react";
 
 const initialState = {
   contactDetails: {},
-  description: '',
+  description: "",
   basicDetails: {},
   picture: [],
   displayPicture: [],
@@ -20,17 +20,18 @@ const initialState = {
   parking: {},
   transportation: {},
   document: {},
-  address: '',
-  latitude: '',
-  longitude: '',
-  city: '',
-  country: '',
-  zoom: 0
+  address: "",
+  latitude: "",
+  longitude: "",
+  city: "",
+  country: "",
+  zoom: 0,
+  isLoggedin: false,
 };
 
 // reducer function
 const formReducer = (state, action) => {
-  console.log(action.payload);
+   console.log("action", action.payload);
   switch (action.type) {
     case "SET_CONTACT_DETAILS":
       return {
@@ -147,6 +148,11 @@ const formReducer = (state, action) => {
       return {
         ...state,
         document: action.payload,
+      };
+    case "SET_IS_LOGGEDIN":
+      return {
+        ...state,
+        isLoggedin: action.payload,
       };
 
     default:

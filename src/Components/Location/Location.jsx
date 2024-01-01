@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button';
-import { FaStar } from 'react-icons/fa6';
+import { FaStar } from 'react-icons/fa6'; 
 import { useNavigate } from 'react-router-dom';
 import Map from './Map';
 import { useFormContext } from '../../context/contextStore';
