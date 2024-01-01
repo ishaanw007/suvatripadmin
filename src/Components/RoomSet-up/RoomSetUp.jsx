@@ -44,7 +44,7 @@ function RoomSetUp() {
 
   useEffect(() => {
     if(Object.keys(state.roomSetup).length !== 0) {
-      setRoomData(state.roomSetup)
+      setRoomData(state.roomSetup.modalData)
     }
   }, [state.roomSetup])
 
