@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button';
-import { FaStar } from 'react-icons/fa6'; 
+import { FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import Map from './Map';
 import { useFormContext } from '../../context/contextStore';
@@ -121,7 +121,7 @@ function Location() {
     setSelectedCountry(state.country);
     setStateValue(state.state);
     setPinCode(state.pinCode);
-  }, [state.address, state.city, state.country, state.latitude, state.longitude , state.state , state.pinCode]);
+  }, [state.address, state.city, state.country, state.latitude, state.longitude, state.state, state.pinCode]);
   // Handle form submission
   const handleSubmit = () => {
     const isFormValid = validateForm();
@@ -181,26 +181,18 @@ function Location() {
           </p>
         </div>
         <div className="my-2">
-          <p className="text-[20px] font-[400] my-2 text-slate-500">Country</p>
-          {/* <Autosuggest
-            suggestions={countrySuggestions}
-            onSuggestionsFetchRequested={({ value }) => fetchCountrySuggestions(value)}
-            onSuggestionsClearRequested={() => setCountrySuggestions([])}
-            getSuggestionValue={(suggestion) => suggestion}
-            renderSuggestion={(suggestion) => <div>{suggestion}</div>}
-            inputProps={countryInputProps}
-            onSuggestionSelected={onCountrySuggestionSelected}
-          /> */}
+          <p className="text-[20px] font-[400] my-2 text-slate-500">Address</p>
           <input
             type="text"
-            name="country"
-            placeholder="Enter your Country"
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
+            name="address"
+            placeholder="Enter your property address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
           />
-          {formErrors.country && <p className="text-red-500">{formErrors.country}</p>}
+          {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
         </div>
+
         <div className="my-2">
           <p className="text-[20px] font-[400] my-2 text-slate-500">City</p>
           {/* <Autosuggest
@@ -222,44 +214,54 @@ function Location() {
           />
           {formErrors.city && <p className="text-red-500">{formErrors.city}</p>}
         </div>
+
         <div className="my-2">
-          <p className="text-[20px] font-[400] my-2 text-slate-500">Address</p>
+          <p className="text-[20px] font-[400] my-2 text-slate-500">State</p>
           <input
             type="text"
-            name="address"
-            placeholder="Enter your property address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            name="state"
+            placeholder="Enter your State"
+            value={stateValue}
+            onChange={(e) => setStateValue(e.target.value)}
             className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
           />
-          {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
+          {formErrors.state && <p className="text-red-500">{formErrors.state}</p>}
         </div>
-   
-        <div className="my-2">
-  <p className="text-[20px] font-[400] my-2 text-slate-500">State</p>
-  <input
-    type="text"
-    name="state"
-    placeholder="Enter your State"
-    value={stateValue}
-    onChange={(e) => setStateValue(e.target.value)}
-    className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
-  />
-  {formErrors.state && <p className="text-red-500">{formErrors.state}</p>}
-</div>
 
-<div className="my-2">
-  <p className="text-[20px] font-[400] my-2 text-slate-500">Pin Code</p>
-  <input
-    type="text"
-    name="pinCode"
-    placeholder="Enter your Pin Code"
-    value={pinCode}
-    onChange={(e) => setPinCode(e.target.value)}
-    className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
-  />
-  {formErrors.pinCode && <p className="text-red-500">{formErrors.pinCode}</p>}
-</div>
+        <div className="my-2">
+          <p className="text-[20px] font-[400] my-2 text-slate-500">Country</p>
+          {/* <Autosuggest
+            suggestions={countrySuggestions}
+            onSuggestionsFetchRequested={({ value }) => fetchCountrySuggestions(value)}
+            onSuggestionsClearRequested={() => setCountrySuggestions([])}
+            getSuggestionValue={(suggestion) => suggestion}
+            renderSuggestion={(suggestion) => <div>{suggestion}</div>}
+            inputProps={countryInputProps}
+            onSuggestionSelected={onCountrySuggestionSelected}
+          /> */}
+          <input
+            type="text"
+            name="country"
+            placeholder="Enter your Country"
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+            className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
+          />
+          {formErrors.country && <p className="text-red-500">{formErrors.country}</p>}
+        </div>
+
+        <div className="my-2">
+          <p className="text-[20px] font-[400] my-2 text-slate-500">Pin Code</p>
+          <input
+            type="text"
+            name="pinCode"
+            placeholder="Enter your Pin Code"
+            value={pinCode}
+            onChange={(e) => setPinCode(e.target.value)}
+            className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
+          />
+          {formErrors.pinCode && <p className="text-red-500">{formErrors.pinCode}</p>}
+        </div>
 
 
 
