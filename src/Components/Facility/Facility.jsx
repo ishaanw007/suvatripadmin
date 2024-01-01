@@ -146,17 +146,17 @@ function Facility() {
             <br />
             <input
               type="checkbox"
-              id="Room services"
+              id="Room service"
               name="Accommodation"
-              value="Room services"
+              value="Room service"
               onChange={handleAccommodationChange}
-              checked={formData.accommodation.includes("Room services")}
+              checked={formData.accommodation.includes("Room service")}
             />
             <label
-              htmlFor="Room services"
+              htmlFor="Room service"
               className="text-[17px] my-[2px] mx-2"
             >
-              Room services
+              Room service
             </label>
             <br />
             {/* Add more checkbox inputs for Accommodation as needed */}
@@ -170,44 +170,44 @@ function Facility() {
           <div className="px-3">
             <input
               type="checkbox"
-              id="Garden"
+              id="Gardens"
               name="Recreation"
               value="Gardens"
               onChange={handleRecreationChange}
               checked={formData.recreation.includes("Gardens")}
             />
-            <label htmlFor="Garden" className="text-[17px] my-[2px] mx-2">
-              Garden
+            <label htmlFor="Gardens" className="text-[17px] my-[2px] mx-2">
+              Gardens
             </label>
             <br />
             <input
               type="checkbox"
-              id="Indore Swiming pool"
+              id="Indoor swimming pool"
               name="Recreation"
-              value="Indore Swiming pool"
+              value="Indoor swimming pool"
               onChange={handleRecreationChange}
-              checked={formData.recreation.includes("Indore Swiming pool")}
+              checked={formData.recreation.includes("Indoor swimming pool")}
             />
             <label
-              htmlFor="Indore Swiming pool"
+              htmlFor="Indoor swimming pool"
               className="text-[17px] my-[2px] mx-2"
             >
-              Indore Swiming pool
+              Indoor swimming pool
             </label>
             <br />
             <input
               type="checkbox"
-              id="Outdoor Swiming pool"
+              id="Outdoor swimming pool"
               name="Recreation"
-              value="Outdoor Swiming pool"
+              value="Outdoor swimming pool"
               onChange={handleRecreationChange}
-              checked={formData.recreation.includes("Outdoor Swiming pool")}
+              checked={formData.recreation.includes("Outdoor swimming pool")}
             />
             <label
-              htmlFor="Outdoor Swiming pool"
+              htmlFor="Outdoor swimming pool"
               className="text-[17px] my-[2px] mx-2"
             >
-              Outdoor Swiming pool
+              Outdoor swimming pool
             </label>
             <br />
             <input
