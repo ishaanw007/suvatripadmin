@@ -25,6 +25,9 @@ const initialState = {
   longitude: "",
   city: "",
   country: "",
+  state: "",
+  pinCode : "",
+
   zoom: 0,
   isLoggedin: false,
 };
@@ -154,6 +157,16 @@ const formReducer = (state, action) => {
         ...state,
         isLoggedin: action.payload,
       };
+      case "SET_STATE":
+        return {
+          ...state,
+          state: action.payload,
+        };
+        case "SET_PIN_CODE":
+          return {
+            ...state,
+            pinCode: action.payload,
+          };
 
     default:
       return state;

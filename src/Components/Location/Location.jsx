@@ -10,6 +10,7 @@ function Location() {
   const { state, dispatch } = useFormContext();
   const [address, setAddress] = useState('')
   const [latitude, setLatitude] = useState('')
+
   const [longitude, setLongitude] = useState('')
   const [formData, setFormData] = useState({
     propertyName: '',
@@ -28,7 +29,8 @@ function Location() {
   const [formErrors, setFormErrors] = useState({});
   const [authToken, setAuthToken] = useState('');
   const navigate = useNavigate();
-
+  const [stateValue, setStateValue] = useState('');
+  const [pinCode, setPinCode] = useState('');
 
   const fetchCitySuggestions = async (value) => {
     const cities = [
@@ -112,25 +114,29 @@ function Location() {
   };
 
   useEffect(() => {
-    setLatitude(state.latitude)
-    setLongitude(state.longitude)
-    setAddress(state.address)
-    setSelectedCity(state.city)
-    setSelectedCountry(state.country)
-  }, [state.address, state.city, state.country, state.latitude, state.longitude])
-
+    setLatitude(state.latitude);
+    setLongitude(state.longitude);
+    setAddress(state.address);
+    setSelectedCity(state.city);
+    setSelectedCountry(state.country);
+    setStateValue(state.state);
+    setPinCode(state.pinCode);
+  }, [state.address, state.city, state.country, state.latitude, state.longitude , state.state , state.pinCode]);
   // Handle form submission
   const handleSubmit = () => {
     const isFormValid = validateForm();
 
     if (isFormValid) {
-      console.log('Object from Basic Components', latitude, longitude, address, selectedCity, selectedCountry);
+      console.log('Object from Basic Components', latitude, longitude, address, selectedCity, selectedCountry, stateValue, pinCode);
 
       dispatch({ type: 'SET_LATITUDE', payload: latitude });
       dispatch({ type: 'SET_LONGITUDE', payload: longitude });
       dispatch({ type: 'SET_ADDRESS', payload: address });
       dispatch({ type: 'SET_COUNTRY', payload: selectedCountry });
       dispatch({ type: 'SET_CITY', payload: selectedCity });
+      dispatch({ type: 'SET_STATE', payload: stateValue });
+      dispatch({ type: 'SET_PIN_CODE', payload: pinCode });
+
       navigate('/contact/description');
     } else {
       console.log('Form submission aborted due to validation errors');
@@ -140,7 +146,7 @@ function Location() {
   // Validate the form
   const validateForm = () => {
     const errors = {};
-    console.log(address, latitude, longitude, selectedCity, selectedCountry);
+
     if (!latitude && !longitude) {
       errors.map = 'This field is required';
     }
@@ -153,6 +159,13 @@ function Location() {
     if (!selectedCountry) {
       errors.country = 'This field is required';
     }
+    if (!stateValue) {
+      errors.state = 'State is required';
+    }
+    if (!pinCode) {
+      errors.pinCode = 'Pin Code is required';
+    }
+
     setFormErrors(errors);
 
     return Object.keys(errors).length === 0;
@@ -221,6 +234,35 @@ function Location() {
           />
           {formErrors.address && <p className="text-red-500">{formErrors.address}</p>}
         </div>
+   
+        <div className="my-2">
+  <p className="text-[20px] font-[400] my-2 text-slate-500">State</p>
+  <input
+    type="text"
+    name="state"
+    placeholder="Enter your State"
+    value={stateValue}
+    onChange={(e) => setStateValue(e.target.value)}
+    className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
+  />
+  {formErrors.state && <p className="text-red-500">{formErrors.state}</p>}
+</div>
+
+<div className="my-2">
+  <p className="text-[20px] font-[400] my-2 text-slate-500">Pin Code</p>
+  <input
+    type="text"
+    name="pinCode"
+    placeholder="Enter your Pin Code"
+    value={pinCode}
+    onChange={(e) => setPinCode(e.target.value)}
+    className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
+  />
+  {formErrors.pinCode && <p className="text-red-500">{formErrors.pinCode}</p>}
+</div>
+
+
+
         <div>
           <div className="px-2 md:px-5 py-2 border-b-[1px] border-slate-300">
             <div className="my-2">
@@ -269,6 +311,9 @@ function Location() {
             </label>
             <br />
           </div> */}
+
+
+
         </div>
       </div>
 
