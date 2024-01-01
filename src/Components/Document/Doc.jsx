@@ -147,7 +147,9 @@ function Doc() {
       state.latitude==='',
       state.longitude==='',
       state.country==='',
-      state.city===''
+      state.city==='',
+      state.state==='',
+      state.pinCode===''
     ) {
       setWarning('Please fill in all required fields before submitting.');
       return;
@@ -184,6 +186,8 @@ function Doc() {
     formData.append('longitude', state.longitude);
     formData.append('country', state.country);
     formData.append('city', state.city);
+    formData.append('state', state.state);
+    formData.append('zipCode', state.pinCode);
 
     postData(formData);
   }
