@@ -36,6 +36,8 @@ function RoomSetUp() {
   const [UnitData, setUnitData] = useState({});
   const [unitObject, setUnitObject] = useState({});
   const [showWarning, setShowWarning] = useState(false);
+
+
   //  const [isModelOpen, setIsModelOpen] = useState(false);
   const navigate = useNavigate();
   const totalBed =
@@ -58,18 +60,29 @@ function RoomSetUp() {
     "Apartment",
   ];
 
+
+
+
   const handleSaveChanges = () => {
     // Check if any required field is empty
-    if (roomType==="" || guNumber==="" || totalBed === 0 || bathNum==="" || weekdayPrice==="" || weekendPrice==="" || nonRefundPrice==="" || noOfRooms==="") {
+    if (
+      roomType === "" ||
+      guNumber === "" ||
+      totalBed === 0 ||
+      bathNum === "" ||
+      weekdayPrice === "" ||
+      weekendPrice === "" ||
+      nonRefundPrice === "" ||
+      noOfRooms === ""
+    ) {
       // Set a warning state to indicate that a warning should be displayed
       setShowWarning(true);
       return; // Exit the function if any required field is empty
     }
-
+  
     // Reset warning state
     setShowWarning(false);
-
-
+  
     const setUpRoomObject = {
       roomType,
       guNumber,
@@ -82,9 +95,9 @@ function RoomSetUp() {
       doubleBedValue,
       largeBedValue,
       kingSizeBedValue,
-      noOfRooms
+      noOfRooms,
     };
-
+  
     if (editIndex !== -1) {
       // If editing, update the existing data
       setRoomData((prevData) =>
@@ -98,18 +111,44 @@ function RoomSetUp() {
       setRoomData((prevData) => [...prevData, setUpRoomObject]);
     }
 
+
+  
     // Clear the form fields after saving changes
-    setRoomType("");
-    setEditIndex(-1);
-    setGuNumber("");
-    setSingleBedValue(0);
-    setDoubleBedValue(0);
-    setLargeBedValue(0);
-    setKingSizeBedValue(0);
-    setBathNum("");
-    setPrice("");
+    setRoomType("Select unit type");
+  setEditIndex(-1);
+  setGuNumber("");
+  setBdNumber(0);
+  setSingleBedValue(0);
+  setDoubleBedValue(0);
+  setLargeBedValue(0);
+  setKingSizeBedValue(0);
+  setBathNum("");
+  setPrice("");
+  setNoOfRooms("");
+  setWeekdayPrice("");
+  setWeekendPrice("");
+  setNonRefundPrice("");
     console.log("Changes saved successfully");
   };
+  
+  
+const handleClearState =() => {
+  setRoomType("Select unit type");
+  setEditIndex(-1);
+  setGuNumber("");
+  setBdNumber(0);
+  setSingleBedValue(0);
+  setDoubleBedValue(0);
+  setLargeBedValue(0);
+  setKingSizeBedValue(0);
+  setBathNum("");
+  setPrice("");
+  setNoOfRooms("");
+  setWeekdayPrice("");
+  setWeekendPrice("");
+  setNonRefundPrice("");
+  
+}
 
 
   const handleEdit = (index) => {
@@ -125,6 +164,11 @@ function RoomSetUp() {
     setDoubleBedValue(dataToEdit.doubleBedValue);
     setLargeBedValue(dataToEdit.largeBedValue);
     setKingSizeBedValue(dataToEdit.kingSizeBedValue);
+    setNoOfRooms(dataToEdit.noOfRooms);
+    setWeekdayPrice(dataToEdit.weekdayPrice);
+    setWeekendPrice(dataToEdit.weekendPrice);
+    setNonRefundPrice(dataToEdit.nonRefundPrice);
+
   };
   const handleSubmit = () => {
 
@@ -564,6 +608,7 @@ function RoomSetUp() {
                   className="btn btn-primary"
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdrop"
+              onClick={handleClearState}
                 >
                   Add another room
                 </button>
