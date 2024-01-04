@@ -41,7 +41,7 @@ function Navbar() {
       <div className="flex flex-row items-center">
         <button
           onClick={handleListProperty}
-          className="bg-[#ff474b] flex items-center px-3 py-2 md:py-4 text-[8px] md:text-[14px] uppercase font-[300] md:font-[600] shadow-xl text-slate-50 rounded-xl hover:shadow-inner"
+          className="bg-[#ff474b] flex items-center px-[12px] py-2 md:py-4  text-[8px] md:text-[14px] uppercase font-[500] md:font-[600] shadow-xl text-slate-50 rounded-xl hover:shadow-inner"
         >
           List Your Property{" "}
           <img src={Arrow} alt="arrow" className="ml-0 md:ml-4" />

@@ -8,7 +8,7 @@ function Newsletter() {
     return (
       <div
         style={{ fontFamily: `'Poppins', sans-serif` }}
-        className="p-5 bg-[#fff]"
+        className="p-3 md:p-5 bg-[#fff]"
       >
         <div className="w-full md:w-[1000px] bg-[#ffebeb] mx-auto px-2 md:px-16 py-3 md:py-10 rounded-lg">
           <div className="text-center">
@@ -21,12 +21,12 @@ function Newsletter() {
               necessitatibus. Dolorem!
             </p>
           </div>
-          <div className="my-3 p-5">
+          <div className="my-3 p-3 md:p-5">
             <div className="w-full md:w-[500px] mx-auto bg-[#fff] flex flex-row items-center p-1 rounded-md">
               <div className="w-[85%] md:w-[90%] h-12">
                 <input
                   type="email"
-                  placeholder="Enter Your Email"
+                  placeholder="Email"
                   className="w-full h-full px-2 border-none outline-none"
                 />
               </div>
@@ -34,7 +34,7 @@ function Newsletter() {
                 <img
                   src={plane}
                   alt="plane-Img"
-                  className="mx-auto w-6 h-6 mt-2 md:mt-3"
+                  className="mx-auto w-6 h-6 mt-[9px]"
                 />
               </div>
             </div>

@@ -62,7 +62,7 @@ function Main() {
   }, [state.isLoggedin, navigate]);
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <Navbar />
       <Header />
       <SmallCompo />
