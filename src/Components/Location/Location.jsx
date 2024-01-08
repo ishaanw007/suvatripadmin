@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '../Button';
 import { FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
-import Map from './Map';
+import MapComponent from './Map';
 import { useFormContext } from '../../context/contextStore';
-import Autosuggest from 'react-autosuggest';
+import AutocompleteCountry from './AutocompleteCountry';
+import AutocompleteCity from './AutocompleteCity';
 
 function Location() {
   const { state, dispatch } = useFormContext();
   const [address, setAddress] = useState('')
-  const [latitude, setLatitude] = useState('')
+  const [latitude, setLatitude] = useState()
 
   const [longitude, setLongitude] = useState('')
   const [formData, setFormData] = useState({
@@ -31,60 +32,6 @@ function Location() {
   const navigate = useNavigate();
   const [stateValue, setStateValue] = useState('');
   const [pinCode, setPinCode] = useState('');
-
-  const fetchCitySuggestions = async (value) => {
-    const cities = [
-      "Tokyo, Japan", "Delhi, India", "Shanghai, China", "Mumbai, India", "Beijing, China",
-      "Dhaka, Bangladesh", "Karachi, Pakistan", "Istanbul, Turkey", "Seoul, South Korea", "Jakarta, Indonesia",
-      "Moscow, Russia", "Istanbul, Turkey", "London, United Kingdom", "Paris, France", "Madrid, Spain",
-      "Berlin, Germany", "Rome, Italy", "Kiev, Ukraine", "Vienna, Austria", "Amsterdam, Netherlands",
-      "New York City, United States", "Los Angeles, United States", "Mexico City, Mexico", "Toronto, Canada",
-      "Chicago, United States", "Houston, United States", "Havana, Cuba", "Santo Domingo, Dominican Republic",
-      "Guatemala City, Guatemala", "Panama City, Panama",
-      "São Paulo, Brazil", "Buenos Aires, Argentina", "Rio de Janeiro, Brazil", "Bogotá, Colombia", "Lima, Peru",
-      "Santiago, Chile", "Caracas, Venezuela", "Asunción, Paraguay", "Quito, Ecuador", "Montevideo, Uruguay",
-      "Cairo, Egypt", "Lagos, Nigeria", "Kinshasa, Democratic Republic of the Congo", "Johannesburg, South Africa",
-      "Nairobi, Kenya", "Casablanca, Morocco", "Accra, Ghana", "Addis Ababa, Ethiopia", "Dar es Salaam, Tanzania",
-      "Cape Town, South Africa",
-      "Sydney, Australia", "Melbourne, Australia", "Brisbane, Australia", "Auckland, New Zealand", "Perth, Australia",
-      "Adelaide, Australia", "Wellington, New Zealand", "Christchurch, New Zealand", "Suva, Fiji", "Port Moresby, Papua New Guinea"
-    ];
-    const filteredCities = cities.filter(
-      (city) => city.toLowerCase().startsWith(value.toLowerCase())
-    );
-    setCitySuggestions(filteredCities);
-  };
-
-  const fetchCountrySuggestions = async (value) => {
-    const countries = [
-      "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
-      "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
-      "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Côte d'Ivoire", "Cabo Verde",
-      "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)",
-      "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)", "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica",
-      "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", 'Eswatini (fmr. "Swaziland")', "Ethiopia",
-      "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada",
-      "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Holy See", "Honduras", "Hungary", "Iceland", "India",
-      "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan",
-      "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya",
-      "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands",
-      "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique",
-      "Myanmar (formerly Burma)", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea",
-      "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru",
-      "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines",
-      "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia",
-      "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname",
-      "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago",
-      "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay",
-      "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
-    ];
-    const filteredCountries = countries.filter(
-      (country) => country.toLowerCase().startsWith(value.toLowerCase())
-    );
-
-    console.log(filteredCountries);
-    setCountrySuggestions(filteredCountries);
-  };
 
   const cityInputProps = {
     value: cityValue,
@@ -124,6 +71,7 @@ function Location() {
   }, [state.address, state.city, state.country, state.latitude, state.longitude, state.state, state.pinCode]);
   // Handle form submission
   const handleSubmit = () => {
+    console.log(latitude, longitude, 'testt');
     const isFormValid = validateForm();
 
     if (isFormValid) {
@@ -158,9 +106,6 @@ function Location() {
     }
     if (!selectedCountry) {
       errors.country = 'This field is required';
-    }
-    if (!stateValue) {
-      errors.state = 'State is required';
     }
     if (!pinCode) {
       errors.pinCode = 'Pin Code is required';
@@ -204,18 +149,11 @@ function Location() {
             inputProps={cityInputProps}
             onSuggestionSelected={onCitySuggestionSelected}
           /> */}
-          <input
-            type="text"
-            name="city"
-            placeholder="Enter your City"
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
-          />
+          <AutocompleteCity setCityValue={setCityValue} selectedCity={selectedCity} setSelectedCity={setSelectedCity} />
           {formErrors.city && <p className="text-red-500">{formErrors.city}</p>}
         </div>
 
-        <div className="my-2">
+        {/* <div className="my-2">
           <p className="text-[20px] font-[400] my-2 text-slate-500">State</p>
           <input
             type="text"
@@ -226,7 +164,7 @@ function Location() {
             className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
           />
           {formErrors.state && <p className="text-red-500">{formErrors.state}</p>}
-        </div>
+        </div> */}
 
         <div className="my-2">
           <p className="text-[20px] font-[400] my-2 text-slate-500">Country</p>
@@ -239,14 +177,7 @@ function Location() {
             inputProps={countryInputProps}
             onSuggestionSelected={onCountrySuggestionSelected}
           /> */}
-          <input
-            type="text"
-            name="country"
-            placeholder="Enter your Country"
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-            className="w-full md:w-[400px] py-2 px-1 rounded-md outline-none border-[1px] border-slate-400"
-          />
+          <AutocompleteCountry setCountryValue={setCountryValue} selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
           {formErrors.country && <p className="text-red-500">{formErrors.country}</p>}
         </div>
 
@@ -269,7 +200,7 @@ function Location() {
           <div className="px-2 md:px-5 py-2 border-b-[1px] border-slate-300">
             <div className="my-2">
               <p className="text-[20px] font-[400] my-2 text-slate-500">Location</p>
-              <Map setLatitude={setLatitude} setLongitude={setLongitude} />
+              <MapComponent setLatitude={setLatitude} setLongitude={setLongitude} />
               {formErrors.map && <p className="text-red-500">{formErrors.map}</p>}
             </div>
           </div>
@@ -329,4 +260,4 @@ function Location() {
   );
 }
 
-export default Location
+export default Location;

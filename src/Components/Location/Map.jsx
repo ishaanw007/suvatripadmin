@@ -1,89 +1,107 @@
-import React, { useRef, useState, useEffect } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import React, { useRef, useEffect, useState } from 'react';
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import { useFormContext } from '../../context/contextStore';
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoic2FydGhhazIwMDEiLCJhIjoiY2xxbW03OGdjMnp4NTJpbm1rczc5dHU2MyJ9.FKA-q4xOhqxLkJu_edMkTA';
+const MapComponent = (props) => {
+  const mapRef = useRef(null);
+  const autocompleteInput = useRef(null);
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [clickedLocation, setClickedLocation] = useState(null);
+  let autocomplete = null;
+  const { state, dispatch } = useFormContext();
 
-const Map = ({ setLatitude, setLongitude }) => {
-    const { state, dispatch } = useFormContext();
-    let currentMarker = null;
-    const mapContainer = useRef(null);
-    const [map, setMap] = useState(null);
+  useEffect(() => {
+    autocomplete = new window.google.maps.places.Autocomplete(autocompleteInput.current);
+    autocomplete.addListener('place_changed', onPlaceChanged);
 
-    useEffect(() => {
-        const initializeMap = () => {
-            const newMap = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [-74.5, 40],
-                zoom: 9,
-            });
-
-            const geocoder = new MapboxGeocoder({
-                accessToken: mapboxgl.accessToken,
-                mapboxgl: mapboxgl,
-                marker: false,
-            });
-
-            newMap.addControl(geocoder);
-
-            newMap.on('load', () => {
-                setMap(newMap);
-            });
-
-            newMap.on('zoomend', () => {
-                dispatch({ type: 'SET_ZOOM', payload: newMap.getZoom() });
-            });
+    const map = mapRef.current.map;
+    let clickListener = null;
+  
+    if (map) {
+      // Add event listener for map click
+      if(state.latitude!=='' && state.longitude!=='') {
+        setClickedLocation({
+          lat: state.latitude,
+          lng: state.longitude,
+        });
+      }
+      clickListener = map.addListener('click', (event) => {
+        const newLocation = {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng(),
         };
-
-        if (!map) initializeMap();
-
-        if (map) {
-            map.on('click', handleMapClick)
-            if (state.latitude !== '' && state.longitude !== '') {
-                const newMarker = new mapboxgl.Marker()
-                    .setLngLat([state.longitude, state.latitude])
-                    .addTo(map);
-
-                currentMarker = newMarker;
-            }
-            if(state.zoom>0 && state.latitude !== '' && state.longitude !== '') {
-                map.flyTo({
-                    center: [state.longitude, state.latitude],
-                    zoom: state.zoom,
-                });
-            }
-        }
-    }, [map]);
-
-
-    const handleMapClick = (e) => {
-        const { lng, lat } = e.lngLat;
-
-        if (map) {
-            if (currentMarker) {
-                currentMarker.remove();
-            }
-
-            const newMarker = new mapboxgl.Marker()
-                .setLngLat([lng, lat])
-                .addTo(map);
-
-            currentMarker = newMarker;
-
-            setLatitude(lat)
-            setLongitude(lng)
-        }
+        props.setLatitude(event.latLng.lat());
+        props.setLongitude(event.latLng.lng());
+        setSelectedPlace(null);
+        setClickedLocation(newLocation);
+        // zoomToPlace(newLocation);
+      });
+    }
+  
+    return () => {
+      // Remove event listener when component unmounts
+      if (clickListener && map) {
+        window.google.maps.event.removeListener(clickListener);
+      }
     };
+  }, []);
 
-    return (
-        <div>
-            <div ref={mapContainer} style={{ width: '100%', height: '400px' }} />
-        </div>
-    );
+
+  const onPlaceChanged = () => {
+    const place = autocomplete.getPlace();
+    if (place.geometry) {
+      setSelectedPlace(place);
+      setClickedLocation(null);
+      zoomToPlace(place.geometry.location);
+    }
+  };
+
+  // const onMapClick = (mapProps, map, clickEvent) => {
+  //   console.log(clickEvent, 'ccc');
+  //   const newLocation = {
+  //     lat: clickEvent.latLng.lat(),
+  //     lng: clickEvent.latLng.lng(),
+  //   };
+  //   setSelectedPlace(null);
+  //   setClickedLocation(newLocation);
+  //   zoomToPlace(newLocation);
+  // };
+
+  const zoomToPlace = (location) => {
+    const map = mapRef.current.map;
+    map.setCenter(location);
+    map.setZoom(12); // You can adjust the zoom level as needed
+  };
+
+  return (
+    <div style={{ height: '400px', width: '100%', border: '1px solid #ccc', position: 'relative' }}>
+      <input
+        ref={autocompleteInput}
+        placeholder="Search for a place"
+        type="text"
+        style={{ width: '100%', marginBottom: '10px' }}
+      />
+      <Map
+        google={props.google}
+        zoom={10}
+        style={{ width: '100%', height: '100%', position: 'relative' }}
+        initialCenter={{
+          lat: state.latitude ? state.latitude : 40.7128, // Default latitude
+          lng: state.longitude ? state.longitude : -74.0060 // Default longitude
+        }}
+        ref={mapRef}
+      >
+        {selectedPlace && (
+          <Marker position={selectedPlace.geometry.location} />
+        )}
+        {clickedLocation && (
+          <Marker position={clickedLocation} />
+        )}
+      </Map>
+    </div>
+  );
 };
 
-export default Map;
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyBi5Bq8YbATnUhPpwQdhtENLTQQROVV6N0'
+})(MapComponent);
